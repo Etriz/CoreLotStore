@@ -1,0 +1,137 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "id": 58660591,
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -96.630288376774558,
+                            43.542709029833738
+                        ],
+                        [
+                            -96.630307926789428,
+                            43.539470120578549
+                        ],
+                        [
+                            -96.628617669889138,
+                            43.539459528569076
+                        ],
+                        [
+                            -96.627451931548563,
+                            43.539451216171194
+                        ],
+                        [
+                            -96.625486621518249,
+                            43.539438165635019
+                        ],
+                        [
+                            -96.62547533889429,
+                            43.539588545520928
+                        ],
+                        [
+                            -96.625464995453214,
+                            43.540026710145455
+                        ],
+                        [
+                            -96.625451739654793,
+                            43.540588110007654
+                        ],
+                        [
+                            -96.625452251771875,
+                            43.540893984444303
+                        ],
+                        [
+                            -96.625452239333327,
+                            43.541075034145557
+                        ],
+                        [
+                            -96.625450134566236,
+                            43.541292281686701
+                        ],
+                        [
+                            -96.625448443994799,
+                            43.541466830853942
+                        ],
+                        [
+                            -96.6254467513088,
+                            43.541641653689211
+                        ],
+                        [
+                            -96.625445057354241,
+                            43.541816476493587
+                        ],
+                        [
+                            -96.625443363367864,
+                            43.541991299292853
+                        ],
+                        [
+                            -96.625441669349655,
+                            43.542166122086961
+                        ],
+                        [
+                            -96.625439975299656,
+                            43.542340944875896
+                        ],
+                        [
+                            -96.625436683892161,
+                            43.542685352220523
+                        ],
+                        [
+                            -96.630288376774558,
+                            43.542709029833738
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "OBJECTID": 58660591,
+                "TAG": "012320100006000",
+                "ADDRESS": "8001 E 10TH ST",
+                "ADDITION": "UNP 20-101-48",
+                "ACREAGE": 35.079999999999998,
+                "SQFT": 1528085,
+                "ACTIVITY": 98,
+                "OWNNAME1": "HARVEST INVESTMENTS LLC",
+                "OWNNAME2": "",
+                "OWNADDRESS": "909 WEST 16TH ST",
+                "OWNCITY": "PELLA",
+                "OWNSTATE": "IA",
+                "OWNZIP": "50219",
+                "OWNZIP2": "0000",
+                "LEGAL": "VAN BEEK'S TRACT AN ADDN NW1/4 20 101 48 SIOUX FALLS CITY 2021 ANNEXED INTO SFRESOLUTION 63-21",
+                "FRONTFOOT": 1287,
+                "PARHOUSE": "8001",
+                "PARHALF": null,
+                "PARPR": "E",
+                "PARSTREET": "10TH",
+                "PARTYPE": "ST",
+                "PARPD": null,
+                "COUNTY": "MINNEHAHA",
+                "COUNTYID": "10457",
+                "ADDITIONNUM": "96020",
+                "UNITNUM": null,
+                "LANDUSE": 970,
+                "NUMUNITS": 0,
+                "LegalStartDate": 1258934400000,
+                "ADDITIONPREFIX": null,
+                "PARCEL_LOT": null,
+                "PARCEL_TRACT": null,
+                "BlockDesignator": null,
+                "FORM_PRIMARY": null,
+                "FORM_ACCESSORY": null,
+                "FORM_SIGNEDBY": null,
+                "FORM_DATE": null,
+                "FORM_COMMENTS": null,
+                "DEPARTMENT": null,
+                "PARCELTYPE": "Standard Tax Parcel",
+                "ZIPCODE": 57110,
+                "Shape.STArea()": 1518866.8972933306,
+                "Shape.STLength()": 4929.6741870197138
+            }
+        }
+    ]
+}

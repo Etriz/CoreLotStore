@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/b04347da-6323-4b23-9cd9-82c888dd826c/deploy-status)](https://app.netlify.com/sites/corelotstore/deploys)
+
 # OpenLayers + Vite
 
 This example demonstrates how the `ol` package can be used with [Vite](https://vitejs.dev/).
@@ -15,4 +17,4 @@ To generate a build ready for production:
 
     npm run build
 
-Then deploy the contents of the `dist` directory to your server.  You can also run `npm run serve` to serve the results of the `dist` directory for preview.
+Then deploy the contents of the `dist` directory to your server. You can also run `npm run serve` to serve the results of the `dist` directory for preview.
