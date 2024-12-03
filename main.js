@@ -1,5 +1,7 @@
 import './style.css';
+import { activityCodes } from './modules/activitycodes';
 import { schoolVectorLayer } from './modules/schooldistricts';
+import { allParcelLayers } from './modules/codestatus';
 // import { geo } from './modules/countydata';
 import { Map, View, Overlay } from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -10,6 +12,7 @@ import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import Feature from 'ol/Feature';
 import Control from 'ol/control/Control';
+import ZoomToExtent from 'ol/control/ZoomToExtent.js';
 import { getWidth } from 'ol/extent';
 import { toLonLat } from 'ol/proj';
 import { Style, Fill, Stroke } from 'ol/style';
@@ -17,7 +20,6 @@ import { Style, Fill, Stroke } from 'ol/style';
 const localApiResponse = './data/apiresponse.json';
 const localSingleApiResponse = './data/singleapiresponse.json';
 
-const activityCodes = [91, 98, 93, 94, 96]; //listed in order of progression
 const reqActivity = (code) => {
 	const url =
 		'https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=ACTIVITY=' +
@@ -53,40 +55,51 @@ const overlay = new Overlay({
 // create map and add layers and set view
 const map = new Map({
 	target: 'map',
-	layers: [tileLayer, parcelVectorLayer, schoolVectorLayer],
+	layers: [tileLayer, schoolVectorLayer],
 	view: new View({
 		center: fromLonLat([-96.74, 43.56]),
 		zoom: 12,
-		fit: '',
 	}),
 	overlays: [overlay],
 	target: 'map',
 });
+// add all layers from code status
+allParcelLayers.map((item) => {
+	map.addLayer(item);
+});
 
+// create the button area
 const buttonArea = document.createElement('div');
 buttonArea.className = 'ol-control ol-unselectable button-area';
+
 // reset button
-const viewReset = document.createElement('div');
-viewReset.idName = 'view-reset';
-viewReset.innerHTML = '<button title="Reset">Reset</button>';
-viewReset.addEventListener('click', () => {
-	map.getView().fit(parcelVectorSource.getExtent(), {
-		maxZoom: 12,
-		duration: 500,
-	});
+const resetButton = document.createElement('div');
+resetButton.innerHTML = '<button title="Reset" id="view-reset">Reset</button>';
+resetButton.addEventListener('click', () => {
+	map.getView().setCenter(fromLonLat([-96.74, 43.56]));
+	map.getView().setZoom(12);
+	// map.getView().fit(schoolVectorLayer.getExtent(), {
+	// 	maxZoom: 12,
+	// 	duration: 500,
+	// });
 });
-buttonArea.appendChild(viewReset);
+buttonArea.appendChild(resetButton);
+// checkbox buttons
+const checkField = document.createElement('fieldset');
+checkField.innerHTML = '<legend>Toggle Buttons</legend>';
+buttonArea.appendChild(checkField);
 // code number buttons
 for (let index = 0; index < activityCodes.length; index++) {
-	const abc = document.createElement('div');
-	abc.className = 'ol-unselectable abc-button';
-	abc.innerHTML =
-		'<button title="' +
-		activityCodes[index] +
-		'">' +
-		activityCodes[index] +
-		'</button>';
-	abc.addEventListener('click', function () {
+	const checkDiv = document.createElement('div');
+	const abc = document.createElement('input');
+	abc.setAttribute('type', 'checkbox');
+	abc.setAttribute('id', activityCodes[index][1]);
+	abc.setAttribute('checked', 'true');
+	const xyz = document.createElement('label');
+	xyz.setAttribute('for', activityCodes[index][1]);
+	xyz.innerText = activityCodes[index][0];
+
+	checkDiv.addEventListener('click', function () {
 		if (!parcelVectorSource.isEmpty()) {
 			parcelVectorLayer.setSource(
 				new VectorSource({
@@ -95,13 +108,12 @@ for (let index = 0; index < activityCodes.length; index++) {
 				})
 			);
 			dropdown.value = 'Default';
-			// map.getView().fit(parcelVectorSource.getExtent(), {
-			// 	maxZoom: 12,
-			// 	duration: 500,
-			// });
 		}
 	});
-	buttonArea.appendChild(abc);
+
+	checkDiv.appendChild(abc);
+	checkDiv.appendChild(xyz);
+	checkField.appendChild(checkDiv);
 }
 map.addControl(
 	new Control({
