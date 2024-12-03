@@ -13,9 +13,9 @@ import VectorLayer from 'ol/layer/Vector';
 import Feature from 'ol/Feature';
 import Control from 'ol/control/Control';
 import ZoomToExtent from 'ol/control/ZoomToExtent.js';
-import { getWidth } from 'ol/extent';
 import { toLonLat } from 'ol/proj';
 import { Style, Fill, Stroke } from 'ol/style';
+import LayerGroup from 'ol/layer/Group';
 
 const localApiResponse = './data/apiresponse.json';
 const localSingleApiResponse = './data/singleapiresponse.json';
@@ -63,7 +63,7 @@ const map = new Map({
 	overlays: [overlay],
 	target: 'map',
 });
-// add all layers from code status
+// add all layers from codestatus module
 allParcelLayers.map((item) => {
 	map.addLayer(item);
 });
@@ -99,16 +99,13 @@ for (let index = 0; index < activityCodes.length; index++) {
 	xyz.setAttribute('for', activityCodes[index][1]);
 	xyz.innerText = activityCodes[index][0];
 
-	checkDiv.addEventListener('click', function () {
-		if (!parcelVectorSource.isEmpty()) {
-			parcelVectorLayer.setSource(
-				new VectorSource({
-					url: reqActivity(activityCodes[index]),
-					format: new GeoJSON(),
-				})
-			);
-			dropdown.value = 'Default';
-		}
+	abc.addEventListener('click', function (e) {
+		const wantedLayer = map
+			.getLayers()
+			.getArray()
+			.find((layer) => layer.get('id') == e.target.id);
+
+		wantedLayer.setVisible(!wantedLayer.isVisible());
 	});
 
 	checkDiv.appendChild(abc);
@@ -126,11 +123,7 @@ viewSchoolDistrict.idName = 'view-schools';
 viewSchoolDistrict.innerHTML =
 	'<button title="View School Districts">Schools</button>';
 viewSchoolDistrict.addEventListener('click', () => {
-	if (schoolVectorLayer.isVisible()) {
-		schoolVectorLayer.setVisible(false);
-	} else {
-		schoolVectorLayer.setVisible(true);
-	}
+	schoolVectorLayer.setVisible(!schoolVectorLayer.isVisible());
 });
 buttonArea.appendChild(viewSchoolDistrict);
 
@@ -209,20 +202,21 @@ fetch(additionUrl)
 		return res;
 	})
 	.then((abc) => {
-		// console.log(abc);
 		const additionSet = new Set([]);
 		const featuresArr = abc.features;
 		featuresArr.map((item) => {
 			additionSet.add(item.properties.ADDITION);
 		});
-		// console.log(additionSet.size);
-		additionSet.forEach((element) => {
+		//sorting set alphabetically
+		const tempArray = Array.from(additionSet);
+		tempArray.sort();
+		const sortedSet = new Set(tempArray);
+		sortedSet.forEach((element) => {
 			const elemOption = document.createElement('option');
 			elemOption.value = element.toString();
 			elemOption.text = element.toString();
 			dropdown.appendChild(elemOption);
 		});
-		// console.log(additionSet);
 	});
 
 buttonArea.appendChild(dropdown);

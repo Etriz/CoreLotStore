@@ -2,7 +2,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import { Style, Fill, Stroke } from 'ol/style';
-import { getArea } from 'ol/sphere';
+import { getWidth } from 'ol/extent';
 import colormap from 'colormap';
 
 export { schoolVectorLayer };
@@ -35,6 +35,7 @@ const schoolVectorSource = new VectorSource({
 });
 const schoolVectorLayer = new VectorLayer({
 	source: schoolVectorSource,
+	className: 'School-District-Layer',
 	visible: false,
 	style: new Style({
 		fill: new Fill({

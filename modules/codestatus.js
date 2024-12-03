@@ -20,10 +20,10 @@ const colorMap = (actCode) => {
 		case 91:
 			return new Style({
 				fill: new Fill({
-					color: [0, 255, 0, 0.2],
+					color: [255, 150, 0, 0.2],
 				}),
 				stroke: new Stroke({
-					color: [0, 255, 0, 1],
+					color: [255, 150, 0, 1],
 				}),
 			});
 		case 98:
@@ -74,47 +74,10 @@ activityCodes.map((actCode) => {
 	});
 	const actLayer = new VectorLayer({
 		source: actSource,
+		className: actCode[0],
+		id: actCode[1],
 		visible: true,
 		style: colorMap(actCode[1]),
 	});
 	allParcelLayers.push(actLayer);
 });
-
-// const code98VectorSource = new VectorSource({
-// 	url: reqActivity(98),
-// 	format: new GeoJSON(),
-// });
-
-// const code98ParcelLayer = new VectorLayer({
-// 	source: code98VectorSource,
-// 	visible: false,
-// 	style: new Style({
-// 		fill: new Fill({
-// 			color: [155, 0, 0, 0.2],
-// 		}),
-// 		stroke: new Stroke({
-// 			color: [255, 0, 0, 1],
-// 		}),
-// 	}),
-// });
-
-// const code91VectorSource = new VectorSource({
-// 	url: reqActivity(91),
-// 	format: new GeoJSON(),
-// });
-
-// const code91ParcelLayer = new VectorLayer({
-// 	source: code91VectorSource,
-// 	visible: false,
-// 	style: new Style({
-// 		fill: new Fill({
-// 			color: [0, 155, 0, 0.2],
-// 		}),
-// 		stroke: new Stroke({
-// 			color: [0, 255, 0, 1],
-// 		}),
-// 	}),
-// });
-
-// allParcelLayers.push(code91ParcelLayer, code98ParcelLayer);
-// console.log('all parcels', allParcelLayers);
