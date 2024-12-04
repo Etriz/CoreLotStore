@@ -81,11 +81,14 @@ allParcelLayers.map((item) => {
 
 // create the button area
 const buttonArea = document.createElement('div');
-buttonArea.className = 'ol-control ol-unselectable button-area';
+buttonArea.className = 'button-area';
 
 // reset button
-const resetButton = document.createElement('div');
-resetButton.innerHTML = '<button title="Reset" id="view-reset">Reset</button>';
+const resetButton = document.createElement('button');
+resetButton.className = 'reset button';
+resetButton.innerText = 'Reset';
+resetButton.setAttribute('title', 'reset');
+resetButton.setAttribute('id', 'view-reset');
 resetButton.addEventListener('click', () => {
 	map.getView().setCenter(fromLonLat([-96.74, 43.56]));
 	map.getView().setZoom(12);
@@ -97,30 +100,32 @@ resetButton.addEventListener('click', () => {
 buttonArea.appendChild(resetButton);
 // checkbox buttons
 const checkField = document.createElement('fieldset');
-checkField.innerHTML = '<legend>Toggle Buttons</legend>';
+// checkField.innerHTML = '<legend>Toggle Buttons</legend>';
 buttonArea.appendChild(checkField);
 // code number buttons
 for (let index = 0; index < activityCodes.length; index++) {
 	const checkDiv = document.createElement('div');
-	const abc = document.createElement('input');
-	abc.setAttribute('type', 'checkbox');
-	abc.setAttribute('id', activityCodes[index][1]);
-	abc.setAttribute('checked', 'true');
-	const xyz = document.createElement('label');
-	xyz.setAttribute('for', activityCodes[index][1]);
-	xyz.innerText = activityCodes[index][0];
+	checkDiv.className = 'toggle';
+	const checkBox = document.createElement('input');
+	checkBox.setAttribute('type', 'checkbox');
+	checkBox.setAttribute('id', activityCodes[index][1]);
+	checkBox.setAttribute('checked', 'true');
+	const label = document.createElement('label');
+	label.setAttribute('for', activityCodes[index][1]);
+	label.innerText = activityCodes[index][0];
 
-	abc.addEventListener('click', function (e) {
+	checkBox.addEventListener('click', function (e) {
 		const wantedLayer = map
 			.getLayers()
 			.getArray()
 			.find((layer) => layer.get('id') == e.target.id);
 
 		wantedLayer.setVisible(!wantedLayer.isVisible());
+		checkBox.checked(!abc.checked());
 	});
 
-	checkDiv.appendChild(abc);
-	checkDiv.appendChild(xyz);
+	checkDiv.appendChild(checkBox);
+	checkDiv.appendChild(label);
 	checkField.appendChild(checkDiv);
 }
 map.addControl(
@@ -129,14 +134,22 @@ map.addControl(
 	})
 );
 // view schools button
-const viewSchoolDistrict = document.createElement('div');
-viewSchoolDistrict.idName = 'view-schools';
-viewSchoolDistrict.innerHTML =
-	'<button title="View School Districts">Schools</button>';
+const viewSchoolDistrict = document.createElement('button');
+viewSchoolDistrict.className = 'view-schools button';
+viewSchoolDistrict.innerText = 'Schools';
 viewSchoolDistrict.addEventListener('click', () => {
 	schoolVectorLayer.setVisible(!schoolVectorLayer.isVisible());
 });
 buttonArea.appendChild(viewSchoolDistrict);
+
+// switch alternate map views -- satellite etc
+const satelliteView = document.createElement('button');
+satelliteView.className = 'satellite-view button';
+satelliteView.innerText = 'Satellite View';
+satelliteView.addEventListener('click', () => {
+	satellitTileLayer.setVisible(!satellitTileLayer.isVisible());
+});
+buttonArea.appendChild(satelliteView);
 
 // click handler for closing popup
 closer.onclick = function () {
@@ -184,16 +197,6 @@ dropdown.addEventListener('change', (e) => {
 		})
 	);
 });
-
-// switch alternate map views -- satellite etc
-const satelliteView = document.createElement('div');
-satelliteView.idName = 'view-schools';
-satelliteView.innerHTML =
-	'<button title="satellite-view">Satellite View</button>';
-satelliteView.addEventListener('click', () => {
-	satellitTileLayer.setVisible(!satellitTileLayer.isVisible());
-});
-buttonArea.appendChild(satelliteView);
 
 // create dropdown default option
 const defaultOption = document.createElement('option');

@@ -11,26 +11,23 @@ body {
 	bottom: 0;
 	width: 100%;
 }
-/* .locate98 {
-	top: 6em;
-	left: 0.5em;
-}
-.locate93 {
-	top: 8em;
-	left: 0.5em;
-} */
 .button-area {
+	display: block;
+	position: absolute;
 	top: 5rem;
 	left: 0.5rem;
+	padding: 10px;
+	background-color: rgba(128, 128, 128, 0.5);
+	border-radius: 4px;
 }
 .button-area > div {
-	margin: 0.5rem;
+	margin: 0.5rem 0;
 }
 .button-area button {
 	width: auto;
 	padding: 3px;
 	display: block;
-	margin: 5px;
+	margin: 10px 5px;
 	font-weight: bold;
 	text-decoration: none;
 	font-size: inherit;
@@ -40,7 +37,47 @@ body {
 	border: none;
 	border-radius: 2px;
 }
-
+/* toggle switches */
+.toggle {
+	margin-top: 10px;
+}
+.toggle input[type='checkbox'] {
+	height: 0;
+	width: 0;
+	display: none;
+}
+.toggle label {
+	position: relative;
+	left: 50px;
+}
+.toggle input[type='checkbox'] + label::before {
+	content: ' ';
+	display: block;
+	height: 20px;
+	width: 40px;
+	border-radius: 16px;
+	border: 1px solid darkgray;
+	position: absolute;
+	top: 0px;
+	left: -50px;
+	background: whitesmoke;
+}
+.toggle input[type='checkbox'] + label::after {
+	content: ' ';
+	display: block;
+	height: 16px;
+	width: 16px;
+	border-radius: 100%;
+	position: absolute;
+	top: 3px;
+	left: -46px;
+	background: yellowgreen;
+	transition: all 0.3s ease-in;
+}
+.toggle input[type='checkbox']:checked + label::after {
+	left: -28px;
+	transition: all 0.3s ease-in;
+}
 /* Popup */
 .ol-popup {
 	position: absolute;
