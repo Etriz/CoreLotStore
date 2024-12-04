@@ -28,7 +28,18 @@ const reqActivity = (code) => {
 	return url;
 };
 
-const tileLayer = new TileLayer({ source: new OSM() });
+const satellitTileLayer = new TileLayer({
+	source: new OSM({
+		url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+	}),
+	id: 'satellite-tiles',
+	visible: false,
+	opacity: 0.75,
+});
+const defaultTileLayer = new TileLayer({
+	source: new OSM(),
+	id: 'default-tiles',
+});
 const parcelVectorSource = new VectorSource({
 	url: reqActivity(98),
 	format: new GeoJSON(),
@@ -55,7 +66,7 @@ const overlay = new Overlay({
 // create map and add layers and set view
 const map = new Map({
 	target: 'map',
-	layers: [tileLayer, schoolVectorLayer],
+	layers: [defaultTileLayer, satellitTileLayer, schoolVectorLayer],
 	view: new View({
 		center: fromLonLat([-96.74, 43.56]),
 		zoom: 12,
@@ -173,6 +184,17 @@ dropdown.addEventListener('change', (e) => {
 		})
 	);
 });
+
+// switch alternate map views -- satellite etc
+const satelliteView = document.createElement('div');
+satelliteView.idName = 'view-schools';
+satelliteView.innerHTML =
+	'<button title="satellite-view">Satellite View</button>';
+satelliteView.addEventListener('click', () => {
+	satellitTileLayer.setVisible(!satellitTileLayer.isVisible());
+});
+buttonArea.appendChild(satelliteView);
+
 // create dropdown default option
 const defaultOption = document.createElement('option');
 defaultOption.value = 'Default';
