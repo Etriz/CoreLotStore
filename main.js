@@ -20,14 +20,6 @@ import LayerGroup from 'ol/layer/Group';
 const localApiResponse = './data/apiresponse.json';
 const localSingleApiResponse = './data/singleapiresponse.json';
 
-const reqActivity = (code) => {
-	const url =
-		'https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=ACTIVITY=' +
-		code +
-		'&outFields=*&outSR=4326&f=GEOjson';
-	return url;
-};
-
 const satellitTileLayer = new TileLayer({
 	source: new OSM({
 		url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
@@ -41,8 +33,9 @@ const defaultTileLayer = new TileLayer({
 	id: 'default-tiles',
 });
 const parcelVectorSource = new VectorSource({
-	url: reqActivity(98),
+	url: '',
 	format: new GeoJSON(),
+	projection: 'EPSG:4326',
 });
 const parcelVectorLayer = new VectorLayer({
 	source: parcelVectorSource,
@@ -66,7 +59,12 @@ const overlay = new Overlay({
 // create map and add layers and set view
 const map = new Map({
 	target: 'map',
-	layers: [defaultTileLayer, satellitTileLayer, schoolVectorLayer],
+	layers: [
+		defaultTileLayer,
+		satellitTileLayer,
+		parcelVectorLayer,
+		schoolVectorLayer,
+	],
 	view: new View({
 		center: fromLonLat([-96.74, 43.56]),
 		zoom: 12,
@@ -75,9 +73,12 @@ const map = new Map({
 	target: 'map',
 });
 // add all layers from codestatus module
-allParcelLayers.map((item) => {
-	map.addLayer(item);
+const parcelLayerGroup = new LayerGroup({
+	layers: [...allParcelLayers],
+	id: 'parcelGroup',
+	visible: true,
 });
+map.addLayer(parcelLayerGroup);
 
 // create the button area
 const buttonArea = document.createElement('div');
@@ -86,7 +87,7 @@ buttonArea.className = 'button-area';
 // reset button
 const resetButton = document.createElement('button');
 resetButton.className = 'reset button';
-resetButton.innerText = 'Reset';
+resetButton.innerText = 'Reset Zoom';
 resetButton.setAttribute('title', 'reset');
 resetButton.setAttribute('id', 'view-reset');
 resetButton.addEventListener('click', () => {
@@ -109,19 +110,16 @@ for (let index = 0; index < activityCodes.length; index++) {
 	const checkBox = document.createElement('input');
 	checkBox.setAttribute('type', 'checkbox');
 	checkBox.setAttribute('id', activityCodes[index][1]);
-	checkBox.setAttribute('checked', 'true');
+	checkBox.checked = true;
 	const label = document.createElement('label');
 	label.setAttribute('for', activityCodes[index][1]);
 	label.innerText = activityCodes[index][0];
 
 	checkBox.addEventListener('click', function (e) {
 		const wantedLayer = map
-			.getLayers()
-			.getArray()
+			.getAllLayers()
 			.find((layer) => layer.get('id') == e.target.id);
-
 		wantedLayer.setVisible(!wantedLayer.isVisible());
-		checkBox.checked(!abc.checked());
 	});
 
 	checkDiv.appendChild(checkBox);
@@ -133,6 +131,39 @@ map.addControl(
 		element: buttonArea,
 	})
 );
+// test layergroup button
+const viewLayerGroup = document.createElement('button');
+viewLayerGroup.className = 'show group';
+viewLayerGroup.innerText = 'Test Layer Group';
+viewLayerGroup.addEventListener('click', function () {
+	const inputSwitches = Array.from(document.getElementsByTagName('input'));
+	// get only parcel layers
+	const tempArray = [];
+	const allToggleLayers = map.getAllLayers();
+	allToggleLayers.map((layer) => {
+		if (layer.get('group') == 'parcelGroup') {
+			tempArray.push(layer);
+		}
+	});
+	if (parcelLayerGroup.getVisible()) {
+		inputSwitches.map((checkbox) => {
+			checkbox.checked = false;
+		});
+		tempArray.map((layer) => {
+			layer.setVisible(false);
+		});
+		parcelLayerGroup.setVisible(false);
+	} else {
+		inputSwitches.map((checkbox) => {
+			checkbox.checked = true;
+		});
+		tempArray.map((layer) => {
+			layer.setVisible(true);
+		});
+		parcelLayerGroup.setVisible(true);
+	}
+});
+buttonArea.appendChild(viewLayerGroup);
 // view schools button
 const viewSchoolDistrict = document.createElement('button');
 viewSchoolDistrict.className = 'view-schools button';
@@ -163,7 +194,7 @@ closer.onclick = function () {
  */
 map.on('singleclick', function (evt) {
 	const coordinate = evt.coordinate;
-	const lonLat = toLonLat(coordinate);
+	// const lonLat = toLonLat(coordinate);
 	// console.log('click registered', lonLat);
 
 	content.innerHTML = '<p>You clicked here</p>';
@@ -190,12 +221,28 @@ const dropUrl = (additionName) => {
 const dropdown = document.createElement('select');
 dropdown.className = 'dropdown';
 dropdown.addEventListener('change', (e) => {
+	parcelLayerGroup.setVisible(false);
+	const inputSwitches = Array.from(document.getElementsByTagName('input'));
+	inputSwitches.map((item) => {
+		item.checked = false;
+	});
+
 	parcelVectorLayer.setSource(
 		new VectorSource({
 			url: dropUrl(e.target.value),
 			format: new GeoJSON(),
 		})
 	);
+	parcelVectorSource.once('change', function (e) {
+		if (parcelVectorSource.getState() === 'ready') {
+			if (layers[0].getSource().getFeatures().length > 0) {
+				map.getView().fit(
+					parcelVectorSource.getExtent(),
+					map.getSize()
+				);
+			}
+		}
+	});
 });
 
 // create dropdown default option
@@ -226,9 +273,9 @@ fetch(additionUrl)
 		const res = response.json();
 		return res;
 	})
-	.then((abc) => {
+	.then((res) => {
 		const additionSet = new Set([]);
-		const featuresArr = abc.features;
+		const featuresArr = res.features;
 		featuresArr.map((item) => {
 			additionSet.add(item.properties.ADDITION);
 		});

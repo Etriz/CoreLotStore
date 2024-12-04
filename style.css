@@ -16,7 +16,7 @@ body {
 	position: absolute;
 	top: 5rem;
 	left: 0.5rem;
-	padding: 10px;
+	padding: 0 10px 10px;
 	background-color: rgba(128, 128, 128, 0.5);
 	border-radius: 4px;
 }
@@ -36,6 +36,9 @@ body {
 	line-height: 0.4em;
 	border: none;
 	border-radius: 2px;
+}
+.button-area button:hover {
+	cursor: pointer;
 }
 /* toggle switches */
 .toggle {
@@ -73,6 +76,10 @@ body {
 	left: -46px;
 	background: yellowgreen;
 	transition: all 0.3s ease-in;
+}
+/* individual button color */
+.toggle input[type='checkbox']#91 + label::after {
+	background: blue;
 }
 .toggle input[type='checkbox']:checked + label::after {
 	left: -28px;

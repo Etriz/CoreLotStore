@@ -76,6 +76,7 @@ activityCodes.map((actCode) => {
 		source: actSource,
 		className: actCode[0],
 		id: actCode[1],
+		group: 'parcelGroup',
 		visible: true,
 		style: colorMap(actCode[1]),
 	});
