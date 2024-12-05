@@ -1,6 +1,6 @@
 import './style.css';
 import { activityCodes } from './modules/activitycodes';
-import { schoolVectorLayer } from './modules/schooldistricts';
+import { allSchoolLayers } from './modules/schooldistricts';
 import { allParcelLayers } from './modules/codestatus';
 // import { geo } from './modules/countydata';
 import { Map, View, Overlay } from 'ol';
@@ -59,12 +59,7 @@ const popupOverlay = new Overlay({
 // create map and add layers and set view
 const map = new Map({
 	target: 'map',
-	layers: [
-		defaultTileLayer,
-		satellitTileLayer,
-		parcelVectorLayer,
-		schoolVectorLayer,
-	],
+	layers: [defaultTileLayer, satellitTileLayer, parcelVectorLayer],
 	view: new View({
 		center: fromLonLat([-96.74, 43.56]),
 		zoom: 12,
@@ -79,6 +74,14 @@ const parcelLayerGroup = new LayerGroup({
 	visible: true,
 });
 map.addLayer(parcelLayerGroup);
+
+// add all layers from schooldistricts module
+const schoolLayerGroup = new LayerGroup({
+	layers: [...allSchoolLayers],
+	id: 'schoolGroup',
+	visible: false,
+});
+map.addLayer(schoolLayerGroup);
 
 // create the button area
 const buttonArea = document.createElement('div');
@@ -167,9 +170,13 @@ buttonArea.appendChild(viewLayerGroup);
 // view schools button
 const viewSchoolDistrict = document.createElement('button');
 viewSchoolDistrict.className = 'view-schools button';
-viewSchoolDistrict.innerText = 'Schools';
+viewSchoolDistrict.innerText = 'View Schools';
 viewSchoolDistrict.addEventListener('click', () => {
-	schoolVectorLayer.setVisible(!schoolVectorLayer.isVisible());
+	if (schoolLayerGroup.getVisible()) {
+		schoolLayerGroup.setVisible(false);
+	} else {
+		schoolLayerGroup.setVisible(true);
+	}
 });
 buttonArea.appendChild(viewSchoolDistrict);
 
@@ -219,6 +226,7 @@ map.on('singleclick', function (evt) {
 				.then((res) => res.json())
 				.then((data) => data.features[0].properties)
 				.then((relevantData) => {
+					console.log(relevantData);
 					let innerPopupContent =
 						'<div>Parcel ' +
 						relevantData.OBJECTID +
@@ -235,6 +243,8 @@ map.on('singleclick', function (evt) {
 						innerPopupContent +=
 							'<div>Lot: ' + relevantData.PARCEL_LOT + '</div>';
 					}
+					innerPopupContent +=
+						'<br /><div>For More Information, Email <a href="">info@corerealestate.com</a></div>';
 					popupContent.innerHTML =
 						// '<p>You clicked here and id is ' + feature.getId() + '</p>';
 						innerPopupContent;

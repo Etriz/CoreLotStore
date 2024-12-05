@@ -5,10 +5,22 @@ import { Style, Fill, Stroke } from 'ol/style';
 import { getWidth } from 'ol/extent';
 import colormap from 'colormap';
 
-export { schoolVectorLayer };
+// export { schoolVectorLayer };
+export const allSchoolLayers = [];
+
+const schoolCodes = [2, 7, 11, 12, 15, 16, 18];
 
 const schoolDistricts =
-	'https://gis.minnehahacounty.org/minnemap/rest/services/MinnEmap/GovernmentPLSS/MapServer/8/query?where=OBJECTID=16&outFields=*&outSR=4326&f=GEOjson';
+	'https://gis.minnehahacounty.org/minnemap/rest/services/MinnEmap/GovernmentPLSS/MapServer/8/query?where=OBJECTID=18&outFields=*&outSR=4326&f=GEOjson';
+
+const reqActivity = (code) => {
+	const url =
+		'https://gis.minnehahacounty.org/minnemap/rest/services/MinnEmap/GovernmentPLSS/MapServer/8/query?where=OBJECTID=' +
+		code +
+		'&outFields=*&outSR=4326&f=GEOjson';
+
+	return url;
+};
 
 // const min = 1e8; // the smallest area
 // const max = 2e13; // the biggest area
@@ -29,20 +41,94 @@ const schoolDistricts =
 // 	return ramp[index];
 // }
 
-const schoolVectorSource = new VectorSource({
-	url: schoolDistricts,
-	format: new GeoJSON(),
-});
-const schoolVectorLayer = new VectorLayer({
-	source: schoolVectorSource,
-	className: 'School-District-Layer',
-	visible: false,
-	style: new Style({
-		fill: new Fill({
-			color: [0, 0, 0, 0.2],
-		}),
-		stroke: new Stroke({
-			color: [235, 64, 52, 1],
-		}),
-	}),
+const colorMap = (idCode) => {
+	switch (idCode) {
+		case 2:
+			return new Style({
+				fill: new Fill({
+					color: [0, 0, 0, 0.2],
+				}),
+				stroke: new Stroke({
+					color: [255, 0, 0, 1],
+					width: 2,
+				}),
+			});
+		case 7:
+			return new Style({
+				fill: new Fill({
+					color: [255, 0, 255, 0.2],
+				}),
+				stroke: new Stroke({
+					color: [255, 0, 255, 1],
+					width: 2,
+				}),
+			});
+		case 11 /*Tea*/:
+			return new Style({
+				fill: new Fill({
+					color: [255, 255, 0, 0.3],
+				}),
+				stroke: new Stroke({
+					color: [0, 0, 255, 1],
+					width: 2,
+				}),
+			});
+		case 12:
+			return new Style({
+				fill: new Fill({
+					color: [255, 255, 255, 0.5],
+				}),
+				stroke: new Stroke({
+					color: [255, 0, 0, 1],
+					width: 2,
+				}),
+			});
+		case 15:
+			return new Style({
+				fill: new Fill({
+					color: [235, 125, 52, 0.5],
+				}),
+				stroke: new Stroke({
+					color: [0, 0, 0, 1],
+					width: 2,
+				}),
+			});
+		case 16:
+			return new Style({
+				fill: new Fill({
+					color: [200, 200, 200, 0],
+				}),
+				stroke: new Stroke({
+					color: [0, 0, 0, 1],
+					width: 2,
+				}),
+			});
+		case 18:
+			return new Style({
+				fill: new Fill({
+					color: [235, 0, 0, 0.4],
+				}),
+				stroke: new Stroke({
+					color: [0, 0, 0, 1],
+					width: 2,
+				}),
+			});
+		default:
+			return;
+	}
+};
+
+schoolCodes.map((idCode) => {
+	const schoolVectorSource = new VectorSource({
+		url: reqActivity(idCode),
+		format: new GeoJSON(),
+	});
+	const schoolVectorLayer = new VectorLayer({
+		source: schoolVectorSource,
+		className: 'School-District-Layer',
+		visible: true,
+		group: 'schoolGroup',
+		style: colorMap(idCode),
+	});
+	allSchoolLayers.push(schoolVectorLayer);
 });
