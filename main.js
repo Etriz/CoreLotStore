@@ -42,13 +42,13 @@ const parcelVectorLayer = new VectorLayer({
 });
 
 // containers in index for the popup overlay
-const container = document.getElementById('popup');
-const content = document.getElementById('popup-content');
-const closer = document.getElementById('popup-closer');
+const popupContainer = document.getElementById('popup');
+const popupContent = document.getElementById('popup-content');
+const popupCloser = document.getElementById('popup-closer');
 
 // create overlay layer
-const overlay = new Overlay({
-	element: container,
+const popupOverlay = new Overlay({
+	element: popupContainer,
 	autoPan: {
 		animation: {
 			duration: 250,
@@ -69,7 +69,7 @@ const map = new Map({
 		center: fromLonLat([-96.74, 43.56]),
 		zoom: 12,
 	}),
-	overlays: [overlay],
+	overlays: [popupOverlay],
 	target: 'map',
 });
 // add all layers from codestatus module
@@ -183,22 +183,69 @@ satelliteView.addEventListener('click', () => {
 buttonArea.appendChild(satelliteView);
 
 // click handler for closing popup
-closer.onclick = function () {
-	overlay.setPosition(undefined);
-	closer.blur();
+popupCloser.onclick = function () {
+	popupOverlay.setPosition(undefined);
+	popupCloser.blur();
 	return false;
 };
 
 /**
  * Add a click handler to the map to render the popup.
  */
+const idUrl = (id) =>
+	'https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=OBJECTID=' +
+	id +
+	'&outFields=OBJECTID,ADDITION,PARCEL_LOT,BlockDesignator&outSR=4326&f=GEOjson&returnGeometry=false';
+const sentenceCase = (str) => {
+	return str
+		.toLowerCase()
+		.split(' ')
+		.map(function (word) {
+			return word.charAt(0).toUpperCase() + word.slice(1);
+		})
+		.join(' ');
+};
+
 map.on('singleclick', function (evt) {
+	var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+		return feature;
+	});
 	const coordinate = evt.coordinate;
 	// const lonLat = toLonLat(coordinate);
-	// console.log('click registered', lonLat);
 
-	content.innerHTML = '<p>You clicked here</p>';
-	overlay.setPosition(coordinate);
+	if (feature) {
+		try {
+			fetch(idUrl(feature.getId()))
+				.then((res) => res.json())
+				.then((data) => data.features[0].properties)
+				.then((relevantData) => {
+					let innerPopupContent =
+						'<div>Parcel ' +
+						relevantData.OBJECTID +
+						'</div><hr /><div>Addition: ' +
+						sentenceCase(relevantData.ADDITION) +
+						'</div>';
+					if (relevantData.BlockDesignator) {
+						innerPopupContent +=
+							'<div>Block: ' +
+							relevantData.BlockDesignator +
+							'</div>';
+					}
+					if (relevantData.PARCEL_LOT) {
+						innerPopupContent +=
+							'<div>Lot: ' + relevantData.PARCEL_LOT + '</div>';
+					}
+					popupContent.innerHTML =
+						// '<p>You clicked here and id is ' + feature.getId() + '</p>';
+						innerPopupContent;
+				});
+		} catch (error) {
+			console.error(error);
+		}
+		popupOverlay.setPosition(coordinate);
+	} else {
+		console.warn('You did not click on a valid parcel');
+	}
 });
 
 //	--	dropdown code	--
