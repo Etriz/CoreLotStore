@@ -25,9 +25,9 @@ body {
 }
 .button-area button {
 	width: auto;
-	padding: 3px;
+	padding: 0.5rem;
 	display: block;
-	margin: 10px 5px;
+	margin: 0.5rem 0;
 	font-weight: bold;
 	text-decoration: none;
 	font-size: inherit;
@@ -39,6 +39,17 @@ body {
 }
 .button-area button:hover {
 	cursor: pointer;
+}
+fieldset {
+	margin: 1rem 0;
+	border-radius: 0.5rem;
+}
+fieldset legend {
+	position: relative;
+	top: -0.5rem;
+	background-color: whitesmoke;
+	border-radius: 0.5rem 0.5rem 0 0;
+	padding: 0 0.5rem;
 }
 /* toggle switches */
 .toggle {
@@ -74,17 +85,20 @@ body {
 	position: absolute;
 	top: 3px;
 	left: -46px;
-	background: yellowgreen;
+	background: gray;
 	transition: all 0.3s ease-in;
-}
-/* individual button color */
-.toggle input[type='checkbox']#91 + label::after {
-	background: blue;
 }
 .toggle input[type='checkbox']:checked + label::after {
 	left: -28px;
 	transition: all 0.3s ease-in;
+	background-color: yellowgreen;
 }
+/* individual button colors - DOESN'T WORK */
+.toggle input#93[type='checkbox']:checked + label::after {
+	background-color: blue;
+}
+/* end toggle switches */
+
 /* Popup */
 .ol-popup {
 	position: absolute;

@@ -20,7 +20,7 @@ import LayerGroup from 'ol/layer/Group';
 const localApiResponse = './data/apiresponse.json';
 const localSingleApiResponse = './data/singleapiresponse.json';
 
-const satellitTileLayer = new TileLayer({
+const satelliteTileLayer = new TileLayer({
 	source: new OSM({
 		url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
 	}),
@@ -59,7 +59,7 @@ const popupOverlay = new Overlay({
 // create map and add layers and set view
 const map = new Map({
 	target: 'map',
-	layers: [defaultTileLayer, satellitTileLayer, parcelVectorLayer],
+	layers: [defaultTileLayer, satelliteTileLayer, parcelVectorLayer],
 	view: new View({
 		center: fromLonLat([-96.74, 43.56]),
 		zoom: 12,
@@ -83,6 +83,13 @@ const schoolLayerGroup = new LayerGroup({
 });
 map.addLayer(schoolLayerGroup);
 
+/* GLOBAL USE FUNCTIONS*/
+const setAllToggleSwitches = (state) => {
+	const inputSwitches = Array.from(document.getElementsByTagName('input'));
+	inputSwitches.map((item) => {
+		item.checked = state;
+	});
+};
 // create the button area
 const buttonArea = document.createElement('div');
 buttonArea.className = 'button-area';
@@ -102,9 +109,24 @@ resetButton.addEventListener('click', () => {
 	// });
 });
 buttonArea.appendChild(resetButton);
+
+// switch to satellite view
+const satelliteView = document.createElement('button');
+satelliteView.className = 'satellite-view button';
+satelliteView.innerText = 'Show Satellite View';
+satelliteView.addEventListener('click', () => {
+	satelliteTileLayer.setVisible(!satelliteTileLayer.isVisible());
+	if (satelliteTileLayer.isVisible()) {
+		satelliteView.innerText = 'Hide Satellite View';
+	} else if (!satelliteTileLayer.isVisible()) {
+		satelliteView.innerText = 'Show Satellite View';
+	}
+});
+buttonArea.appendChild(satelliteView);
+
 // checkbox buttons
 const checkField = document.createElement('fieldset');
-// checkField.innerHTML = '<legend>Toggle Buttons</legend>';
+checkField.innerHTML = '<legend>Lot Overlays</legend>';
 buttonArea.appendChild(checkField);
 // code number buttons
 for (let index = 0; index < activityCodes.length; index++) {
@@ -123,6 +145,10 @@ for (let index = 0; index < activityCodes.length; index++) {
 			.getAllLayers()
 			.find((layer) => layer.get('id') == e.target.id);
 		wantedLayer.setVisible(!wantedLayer.isVisible());
+		if (!parcelLayerGroup.getVisible()) {
+			parcelLayerGroup.setVisible(true);
+			setAllToggleSwitches(true);
+		}
 	});
 
 	checkDiv.appendChild(checkBox);
@@ -134,12 +160,14 @@ map.addControl(
 		element: buttonArea,
 	})
 );
+const zoneField = document.createElement('fieldset');
+zoneField.innerHTML = '<legend>Zone Overlays</legend>';
+buttonArea.appendChild(zoneField);
 // test layergroup button
 const viewLayerGroup = document.createElement('button');
 viewLayerGroup.className = 'show group';
 viewLayerGroup.innerText = 'Test Layer Group';
 viewLayerGroup.addEventListener('click', function () {
-	const inputSwitches = Array.from(document.getElementsByTagName('input'));
 	// get only parcel layers
 	const tempArray = [];
 	const allToggleLayers = map.getAllLayers();
@@ -149,45 +177,35 @@ viewLayerGroup.addEventListener('click', function () {
 		}
 	});
 	if (parcelLayerGroup.getVisible()) {
-		inputSwitches.map((checkbox) => {
-			checkbox.checked = false;
-		});
+		setAllToggleSwitches(false);
 		tempArray.map((layer) => {
 			layer.setVisible(false);
 		});
 		parcelLayerGroup.setVisible(false);
 	} else {
-		inputSwitches.map((checkbox) => {
-			checkbox.checked = true;
-		});
+		setAllToggleSwitches(true);
 		tempArray.map((layer) => {
 			layer.setVisible(true);
 		});
 		parcelLayerGroup.setVisible(true);
 	}
 });
-buttonArea.appendChild(viewLayerGroup);
+zoneField.appendChild(viewLayerGroup);
+
 // view schools button
 const viewSchoolDistrict = document.createElement('button');
 viewSchoolDistrict.className = 'view-schools button';
-viewSchoolDistrict.innerText = 'View Schools';
+viewSchoolDistrict.innerText = 'Show School Districts';
 viewSchoolDistrict.addEventListener('click', () => {
 	if (schoolLayerGroup.getVisible()) {
 		schoolLayerGroup.setVisible(false);
+		viewSchoolDistrict.innerText = 'Show School Districts';
 	} else {
 		schoolLayerGroup.setVisible(true);
+		viewSchoolDistrict.innerText = 'Hide School Districts';
 	}
 });
-buttonArea.appendChild(viewSchoolDistrict);
-
-// switch alternate map views -- satellite etc
-const satelliteView = document.createElement('button');
-satelliteView.className = 'satellite-view button';
-satelliteView.innerText = 'Satellite View';
-satelliteView.addEventListener('click', () => {
-	satellitTileLayer.setVisible(!satellitTileLayer.isVisible());
-});
-buttonArea.appendChild(satelliteView);
+zoneField.appendChild(viewSchoolDistrict);
 
 // click handler for closing popup
 popupCloser.onclick = function () {
@@ -212,7 +230,7 @@ const sentenceCase = (str) => {
 		})
 		.join(' ');
 };
-
+// get feature at point clicked
 map.on('singleclick', function (evt) {
 	var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
 		return feature;
@@ -279,17 +297,15 @@ const dropdown = document.createElement('select');
 dropdown.className = 'dropdown';
 dropdown.addEventListener('change', (e) => {
 	parcelLayerGroup.setVisible(false);
-	const inputSwitches = Array.from(document.getElementsByTagName('input'));
-	inputSwitches.map((item) => {
-		item.checked = false;
-	});
-
+	parcelVectorLayer.setVisible(true);
+	setAllToggleSwitches(false);
 	parcelVectorLayer.setSource(
 		new VectorSource({
 			url: dropUrl(e.target.value),
 			format: new GeoJSON(),
 		})
 	);
+	// code to attempt to zoom to addition - Doesnt work yet
 	parcelVectorSource.once('change', function (e) {
 		if (parcelVectorSource.getState() === 'ready') {
 			if (layers[0].getSource().getFeatures().length > 0) {
@@ -348,4 +364,13 @@ fetch(additionUrl)
 		});
 	});
 
+// dropdown reset button
+const dropdownReset = document.createElement('button');
+dropdownReset.className = 'dropdown-reset button';
+dropdownReset.innerText = 'Addition Reset';
+dropdownReset.addEventListener('click', () => {
+	parcelVectorLayer.setVisible(false);
+	dropdown.selectedIndex = 0;
+});
+buttonArea.appendChild(dropdownReset);
 buttonArea.appendChild(dropdown);

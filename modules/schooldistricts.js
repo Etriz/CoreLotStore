@@ -43,7 +43,7 @@ const reqActivity = (code) => {
 
 const colorMap = (idCode) => {
 	switch (idCode) {
-		case 2:
+		case 2 /*Brandon*/:
 			return new Style({
 				fill: new Fill({
 					color: [0, 0, 0, 0.2],
@@ -53,7 +53,7 @@ const colorMap = (idCode) => {
 					width: 2,
 				}),
 			});
-		case 7:
+		case 7 /*Harrisburg*/:
 			return new Style({
 				fill: new Fill({
 					color: [255, 0, 255, 0.2],
@@ -73,7 +73,7 @@ const colorMap = (idCode) => {
 					width: 2,
 				}),
 			});
-		case 12:
+		case 12 /*Tri-Valley*/:
 			return new Style({
 				fill: new Fill({
 					color: [255, 255, 255, 0.5],
@@ -83,7 +83,7 @@ const colorMap = (idCode) => {
 					width: 2,
 				}),
 			});
-		case 15:
+		case 15 /*Lennox*/:
 			return new Style({
 				fill: new Fill({
 					color: [235, 125, 52, 0.5],
@@ -93,7 +93,7 @@ const colorMap = (idCode) => {
 					width: 2,
 				}),
 			});
-		case 16:
+		case 16 /*Sioux Falls*/:
 			return new Style({
 				fill: new Fill({
 					color: [200, 200, 200, 0],
@@ -103,7 +103,7 @@ const colorMap = (idCode) => {
 					width: 2,
 				}),
 			});
-		case 18:
+		case 18 /*West Central*/:
 			return new Style({
 				fill: new Fill({
 					color: [235, 0, 0, 0.4],
