@@ -2,6 +2,7 @@ import './style.css';
 import { activityCodes } from './modules/activitycodes';
 import { allSchoolLayers } from './modules/schooldistricts';
 import { allParcelLayers } from './modules/codestatus';
+import { allZoneLayers } from './modules/zoning';
 // import { geo } from './modules/countydata';
 import { Map, View, Overlay } from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -82,6 +83,14 @@ const schoolLayerGroup = new LayerGroup({
 	visible: false,
 });
 map.addLayer(schoolLayerGroup);
+
+// add all layers from zoning module
+const zoneLayerGroup = new LayerGroup({
+	layers: [...allZoneLayers],
+	id: 'zoneGroup',
+	visible: false,
+});
+map.addLayer(zoneLayerGroup);
 
 /* GLOBAL USE FUNCTIONS*/
 const setAllToggleSwitches = (state) => {
@@ -206,6 +215,21 @@ viewSchoolDistrict.addEventListener('click', () => {
 	}
 });
 zoneField.appendChild(viewSchoolDistrict);
+
+// view zoning button
+const viewZoningButton = document.createElement('button');
+viewZoningButton.className = 'view-zoning button';
+viewZoningButton.innerText = 'Show Zoning';
+viewZoningButton.addEventListener('click', () => {
+	if (zoneLayerGroup.getVisible()) {
+		zoneLayerGroup.setVisible(false);
+		viewZoningButton.innerText = 'Show Zoning';
+	} else {
+		zoneLayerGroup.setVisible(true);
+		viewZoningButton.innerText = 'Hide Zoning';
+	}
+});
+zoneField.appendChild(viewZoningButton);
 
 // click handler for closing popup
 popupCloser.onclick = function () {
