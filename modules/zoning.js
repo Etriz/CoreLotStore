@@ -40,7 +40,7 @@ const reqZoneMap = (code) => {
 	const url =
 		"https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/8/query?where=ZONECLASS='" +
 		code +
-		"'&outFields=OBJECTID,ZONECLASS,ZONEDESCRIPTION&outSR=4326&f=GEOjson";
+		"'&outFields=OBJECTID,ZONECLASS&outSR=4326&f=GEOjson";
 	return url;
 };
 
@@ -147,16 +147,22 @@ const colorMap = (zoneCode) => {
 				// 	color: [0, 0, 0, 1],
 				// }),
 			});
+		case 'POPUD':
+		case 'VPUD':
+			return new Style({
+				fill: new Fill({
+					color: [120, 43, 145, 0.5],
+				}),
+			});
 		default:
-			// return new Style({
-			// 	fill: new Fill({
-			// 		color: [120, 43, 145, 0.5],
-			// 	}),
-			// 	stroke: new Stroke({
-			// 		color: [0, 0, 0, 1],
-			// 	}),
-			// });
-			return;
+			return new Style({
+				fill: new Fill({
+					color: [120, 43, 145, 0.5],
+				}),
+				// stroke: new Stroke({
+				// 	color: [0, 0, 0, 1],
+				// }),
+			});
 	}
 };
 

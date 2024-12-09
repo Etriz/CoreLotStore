@@ -5,7 +5,8 @@ import { Style, Fill, Stroke } from 'ol/style';
 
 import { activityCodes } from './activitycodes';
 
-export const allParcelLayers = [];
+const allParcelLayers = [];
+export { allParcelLayers, parcelColorMap };
 
 const reqActivity = (code) => {
 	const url =
@@ -15,12 +16,13 @@ const reqActivity = (code) => {
 	return url;
 };
 
-const colorMap = (actCode) => {
+const parcelColorMap = (actCode) => {
+	const fillAlpha = 0.1;
 	switch (actCode) {
 		case 91:
 			return new Style({
 				fill: new Fill({
-					color: [255, 150, 0, 0.2],
+					color: [255, 150, 0, fillAlpha],
 				}),
 				stroke: new Stroke({
 					color: [255, 150, 0, 1],
@@ -29,7 +31,7 @@ const colorMap = (actCode) => {
 		case 98:
 			return new Style({
 				fill: new Fill({
-					color: [255, 0, 255, 0.2],
+					color: [255, 0, 255, fillAlpha],
 				}),
 				stroke: new Stroke({
 					color: [255, 0, 255, 1],
@@ -38,7 +40,7 @@ const colorMap = (actCode) => {
 		case 93:
 			return new Style({
 				fill: new Fill({
-					color: [0, 0, 255, 0.2],
+					color: [0, 0, 255, fillAlpha],
 				}),
 				stroke: new Stroke({
 					color: [0, 0, 255, 1],
@@ -47,7 +49,7 @@ const colorMap = (actCode) => {
 		case 94:
 			return new Style({
 				fill: new Fill({
-					color: [0, 0, 255, 0.2],
+					color: [0, 0, 255, fillAlpha],
 				}),
 				stroke: new Stroke({
 					color: [0, 0, 255, 1],
@@ -56,7 +58,7 @@ const colorMap = (actCode) => {
 		case 96:
 			return new Style({
 				fill: new Fill({
-					color: [255, 0, 0, 0.2],
+					color: [255, 0, 0, fillAlpha],
 				}),
 				stroke: new Stroke({
 					color: [255, 0, 0, 1],
@@ -78,7 +80,7 @@ activityCodes.map((actCode) => {
 		id: actCode[1],
 		group: 'parcelGroup',
 		visible: true,
-		style: colorMap(actCode[1]),
+		style: parcelColorMap(actCode[1]),
 	});
 	allParcelLayers.push(actLayer);
 });

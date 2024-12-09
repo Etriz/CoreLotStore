@@ -11,6 +11,41 @@ body {
 	bottom: 0;
 	width: 100%;
 }
+.legend-area {
+	display: block;
+	position: absolute;
+	bottom: 2rem;
+	right: 1rem;
+	border-radius: 0.5rem;
+	padding: 0 0.5rem;
+	background-color: rgba(128, 128, 128, 0.5);
+}
+.legend-area fieldset {
+	display: flex;
+	flex-direction: column;
+	border-radius: 0.5rem;
+	margin: 1rem 0.5rem;
+	background-color: rgba(128, 128, 128, 0.5);
+}
+.legend-area fieldset legend {
+	position: relative;
+	top: -0.5rem;
+	background-color: whitesmoke;
+	border-radius: 0.5rem 0.5rem 0 0;
+	padding: 0 0.5rem;
+}
+.legend-area fieldset > div {
+	display: flex;
+	flex-direction: row;
+}
+.legend-area .color {
+	width: 1rem;
+	height: 1rem;
+	margin: 0 0.5rem 0 0;
+}
+.legend-area .color.a91 {
+	background-color: rgba(255, 150, 0, 1);
+}
 .button-area {
 	display: block;
 	position: absolute;
@@ -20,6 +55,7 @@ body {
 	background-color: rgba(128, 128, 128, 0.5);
 	border-radius: 4px;
 }
+
 .button-area > div {
 	margin: 0.5rem 0;
 }
@@ -40,11 +76,13 @@ body {
 .button-area button:hover {
 	cursor: pointer;
 }
-fieldset {
+.button-area fieldset {
 	margin: 1rem 0;
+	padding-top: 0;
 	border-radius: 0.5rem;
+	background-color: rgba(128, 128, 128, 0.5);
 }
-fieldset legend {
+.button-area fieldset legend {
 	position: relative;
 	top: -0.5rem;
 	background-color: whitesmoke;

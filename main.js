@@ -1,7 +1,7 @@
 import './style.css';
 import { activityCodes } from './modules/activitycodes';
 import { allSchoolLayers } from './modules/schooldistricts';
-import { allParcelLayers } from './modules/codestatus';
+import { allParcelLayers, parcelColorMap } from './modules/codestatus';
 import { allZoneLayers } from './modules/zoning';
 // import { geo } from './modules/countydata';
 import { Map, View, Overlay } from 'ol';
@@ -68,13 +68,6 @@ const map = new Map({
 	overlays: [popupOverlay],
 	target: 'map',
 });
-// add all layers from codestatus module
-const parcelLayerGroup = new LayerGroup({
-	layers: [...allParcelLayers],
-	id: 'parcelGroup',
-	visible: true,
-});
-map.addLayer(parcelLayerGroup);
 
 // add all layers from schooldistricts module
 const schoolLayerGroup = new LayerGroup({
@@ -92,6 +85,14 @@ const zoneLayerGroup = new LayerGroup({
 });
 map.addLayer(zoneLayerGroup);
 
+// add all layers from codestatus module
+const parcelLayerGroup = new LayerGroup({
+	layers: [...allParcelLayers],
+	id: 'parcelGroup',
+	visible: true,
+});
+map.addLayer(parcelLayerGroup);
+
 /* GLOBAL USE FUNCTIONS*/
 const setAllToggleSwitches = (state) => {
 	const inputSwitches = Array.from(document.getElementsByTagName('input'));
@@ -99,6 +100,35 @@ const setAllToggleSwitches = (state) => {
 		item.checked = state;
 	});
 };
+const sentenceCase = (str) => {
+	return str
+		.toLowerCase()
+		.split(' ')
+		.map(function (word) {
+			return word.charAt(0).toUpperCase() + word.slice(1);
+		})
+		.join(' ');
+};
+// create the map legend ara
+const legendArea = document.createElement('div');
+legendArea.className = 'legend-area';
+map.addControl(
+	new Control({
+		element: legendArea,
+	})
+);
+const legendField = document.createElement('fieldset');
+legendArea.appendChild(legendField);
+const legendFieldLabel = document.createElement('legend');
+legendFieldLabel.innerText = 'Legend';
+legendField.appendChild(legendFieldLabel);
+activityCodes.map((code) => {
+	const colorBlock = document.createElement('div');
+	colorBlock.appendChild(document.createElement('div')).className =
+		'color a' + code[1];
+	colorBlock.appendChild(document.createElement('div')).innerText = code[0];
+	legendField.appendChild(colorBlock);
+});
 // create the button area
 const buttonArea = document.createElement('div');
 buttonArea.className = 'button-area';
@@ -133,11 +163,11 @@ satelliteView.addEventListener('click', () => {
 });
 buttonArea.appendChild(satelliteView);
 
-// checkbox buttons
+// lot overlays area
 const checkField = document.createElement('fieldset');
 checkField.innerHTML = '<legend>Lot Overlays</legend>';
 buttonArea.appendChild(checkField);
-// code number buttons
+// lot code buttons
 for (let index = 0; index < activityCodes.length; index++) {
 	const checkDiv = document.createElement('div');
 	checkDiv.className = 'toggle';
@@ -232,10 +262,13 @@ viewZoningButton.addEventListener('click', () => {
 zoneField.appendChild(viewZoningButton);
 
 // click handler for closing popup
-popupCloser.onclick = function () {
+const closePopup = () => {
 	popupOverlay.setPosition(undefined);
 	popupCloser.blur();
-	return false;
+	return;
+};
+popupCloser.onclick = function () {
+	closePopup();
 };
 
 /**
@@ -245,20 +278,20 @@ const idUrl = (id) =>
 	'https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=OBJECTID=' +
 	id +
 	'&outFields=OBJECTID,ADDITION,PARCEL_LOT,BlockDesignator&outSR=4326&f=GEOjson&returnGeometry=false';
-const sentenceCase = (str) => {
-	return str
-		.toLowerCase()
-		.split(' ')
-		.map(function (word) {
-			return word.charAt(0).toUpperCase() + word.slice(1);
-		})
-		.join(' ');
-};
+
 // get feature at point clicked
 map.on('singleclick', function (evt) {
-	var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
-		return feature;
-	});
+	var feature = map.forEachFeatureAtPixel(
+		evt.pixel,
+		function (feature) {
+			return feature;
+		},
+		{
+			layerFilter: function (layer) {
+				return layer.get('group') === 'parcelGroup';
+			},
+		}
+	);
 	const coordinate = evt.coordinate;
 	// const lonLat = toLonLat(coordinate);
 
@@ -293,10 +326,12 @@ map.on('singleclick', function (evt) {
 				});
 		} catch (error) {
 			console.error(error);
+			closePopup();
 		}
 		popupOverlay.setPosition(coordinate);
 	} else {
 		console.warn('You did not click on a valid parcel');
+		closePopup();
 	}
 });
 
