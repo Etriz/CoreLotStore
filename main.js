@@ -1,6 +1,6 @@
 import './style.css';
 import { activityCodes } from './modules/activitycodes';
-import { allSchoolLayers } from './modules/schooldistricts';
+import { allSchoolLayers, schoolCodes } from './modules/schooldistricts';
 import { allParcelLayers, parcelColorMap } from './modules/codestatus';
 import { allZoneLayers } from './modules/zoning';
 // import { geo } from './modules/countydata';
@@ -109,7 +109,40 @@ const sentenceCase = (str) => {
 		})
 		.join(' ');
 };
-// create the map legend ara
+const setParcelVisible = (str) => {
+	const parcelLegend = document.getElementById('legend-parcels');
+	if (str) {
+		parcelLegend.style.display = 'block';
+	} else {
+		parcelLegend.style.display = 'none';
+	}
+};
+const setSchoolDistrictVisible = (str) => {
+	const schoolLegend = document.getElementById('legend-schools');
+	if (str) {
+		schoolLegend.style.display = 'block';
+		schoolLayerGroup.setVisible(true);
+		viewSchoolDistrict.innerText = 'Hide School Districts';
+	} else {
+		schoolLegend.style.display = 'none';
+		schoolLayerGroup.setVisible(false);
+		viewSchoolDistrict.innerText = 'Show School Districts';
+	}
+};
+const setZoningVisible = (str) => {
+	const zoneLegend = document.getElementById('legend-zoning');
+	if (str) {
+		zoneLegend.style.display = 'block';
+		zoneLayerGroup.setVisible(true);
+		viewZoningButton.innerText = 'Hide Zoning';
+	} else {
+		zoneLegend.style.display = 'none';
+		zoneLayerGroup.setVisible(false);
+		viewZoningButton.innerText = 'Show Zoning';
+	}
+};
+
+// create the map legend area
 const legendArea = document.createElement('div');
 legendArea.className = 'legend-area';
 map.addControl(
@@ -122,13 +155,108 @@ legendArea.appendChild(legendField);
 const legendFieldLabel = document.createElement('legend');
 legendFieldLabel.innerText = 'Legend';
 legendField.appendChild(legendFieldLabel);
+// this is for the parcel legend
+const legendParcels = document.createElement('div');
+legendParcels.id = 'legend-parcels';
+legendParcels.style.display = 'block';
+legendField.appendChild(legendParcels);
 activityCodes.map((code) => {
+	const item = document.createElement('div');
 	const colorBlock = document.createElement('div');
-	colorBlock.appendChild(document.createElement('div')).className =
-		'color a' + code[1];
-	colorBlock.appendChild(document.createElement('div')).innerText = code[0];
-	legendField.appendChild(colorBlock);
+	colorBlock.className = 'color-block';
+	colorBlock.setAttribute('style', 'background-color:rgb(' + code[2] + ')');
+	item.appendChild(colorBlock);
+	item.appendChild(document.createElement('div')).innerText = code[0];
+	legendParcels.appendChild(item);
 });
+// this is for the school district legend
+const legendSchools = document.createElement('div');
+legendSchools.id = 'legend-schools';
+legendSchools.style.display = 'none';
+legendField.appendChild(legendSchools);
+schoolCodes.map((code) => {
+	const item = document.createElement('div');
+	const colorBlock = document.createElement('div');
+	colorBlock.className = 'color-block';
+	colorBlock.setAttribute('style', 'background-color:rgb(' + code[2] + ')');
+	item.appendChild(colorBlock);
+	item.appendChild(document.createElement('div')).innerText = code[0];
+	legendSchools.appendChild(item);
+});
+// this is for the zoning legend
+const legendZoning = document.createElement('div');
+legendZoning.id = 'legend-zoning';
+legendZoning.style.display = 'none';
+legendField.appendChild(legendZoning);
+// residential item
+const residentialItem = document.createElement('div');
+const resiColorBlock = document.createElement('div');
+resiColorBlock.className = 'color-block';
+resiColorBlock.setAttribute('style', 'background-color:rgb(254,242,0)');
+residentialItem.appendChild(resiColorBlock);
+residentialItem.appendChild(document.createElement('div')).innerText =
+	'Single Family';
+legendZoning.appendChild(residentialItem);
+// residential item
+const manufacturedItem = document.createElement('div');
+const manuColorBlock = document.createElement('div');
+manuColorBlock.className = 'color-block';
+manuColorBlock.setAttribute('style', 'background-color:rgb(248,205,191)');
+manufacturedItem.appendChild(manuColorBlock);
+manufacturedItem.appendChild(document.createElement('div')).innerText =
+	'Manufactured Homes';
+legendZoning.appendChild(manufacturedItem);
+// townhome item
+const townhomeItem = document.createElement('div');
+const townColorBlock = document.createElement('div');
+townColorBlock.className = 'color-block';
+townColorBlock.setAttribute('style', 'background-color:rgb(249,166,26)');
+townhomeItem.appendChild(townColorBlock);
+townhomeItem.appendChild(document.createElement('div')).innerText = 'Townhomes';
+legendZoning.appendChild(townhomeItem);
+// apartment item
+const apartmentItem = document.createElement('div');
+const apartmentColorBlock = document.createElement('div');
+apartmentColorBlock.className = 'color-block';
+apartmentColorBlock.setAttribute('style', 'background-color:rgb(194,131,18)');
+apartmentItem.appendChild(apartmentColorBlock);
+apartmentItem.appendChild(document.createElement('div')).innerText =
+	'Apartments';
+legendZoning.appendChild(apartmentItem);
+// office item
+const officeItem = document.createElement('div');
+const officeColorBlock = document.createElement('div');
+officeColorBlock.className = 'color-block';
+officeColorBlock.setAttribute('style', 'background-color:rgb(0,114,187)');
+officeItem.appendChild(officeColorBlock);
+officeItem.appendChild(document.createElement('div')).innerText = 'Offices';
+legendZoning.appendChild(officeItem);
+// midtown mixed use item
+const mixedItem = document.createElement('div');
+const mixedColorBlock = document.createElement('div');
+mixedColorBlock.className = 'color-block';
+mixedColorBlock.setAttribute('style', 'background-color:rgb(191,191,191)');
+mixedItem.appendChild(mixedColorBlock);
+mixedItem.appendChild(document.createElement('div')).innerText =
+	'Midtown Mixed';
+legendZoning.appendChild(mixedItem);
+// industrial item
+const industrialItem = document.createElement('div');
+const industrialColorBlock = document.createElement('div');
+industrialColorBlock.className = 'color-block';
+industrialColorBlock.setAttribute('style', 'background-color:rgb(239,76,155)');
+industrialItem.appendChild(industrialColorBlock);
+industrialItem.appendChild(document.createElement('div')).innerText =
+	'Industrial';
+legendZoning.appendChild(industrialItem);
+// open space item
+const openItem = document.createElement('div');
+const openColorBlock = document.createElement('div');
+openColorBlock.className = 'color-block';
+openColorBlock.setAttribute('style', 'background-color:rgb(0,166,80)');
+openItem.appendChild(openColorBlock);
+openItem.appendChild(document.createElement('div')).innerText = 'Open Space';
+legendZoning.appendChild(openItem);
 // create the button area
 const buttonArea = document.createElement('div');
 buttonArea.className = 'button-area';
@@ -203,33 +331,36 @@ const zoneField = document.createElement('fieldset');
 zoneField.innerHTML = '<legend>Zone Overlays</legend>';
 buttonArea.appendChild(zoneField);
 // test layergroup button
-const viewLayerGroup = document.createElement('button');
-viewLayerGroup.className = 'show group';
-viewLayerGroup.innerText = 'Test Layer Group';
-viewLayerGroup.addEventListener('click', function () {
-	// get only parcel layers
-	const tempArray = [];
-	const allToggleLayers = map.getAllLayers();
-	allToggleLayers.map((layer) => {
-		if (layer.get('group') == 'parcelGroup') {
-			tempArray.push(layer);
-		}
-	});
-	if (parcelLayerGroup.getVisible()) {
-		setAllToggleSwitches(false);
-		tempArray.map((layer) => {
-			layer.setVisible(false);
-		});
-		parcelLayerGroup.setVisible(false);
-	} else {
-		setAllToggleSwitches(true);
-		tempArray.map((layer) => {
-			layer.setVisible(true);
-		});
-		parcelLayerGroup.setVisible(true);
-	}
-});
-zoneField.appendChild(viewLayerGroup);
+// const viewLayerGroup = document.createElement('button');
+// viewLayerGroup.className = 'show group';
+// viewLayerGroup.innerText = 'Test Layer Group';
+// viewLayerGroup.addEventListener('click', function () {
+// 	// get only parcel layers
+// 	const parcelLegend = document.getElementById('legend-parcels');
+// 	const tempArray = [];
+// 	const allToggleLayers = map.getAllLayers();
+// 	allToggleLayers.map((layer) => {
+// 		if (layer.get('group') == 'parcelGroup') {
+// 			tempArray.push(layer);
+// 		}
+// 	});
+// 	if (parcelLayerGroup.getVisible()) {
+// 		setAllToggleSwitches(false);
+// 		tempArray.map((layer) => {
+// 			layer.setVisible(false);
+// 		});
+// 		parcelLayerGroup.setVisible(false);
+// 		parcelLegend.style.display = 'none';
+// 	} else {
+// 		setAllToggleSwitches(true);
+// 		tempArray.map((layer) => {
+// 			layer.setVisible(true);
+// 		});
+// 		parcelLayerGroup.setVisible(true);
+// 		parcelLegend.style.display = 'block';
+// 	}
+// });
+// zoneField.appendChild(viewLayerGroup);
 
 // view schools button
 const viewSchoolDistrict = document.createElement('button');
@@ -237,11 +368,13 @@ viewSchoolDistrict.className = 'view-schools button';
 viewSchoolDistrict.innerText = 'Show School Districts';
 viewSchoolDistrict.addEventListener('click', () => {
 	if (schoolLayerGroup.getVisible()) {
-		schoolLayerGroup.setVisible(false);
-		viewSchoolDistrict.innerText = 'Show School Districts';
+		setParcelVisible(true);
+		setSchoolDistrictVisible(false);
+		setZoningVisible(false);
 	} else {
-		schoolLayerGroup.setVisible(true);
-		viewSchoolDistrict.innerText = 'Hide School Districts';
+		setParcelVisible(false);
+		setSchoolDistrictVisible(true);
+		setZoningVisible(false);
 	}
 });
 zoneField.appendChild(viewSchoolDistrict);
@@ -252,11 +385,13 @@ viewZoningButton.className = 'view-zoning button';
 viewZoningButton.innerText = 'Show Zoning';
 viewZoningButton.addEventListener('click', () => {
 	if (zoneLayerGroup.getVisible()) {
-		zoneLayerGroup.setVisible(false);
-		viewZoningButton.innerText = 'Show Zoning';
+		setParcelVisible(true);
+		setSchoolDistrictVisible(false);
+		setZoningVisible(false);
 	} else {
-		zoneLayerGroup.setVisible(true);
-		viewZoningButton.innerText = 'Hide Zoning';
+		setParcelVisible(false);
+		setSchoolDistrictVisible(false);
+		setZoningVisible(true);
 	}
 });
 zoneField.appendChild(viewZoningButton);
@@ -428,8 +563,12 @@ const dropdownReset = document.createElement('button');
 dropdownReset.className = 'dropdown-reset button';
 dropdownReset.innerText = 'Addition Reset';
 dropdownReset.addEventListener('click', () => {
+	setAllToggleSwitches(true);
+	parcelLayerGroup.setVisible(true);
 	parcelVectorLayer.setVisible(false);
 	dropdown.selectedIndex = 0;
+	map.getView().setCenter(fromLonLat([-96.74, 43.56]));
+	map.getView().setZoom(12);
 });
 buttonArea.appendChild(dropdownReset);
 buttonArea.appendChild(dropdown);

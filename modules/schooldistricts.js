@@ -2,13 +2,19 @@ import GeoJSON from 'ol/format/GeoJSON';
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import { Style, Fill, Stroke } from 'ol/style';
-import { getWidth } from 'ol/extent';
-import colormap from 'colormap';
 
-// export { schoolVectorLayer };
-export const allSchoolLayers = [];
+const allSchoolLayers = [];
+export { allSchoolLayers, schoolCodes };
 
-const schoolCodes = [2, 7, 11, 12, 15, 16, 18];
+const schoolCodes = [
+	['Brandon Valley', 2, [0, 0, 0]],
+	// ['Harrisburg', 7, [255, 0, 255]],
+	['Tea', 11, [255, 255, 0]],
+	['Tri-Valley', 12, [255, 255, 255]],
+	['Lennox', 15, [235, 125, 52]],
+	['Sioux Falls', 16, [200, 200, 200]],
+	['West Central', 18, [235, 0, 0]],
+];
 
 const schoolDistricts =
 	'https://gis.minnehahacounty.org/minnemap/rest/services/MinnEmap/GovernmentPLSS/MapServer/8/query?where=OBJECTID=18&outFields=*&outSR=4326&f=GEOjson';
@@ -21,25 +27,6 @@ const reqActivity = (code) => {
 
 	return url;
 };
-
-// const min = 1e8; // the smallest area
-// const max = 2e13; // the biggest area
-// const steps = 50;
-// const ramp = colormap({
-// 	colormap: 'blackbody',
-// 	nshades: steps,
-// });
-
-// function clamp(value, low, high) {
-// 	return Math.max(low, Math.min(value, high));
-// }
-
-// function getColor(feature) {
-// 	const area = getArea(feature.getGeometry());
-// 	const f = Math.pow(clamp((area - min) / (max - min), 0, 1), 1 / 2);
-// 	const index = Math.round(f * (steps - 1));
-// 	return ramp[index];
-// }
 
 const colorMap = (idCode) => {
 	switch (idCode) {
@@ -100,7 +87,7 @@ const colorMap = (idCode) => {
 				}),
 				stroke: new Stroke({
 					color: [0, 0, 0, 1],
-					width: 2,
+					// width: 2,
 				}),
 			});
 		case 18 /*West Central*/:
@@ -120,7 +107,7 @@ const colorMap = (idCode) => {
 
 schoolCodes.map((idCode) => {
 	const schoolVectorSource = new VectorSource({
-		url: reqActivity(idCode),
+		url: reqActivity(idCode[1]),
 		format: new GeoJSON(),
 	});
 	const schoolVectorLayer = new VectorLayer({
@@ -128,7 +115,7 @@ schoolCodes.map((idCode) => {
 		className: 'School-District-Layer',
 		visible: true,
 		group: 'schoolGroup',
-		style: colorMap(idCode),
+		style: colorMap(idCode[1]),
 	});
 	allSchoolLayers.push(schoolVectorLayer);
 });

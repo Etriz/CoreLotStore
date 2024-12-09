@@ -1,7 +1,7 @@
 export const activityCodes = [
-	['Agricultural', 91],
-	['Subdivision Approved', 98],
-	['Platted', 93],
-	['94', 94],
-	['Permit Issued', 96],
+	['Agricultural', 91, [255, 150, 0]],
+	['Subdivision Approved', 98, [255, 0, 255]],
+	['Platted', 93, [0, 0, 255]],
+	['94', 94, [0, 0, 255]],
+	['Permit Issued', 96, [255, 0, 0]],
 ]; //listed in order of progression
