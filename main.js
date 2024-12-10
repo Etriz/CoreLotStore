@@ -2,6 +2,7 @@ import './style.css';
 import { activityCodes } from './modules/activitycodes';
 import { allSchoolLayers, sdSchoolCodes } from './modules/schooldistricts';
 import { allParcelLayers, parcelColorMap } from './modules/codestatus';
+import { allPrelimParcels } from './modules/prelimparcels';
 import { allZoneLayers } from './modules/zoning';
 import { legendArea } from './modules/maplegend';
 // import { geo } from './modules/countydata';
@@ -16,7 +17,6 @@ import Feature from 'ol/Feature';
 import Control from 'ol/control/Control';
 import ZoomToExtent from 'ol/control/ZoomToExtent.js';
 import { toLonLat } from 'ol/proj';
-import { Style, Fill, Stroke } from 'ol/style';
 import LayerGroup from 'ol/layer/Group';
 
 const localApiResponse = './data/apiresponse.json';
@@ -93,6 +93,14 @@ const parcelLayerGroup = new LayerGroup({
 	visible: true,
 });
 map.addLayer(parcelLayerGroup);
+
+// add all layers from prelimparcels module
+const prelimLayerGroup = new LayerGroup({
+	layers: [...allPrelimParcels],
+	id: 'prelimGroup',
+	visible: false,
+});
+map.addLayer(prelimLayerGroup);
 
 /* GLOBAL USE FUNCTIONS*/
 const setAllToggleSwitches = (state) => {
@@ -205,6 +213,7 @@ for (let index = 0; index < activityCodes.length; index++) {
 			.getAllLayers()
 			.find((layer) => layer.get('id') == e.target.id);
 		wantedLayer.setVisible(!wantedLayer.isVisible());
+		console.log(e.target.id);
 		if (!parcelLayerGroup.getVisible()) {
 			parcelLayerGroup.setVisible(true);
 			setAllToggleSwitches(true);
@@ -254,6 +263,23 @@ buttonArea.appendChild(zoneField);
 // 	}
 // });
 // zoneField.appendChild(viewLayerGroup);
+
+// view lots button
+const viewLotsButton = document.createElement('button');
+viewLotsButton.className = 'view-lots button';
+viewLotsButton.innerText = 'Show Preliminary Lots';
+viewLotsButton.addEventListener('click', (e) => {
+	if (prelimLayerGroup.getVisible()) {
+		prelimLayerGroup.setVisible(false);
+		setSchoolDistrictVisible(false);
+		setZoningVisible(false);
+	} else {
+		prelimLayerGroup.setVisible(true);
+		setSchoolDistrictVisible(false);
+		setZoningVisible(false);
+	}
+});
+zoneField.appendChild(viewLotsButton);
 
 // view schools button
 const viewSchoolDistrict = document.createElement('button');
@@ -329,12 +355,12 @@ map.on('singleclick', function (evt) {
 				.then((res) => res.json())
 				.then((data) => data.features[0].properties)
 				.then((relevantData) => {
-					console.log(relevantData);
+					console.log(feature);
 					let innerPopupContent =
 						'<div>Parcel ' +
 						relevantData.OBJECTID +
-						'</div><hr /><div>Addition: ' +
-						sentenceCase(relevantData.ADDITION) +
+						'</div><hr /><div>Subdivision: ' +
+						relevantData.ADDITION +
 						'</div>';
 					if (relevantData.BlockDesignator) {
 						innerPopupContent +=
@@ -420,7 +446,7 @@ dropdown.appendChild(defaultOption);
 // 		).then((res) => res.json())
 // 	)
 // ).then((resAll) => {
-// 	// const abc = res.json();
+// 	// const abc = resAll.json();
 // 	// console.log(resAll);
 // });
 

@@ -4,4 +4,5 @@ export const activityCodes = [
 	['Platted', 93, [0, 0, 255]],
 	['94', 94, [0, 0, 255]],
 	['Permit Issued', 96, [255, 0, 0]],
+	// ['Preliminary Lot', 'prelim', [125, 125, 125]],
 ]; //listed in order of progression
