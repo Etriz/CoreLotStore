@@ -1,5 +1,5 @@
 import { activityCodes } from './activitycodes';
-import { schoolCodes } from './schooldistricts';
+import { sdSchoolCodes } from './schooldistricts';
 
 export { legendArea };
 
@@ -31,7 +31,7 @@ const legendSchools = document.createElement('div');
 legendSchools.id = 'legend-schools';
 legendSchools.style.display = 'none';
 legendField.appendChild(legendSchools);
-schoolCodes.map((code) => {
+sdSchoolCodes.map((code) => {
 	const item = document.createElement('div');
 	const colorBlock = document.createElement('div');
 	colorBlock.className = 'color-block';

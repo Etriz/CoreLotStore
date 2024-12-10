@@ -1,6 +1,6 @@
 import './style.css';
 import { activityCodes } from './modules/activitycodes';
-import { allSchoolLayers, schoolCodes } from './modules/schooldistricts';
+import { allSchoolLayers, sdSchoolCodes } from './modules/schooldistricts';
 import { allParcelLayers, parcelColorMap } from './modules/codestatus';
 import { allZoneLayers } from './modules/zoning';
 import { legendArea } from './modules/maplegend';
