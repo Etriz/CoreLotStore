@@ -34,13 +34,14 @@ const defaultTileLayer = new TileLayer({
 	source: new OSM(),
 	id: 'default-tiles',
 });
-const parcelVectorSource = new VectorSource({
+const additionVectorSource = new VectorSource({
 	url: '',
 	format: new GeoJSON(),
 	projection: 'EPSG:4326',
 });
-const parcelVectorLayer = new VectorLayer({
-	source: parcelVectorSource,
+const additionVectorLayer = new VectorLayer({
+	source: additionVectorSource,
+	visible: false,
 });
 
 // containers in index for the popup overlay
@@ -61,7 +62,7 @@ const popupOverlay = new Overlay({
 // create map and add layers and set view
 const map = new Map({
 	target: 'map',
-	layers: [defaultTileLayer, satelliteTileLayer, parcelVectorLayer],
+	layers: [defaultTileLayer, satelliteTileLayer, additionVectorLayer],
 	view: new View({
 		center: fromLonLat([-96.74, 43.56]),
 		zoom: 12,
@@ -160,6 +161,16 @@ const setPrelimVisible = (str) => {
 		viewPrelimButton.innerText = 'Show Preliminary Lots';
 	}
 };
+const resetMapZoom = () => {
+	map.getView().fit(
+		parcelLayerGroup.getLayersArray()[0].getSource().getExtent(),
+		{
+			size: map.getSize(),
+			padding: [150, 100, 100, 100],
+			duration: 2000,
+		}
+	);
+};
 
 // add map legend from module
 map.addControl(
@@ -179,12 +190,7 @@ resetButton.innerText = 'Reset Zoom';
 resetButton.setAttribute('title', 'reset');
 resetButton.setAttribute('id', 'view-reset');
 resetButton.addEventListener('click', () => {
-	map.getView().setCenter(fromLonLat([-96.74, 43.56]));
-	map.getView().setZoom(12);
-	// map.getView().fit(schoolVectorLayer.getExtent(), {
-	// 	maxZoom: 12,
-	// 	duration: 500,
-	// });
+	resetMapZoom();
 });
 buttonArea.appendChild(resetButton);
 
@@ -347,7 +353,7 @@ popupCloser.onclick = function () {
 const idUrl = (id) =>
 	'https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=OBJECTID=' +
 	id +
-	'&outFields=OBJECTID,ADDITION,PARCEL_LOT,BlockDesignator&outSR=4326&f=GEOjson&returnGeometry=false';
+	'&outFields=OBJECTID,TAG,ADDITION,PARCEL_LOT,BlockDesignator&outSR=4326&f=GEOjson&returnGeometry=false';
 
 // get feature at point clicked
 map.on('singleclick', function (evt) {
@@ -371,10 +377,10 @@ map.on('singleclick', function (evt) {
 				.then((res) => res.json())
 				.then((data) => data.features[0].properties)
 				.then((relevantData) => {
-					console.log(feature);
+					console.log(relevantData);
 					let innerPopupContent =
-						'<div>Parcel ' +
-						relevantData.OBJECTID +
+						'<div>City Parcel  ID ' +
+						relevantData.TAG +
 						'</div><hr /><div>Subdivision: ' +
 						relevantData.ADDITION +
 						'</div>';
@@ -390,9 +396,7 @@ map.on('singleclick', function (evt) {
 					}
 					innerPopupContent +=
 						'<br /><div>For More Information, Email <a href="">info@corerealestate.com</a></div>';
-					popupContent.innerHTML =
-						// '<p>You clicked here and id is ' + feature.getId() + '</p>';
-						innerPopupContent;
+					popupContent.innerHTML = innerPopupContent;
 				});
 		} catch (error) {
 			console.error(error);
@@ -425,23 +429,13 @@ const dropUrl = (additionName) => {
 const dropdown = document.createElement('select');
 dropdown.className = 'dropdown';
 dropdown.addEventListener('change', (e) => {
-	parcelLayerGroup.setVisible(false);
-	parcelVectorLayer.setVisible(true);
-	setAllToggleSwitches(false);
-	// parcelVectorLayer.setSource(
-	// 	new VectorSource({
-	// 		url: dropUrl(e.target.value),
-	// 		format: new GeoJSON(),
-	// 	})
-	// );
-	parcelVectorSource.setUrl(dropUrl(e.target.value));
-	parcelVectorSource.refresh();
-	// code to attempt to zoom to addition - Doesnt work yet
-	parcelVectorSource.on('change', function (e) {
-		if (parcelVectorSource.getState() === 'ready') {
-			if (parcelVectorSource.getFeatures().length > 0) {
-				console.log(parcelVectorSource.getFeatures().length);
-				map.getView().fit(parcelVectorSource.getExtent(), {
+	additionVectorLayer.setVisible(true);
+	additionVectorSource.setUrl(dropUrl(e.target.value));
+	additionVectorSource.refresh();
+	additionVectorSource.on('change', function (e) {
+		if (additionVectorSource.getState() === 'ready') {
+			if (additionVectorSource.getFeatures().length > 0) {
+				map.getView().fit(additionVectorSource.getExtent(), {
 					size: map.getSize(),
 					padding: [300, 300, 300, 300],
 					duration: 2000,
@@ -506,10 +500,9 @@ dropdownReset.innerText = 'Addition Reset';
 dropdownReset.addEventListener('click', () => {
 	setAllToggleSwitches(true);
 	parcelLayerGroup.setVisible(true);
-	parcelVectorLayer.setVisible(false);
+	additionVectorLayer.setVisible(false);
 	dropdown.selectedIndex = 0;
-	map.getView().setCenter(fromLonLat([-96.74, 43.56]));
-	map.getView().setZoom(12);
+	resetMapZoom();
 });
 buttonArea.appendChild(dropdownReset);
 buttonArea.appendChild(dropdown);
