@@ -150,6 +150,19 @@ const setZoningVisible = (str) => {
 		viewZoningButton.innerText = 'Show Zoning';
 	}
 };
+const setPrelimVisible = (str) => {
+	const parcelLegend = document.getElementById('legend-parcels');
+	if (str) {
+		parcelLegend.style.display = 'block';
+		prelimLayerGroup.setVisible(true);
+		viewPrelimButton.innerText = 'Hide Preliminary Lots';
+		viewPrelimButton;
+	} else {
+		parcelLegend.style.display = 'block';
+		prelimLayerGroup.setVisible(false);
+		viewPrelimButton.innerText = 'Show Preliminary Lots';
+	}
+};
 
 // add map legend from module
 map.addControl(
@@ -265,21 +278,23 @@ buttonArea.appendChild(zoneField);
 // zoneField.appendChild(viewLayerGroup);
 
 // view lots button
-const viewLotsButton = document.createElement('button');
-viewLotsButton.className = 'view-lots button';
-viewLotsButton.innerText = 'Show Preliminary Lots';
-viewLotsButton.addEventListener('click', (e) => {
+const viewPrelimButton = document.createElement('button');
+viewPrelimButton.className = 'view-lots button';
+viewPrelimButton.innerText = 'Show Preliminary Lots';
+viewPrelimButton.addEventListener('click', (e) => {
 	if (prelimLayerGroup.getVisible()) {
-		prelimLayerGroup.setVisible(false);
+		setParcelVisible(true);
+		setPrelimVisible(false);
 		setSchoolDistrictVisible(false);
 		setZoningVisible(false);
 	} else {
-		prelimLayerGroup.setVisible(true);
+		setParcelVisible(true);
+		setPrelimVisible(true);
 		setSchoolDistrictVisible(false);
 		setZoningVisible(false);
 	}
 });
-zoneField.appendChild(viewLotsButton);
+zoneField.appendChild(viewPrelimButton);
 
 // view schools button
 const viewSchoolDistrict = document.createElement('button');
@@ -288,10 +303,12 @@ viewSchoolDistrict.innerText = 'Show School Districts';
 viewSchoolDistrict.addEventListener('click', () => {
 	if (schoolLayerGroup.getVisible()) {
 		setParcelVisible(true);
+		setPrelimVisible(false);
 		setSchoolDistrictVisible(false);
 		setZoningVisible(false);
 	} else {
 		setParcelVisible(false);
+		setPrelimVisible(false);
 		setSchoolDistrictVisible(true);
 		setZoningVisible(false);
 	}
@@ -305,10 +322,12 @@ viewZoningButton.innerText = 'Show Zoning';
 viewZoningButton.addEventListener('click', () => {
 	if (zoneLayerGroup.getVisible()) {
 		setParcelVisible(true);
+		setPrelimVisible(false);
 		setSchoolDistrictVisible(false);
 		setZoningVisible(false);
 	} else {
 		setParcelVisible(false);
+		setPrelimVisible(false);
 		setSchoolDistrictVisible(false);
 		setZoningVisible(true);
 	}
@@ -470,10 +489,12 @@ fetch(additionUrl)
 		tempArray.sort();
 		const sortedSet = new Set(tempArray);
 		sortedSet.forEach((element) => {
-			const elemOption = document.createElement('option');
-			elemOption.value = element.toString();
-			elemOption.text = element.toString();
-			dropdown.appendChild(elemOption);
+			if (element) {
+				const elemOption = document.createElement('option');
+				elemOption.value = element.toString();
+				elemOption.text = element.toString();
+				dropdown.appendChild(elemOption);
+			}
 		});
 	});
 
