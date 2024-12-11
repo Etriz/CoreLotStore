@@ -118,12 +118,14 @@ const sentenceCase = (str) => {
 		})
 		.join(' ');
 };
-const setParcelVisible = (str) => {
+const setParcelLegendVisible = (str) => {
 	const parcelLegend = document.getElementById('legend-parcels');
 	if (str) {
 		parcelLegend.style.display = 'block';
+		console.log('Parcel Legend On');
 	} else {
 		parcelLegend.style.display = 'none';
+		console.log('Parcel Legend Off');
 	}
 };
 const setSchoolDistrictVisible = (str) => {
@@ -151,14 +153,11 @@ const setZoningVisible = (str) => {
 	}
 };
 const setPrelimVisible = (str) => {
-	const parcelLegend = document.getElementById('legend-parcels');
 	if (str) {
-		parcelLegend.style.display = 'block';
 		prelimLayerGroup.setVisible(true);
 		viewPrelimButton.innerText = 'Hide Preliminary Lots';
 		viewPrelimButton;
 	} else {
-		parcelLegend.style.display = 'block';
 		prelimLayerGroup.setVisible(false);
 		viewPrelimButton.innerText = 'Show Preliminary Lots';
 	}
@@ -283,12 +282,12 @@ viewPrelimButton.className = 'view-lots button';
 viewPrelimButton.innerText = 'Show Preliminary Lots';
 viewPrelimButton.addEventListener('click', (e) => {
 	if (prelimLayerGroup.getVisible()) {
-		setParcelVisible(true);
+		setParcelLegendVisible(true);
 		setPrelimVisible(false);
 		setSchoolDistrictVisible(false);
 		setZoningVisible(false);
 	} else {
-		setParcelVisible(true);
+		setParcelLegendVisible(true);
 		setPrelimVisible(true);
 		setSchoolDistrictVisible(false);
 		setZoningVisible(false);
@@ -302,12 +301,12 @@ viewSchoolDistrict.className = 'view-schools button';
 viewSchoolDistrict.innerText = 'Show School Districts';
 viewSchoolDistrict.addEventListener('click', () => {
 	if (schoolLayerGroup.getVisible()) {
-		setParcelVisible(true);
+		setParcelLegendVisible(true);
 		setPrelimVisible(false);
 		setSchoolDistrictVisible(false);
 		setZoningVisible(false);
 	} else {
-		setParcelVisible(false);
+		setParcelLegendVisible(false);
 		setPrelimVisible(false);
 		setSchoolDistrictVisible(true);
 		setZoningVisible(false);
@@ -321,12 +320,12 @@ viewZoningButton.className = 'view-zoning button';
 viewZoningButton.innerText = 'Show Zoning';
 viewZoningButton.addEventListener('click', () => {
 	if (zoneLayerGroup.getVisible()) {
-		setParcelVisible(true);
+		setParcelLegendVisible(false);
 		setPrelimVisible(false);
 		setSchoolDistrictVisible(false);
 		setZoningVisible(false);
 	} else {
-		setParcelVisible(false);
+		setParcelLegendVisible(false);
 		setPrelimVisible(false);
 		setSchoolDistrictVisible(false);
 		setZoningVisible(true);

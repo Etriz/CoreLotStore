@@ -7,15 +7,18 @@ const allSchoolLayers = [];
 export { allSchoolLayers, sdSchoolCodes };
 
 const sdSchoolCodes = [
-	['Brandon Valley', 30, [0, 0, 0]],
+	['Sioux Falls', 116, [200, 200, 200]],
 	['Harrisburg', 72, [110, 25, 38]],
 	['Tea', 10, [255, 255, 0]],
 	['Tri-Valley', 94, [255, 255, 255]],
+	['Garretson', 66, [2, 25, 152]],
 	['Lennox', 91, [235, 125, 52]],
-	['Sioux Falls', 116, [200, 200, 200]],
 	['West Central', 73, [235, 0, 0]],
 	['Baltic', 21, [0, 74, 155]],
 	['Canton', 35, [0, 1, 164]],
+	['Brandon Valley', 30, [0, 0, 0]],
+	['Dell Rapids', 45, [255, 102, 0]],
+	['Parker', 107, [10, 14, 174]],
 ];
 
 const sdReqActivity = (code) => {
@@ -69,6 +72,16 @@ const colorMap = (idCode) => {
 					width: 2,
 				}),
 			});
+		case 66 /*Garretson*/:
+			return new Style({
+				fill: new Fill({
+					color: [2, 25, 152, 0.5],
+				}),
+				stroke: new Stroke({
+					color: [255, 255, 255, 1],
+					width: 2,
+				}),
+			});
 		case 10 /*Tea*/:
 			return new Style({
 				fill: new Fill({
@@ -99,6 +112,16 @@ const colorMap = (idCode) => {
 					width: 2,
 				}),
 			});
+		case 107 /*Parker*/:
+			return new Style({
+				fill: new Fill({
+					color: [10, 14, 174, 0.35],
+				}),
+				stroke: new Stroke({
+					color: [0, 0, 0, 1],
+					width: 2,
+				}),
+			});
 		case 116 /*Sioux Falls*/:
 			return new Style({
 				fill: new Fill({
@@ -113,6 +136,16 @@ const colorMap = (idCode) => {
 			return new Style({
 				fill: new Fill({
 					color: [235, 0, 0, 0.4],
+				}),
+				stroke: new Stroke({
+					color: [0, 0, 0, 1],
+					width: 2,
+				}),
+			});
+		case 45 /*Dell Rapids*/:
+			return new Style({
+				fill: new Fill({
+					color: [255, 102, 0, 0.7],
 				}),
 				stroke: new Stroke({
 					color: [0, 0, 0, 1],
