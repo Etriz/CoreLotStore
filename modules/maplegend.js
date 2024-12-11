@@ -114,7 +114,7 @@ openColorBlock.setAttribute('style', 'background-color:rgb(0,166,80)');
 openItem.appendChild(openColorBlock);
 openItem.appendChild(document.createElement('div')).innerText = 'Open Space';
 legendZoning.appendChild(openItem);
-// open space item
+// PUD item
 const pudItem = document.createElement('div');
 const pudColorBlock = document.createElement('div');
 pudColorBlock.className = 'color-block';

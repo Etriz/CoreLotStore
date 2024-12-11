@@ -122,10 +122,8 @@ const setParcelLegendVisible = (str) => {
 	const parcelLegend = document.getElementById('legend-parcels');
 	if (str) {
 		parcelLegend.style.display = 'block';
-		console.log('Parcel Legend On');
 	} else {
 		parcelLegend.style.display = 'none';
-		console.log('Parcel Legend Off');
 	}
 };
 const setSchoolDistrictVisible = (str) => {
@@ -421,7 +419,7 @@ const dropUrl = (additionName) => {
 		"https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=ADDITION='" +
 		replacement +
 		"'&outFields=*&outSR=4326&f=GEOjson";
-	console.log(url);
+	// console.log(url);
 	return url;
 };
 const dropdown = document.createElement('select');
@@ -430,20 +428,24 @@ dropdown.addEventListener('change', (e) => {
 	parcelLayerGroup.setVisible(false);
 	parcelVectorLayer.setVisible(true);
 	setAllToggleSwitches(false);
-	parcelVectorLayer.setSource(
-		new VectorSource({
-			url: dropUrl(e.target.value),
-			format: new GeoJSON(),
-		})
-	);
+	// parcelVectorLayer.setSource(
+	// 	new VectorSource({
+	// 		url: dropUrl(e.target.value),
+	// 		format: new GeoJSON(),
+	// 	})
+	// );
+	parcelVectorSource.setUrl(dropUrl(e.target.value));
+	parcelVectorSource.refresh();
 	// code to attempt to zoom to addition - Doesnt work yet
-	parcelVectorSource.once('change', function (e) {
+	parcelVectorSource.on('change', function (e) {
 		if (parcelVectorSource.getState() === 'ready') {
-			if (layers[0].getSource().getFeatures().length > 0) {
-				map.getView().fit(
-					parcelVectorSource.getExtent(),
-					map.getSize()
-				);
+			if (parcelVectorSource.getFeatures().length > 0) {
+				console.log(parcelVectorSource.getFeatures().length);
+				map.getView().fit(parcelVectorSource.getExtent(), {
+					size: map.getSize(),
+					padding: [300, 300, 300, 300],
+					duration: 2000,
+				});
 			}
 		}
 	});
