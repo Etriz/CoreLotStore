@@ -54,7 +54,7 @@ residentialItem.appendChild(resiColorBlock);
 residentialItem.appendChild(document.createElement('div')).innerText =
 	'Single Family';
 legendZoning.appendChild(residentialItem);
-// residential item
+// manufactured home item
 const manufacturedItem = document.createElement('div');
 const manuColorBlock = document.createElement('div');
 manuColorBlock.className = 'color-block';
@@ -97,6 +97,15 @@ mixedItem.appendChild(mixedColorBlock);
 mixedItem.appendChild(document.createElement('div')).innerText =
 	'Midtown Mixed';
 legendZoning.appendChild(mixedItem);
+// commercial item
+const commercialItem = document.createElement('div');
+const commercialColorBlock = document.createElement('div');
+commercialColorBlock.className = 'color-block';
+commercialColorBlock.setAttribute('style', 'background-color:rgb(238,28,37)');
+commercialItem.appendChild(commercialColorBlock);
+commercialItem.appendChild(document.createElement('div')).innerText =
+	'Commercial';
+legendZoning.appendChild(commercialItem);
 // industrial item
 const industrialItem = document.createElement('div');
 const industrialColorBlock = document.createElement('div');
