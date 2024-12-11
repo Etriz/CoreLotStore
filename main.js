@@ -320,7 +320,7 @@ viewZoningButton.className = 'view-zoning button';
 viewZoningButton.innerText = 'Show Zoning';
 viewZoningButton.addEventListener('click', () => {
 	if (zoneLayerGroup.getVisible()) {
-		setParcelLegendVisible(false);
+		setParcelLegendVisible(true);
 		setPrelimVisible(false);
 		setSchoolDistrictVisible(false);
 		setZoningVisible(false);

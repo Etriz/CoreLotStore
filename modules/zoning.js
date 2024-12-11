@@ -7,7 +7,7 @@ export const allZoneLayers = [];
 
 const zoneCodes = [
 	'RR',
-	'RS',
+	// 'RS', this code handled separately as over 1000 results
 	'RT-1',
 	'RCD',
 	'RHP',
@@ -35,6 +35,9 @@ const zoneCodes = [
 	'CN',
 	'REC',
 	'AG',
+	'POPUD',
+	'VPUD',
+	'DTPUD',
 ];
 const reqZoneMap = (code) => {
 	const url =
@@ -149,6 +152,7 @@ const colorMap = (zoneCode) => {
 			});
 		case 'POPUD':
 		case 'VPUD':
+		case 'DTPUD':
 			return new Style({
 				fill: new Fill({
 					color: [120, 43, 145, 0.5],
@@ -181,3 +185,27 @@ zoneCodes.map((code) => {
 	});
 	allZoneLayers.push(zoneLayer);
 });
+
+const rsZoneUrl = (page = 0) => {
+	const num = page * 1000;
+	return (
+		"https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/8/query?where=ZONECLASS='RS'&outFields=OBJECTID,ZONECLASS&outSR=4326&f=GEOjson&resultOffset=" +
+		num
+	);
+};
+
+for (let i = 0; i < 4; i++) {
+	const rsSource = new VectorSource({
+		url: rsZoneUrl(i),
+		format: new GeoJSON(),
+	});
+	const rsLayer = new VectorLayer({
+		source: rsSource,
+		className: 'RS',
+		id: 'RS',
+		group: 'zoneGroup',
+		visible: true,
+		style: colorMap('RS'),
+	});
+	allZoneLayers.push(rsLayer);
+}
