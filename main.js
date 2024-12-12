@@ -15,7 +15,6 @@ import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import Feature from 'ol/Feature';
 import Control from 'ol/control/Control';
-import ZoomToExtent from 'ol/control/ZoomToExtent.js';
 import { toLonLat } from 'ol/proj';
 import LayerGroup from 'ol/layer/Group';
 
@@ -99,7 +98,7 @@ map.addLayer(parcelLayerGroup);
 const prelimLayerGroup = new LayerGroup({
 	layers: [...allPrelimParcels],
 	id: 'prelimGroup',
-	visible: false,
+	visible: true,
 });
 map.addLayer(prelimLayerGroup);
 
@@ -151,23 +150,13 @@ const setZoningVisible = (str) => {
 		viewZoningButton.innerText = 'Show Zoning';
 	}
 };
-const setPrelimVisible = (str) => {
-	if (str) {
-		prelimLayerGroup.setVisible(true);
-		viewPrelimButton.innerText = 'Hide Preliminary Lots';
-		viewPrelimButton;
-	} else {
-		prelimLayerGroup.setVisible(false);
-		viewPrelimButton.innerText = 'Show Preliminary Lots';
-	}
-};
 const resetMapZoom = () => {
 	map.getView().fit(
 		parcelLayerGroup.getLayersArray()[0].getSource().getExtent(),
 		{
 			size: map.getSize(),
-			padding: [150, 100, 100, 100],
 			duration: 2000,
+			zoom: 25,
 		}
 	);
 };
@@ -182,6 +171,21 @@ map.addControl(
 // create the button area
 const buttonArea = document.createElement('div');
 buttonArea.className = 'button-area';
+buttonArea.style.display = 'block';
+
+// hamburger menu
+const menu = document.getElementById('hamburger-menu');
+menu.addEventListener('click', () => {
+	if (buttonArea.style.display === 'block') {
+		buttonArea.style.display = 'none';
+		legendArea.style.display = 'none';
+		menu.className = '';
+	} else {
+		buttonArea.style.display = 'block';
+		legendArea.style.display = 'block';
+		menu.className = 'open';
+	}
+});
 
 // reset button
 const resetButton = document.createElement('button');
@@ -191,6 +195,8 @@ resetButton.setAttribute('title', 'reset');
 resetButton.setAttribute('id', 'view-reset');
 resetButton.addEventListener('click', () => {
 	resetMapZoom();
+	additionVectorLayer.setVisible(false);
+	dropdown.selectedIndex = 0;
 });
 buttonArea.appendChild(resetButton);
 
@@ -280,25 +286,6 @@ buttonArea.appendChild(zoneField);
 // });
 // zoneField.appendChild(viewLayerGroup);
 
-// view lots button
-const viewPrelimButton = document.createElement('button');
-viewPrelimButton.className = 'view-lots button';
-viewPrelimButton.innerText = 'Show Preliminary Lots';
-viewPrelimButton.addEventListener('click', (e) => {
-	if (prelimLayerGroup.getVisible()) {
-		setParcelLegendVisible(true);
-		setPrelimVisible(false);
-		setSchoolDistrictVisible(false);
-		setZoningVisible(false);
-	} else {
-		setParcelLegendVisible(true);
-		setPrelimVisible(true);
-		setSchoolDistrictVisible(false);
-		setZoningVisible(false);
-	}
-});
-zoneField.appendChild(viewPrelimButton);
-
 // view schools button
 const viewSchoolDistrict = document.createElement('button');
 viewSchoolDistrict.className = 'view-schools button';
@@ -306,12 +293,10 @@ viewSchoolDistrict.innerText = 'Show School Districts';
 viewSchoolDistrict.addEventListener('click', () => {
 	if (schoolLayerGroup.getVisible()) {
 		setParcelLegendVisible(true);
-		setPrelimVisible(false);
 		setSchoolDistrictVisible(false);
 		setZoningVisible(false);
 	} else {
 		setParcelLegendVisible(false);
-		setPrelimVisible(false);
 		setSchoolDistrictVisible(true);
 		setZoningVisible(false);
 	}
@@ -325,12 +310,10 @@ viewZoningButton.innerText = 'Show Zoning';
 viewZoningButton.addEventListener('click', () => {
 	if (zoneLayerGroup.getVisible()) {
 		setParcelLegendVisible(true);
-		setPrelimVisible(false);
 		setSchoolDistrictVisible(false);
 		setZoningVisible(false);
 	} else {
 		setParcelLegendVisible(false);
-		setPrelimVisible(false);
 		setSchoolDistrictVisible(false);
 		setZoningVisible(true);
 	}

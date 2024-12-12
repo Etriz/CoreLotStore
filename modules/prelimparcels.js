@@ -31,26 +31,35 @@ const prelimUrl = (page = 0) => {
 // 	return ctx.createPattern(cnv, 'repeat');
 // }
 
+const addMiddleDot = (geometry) => {
+	geometry.getInteriorPoint();
+};
+
 for (let i = 0; i < 6; i++) {
 	const prelimSource = new VectorSource({
 		url: prelimUrl(i),
 		format: new GeoJSON(),
 	});
 	const prelimLayer = new VectorLayer({
+		minZoom: 14.5,
 		source: prelimSource,
 		className: 'Preliminary Lot',
 		id: 'prelim',
 		group: 'prelimGroup',
 		visible: true,
 		style: new Style({
-			fill: new Fill({
-				// color: makePattern(),
-				color: [125, 125, 125, 0.1],
-			}),
+			// fill: new Fill({
+			// 	// color: makePattern(),
+			// 	color: [125, 125, 125, 0.1],
+			// }),
 			stroke: new Stroke({
 				color: [125, 125, 125, 1],
 			}),
 		}),
 	});
+	// prelimLayer.getSource().on('featuresloadstart', () => {
+	// 	console.log('All features loaded');
+	// });
+	// prelimSource.features;
 	allPrelimParcels.push(prelimLayer);
 }
