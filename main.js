@@ -17,6 +17,7 @@ import Feature from 'ol/Feature';
 import Control from 'ol/control/Control';
 import { toLonLat } from 'ol/proj';
 import LayerGroup from 'ol/layer/Group';
+import { Style, Stroke } from 'ol/style';
 
 const localApiResponse = './data/apiresponse.json';
 const localSingleApiResponse = './data/singleapiresponse.json';
@@ -41,6 +42,12 @@ const additionVectorSource = new VectorSource({
 const additionVectorLayer = new VectorLayer({
 	source: additionVectorSource,
 	visible: false,
+	style: new Style({
+		stroke: new Stroke({
+			color: [0, 170, 255, 1],
+			width: 2,
+		}),
+	}),
 });
 
 // containers in index for the popup overlay
@@ -381,7 +388,7 @@ map.on('singleclick', function (evt) {
 							'<div>Lot: ' + relevantData.PARCEL_LOT + '</div>';
 					}
 					innerPopupContent +=
-						'<br /><div>For More Information, Email <a href="">info@corerealestate.com</a></div>';
+						'<br /><div>For More Information, Email<br/><a href="">info@core-companies.com</a></div>';
 					popupContent.innerHTML = innerPopupContent;
 				});
 		} catch (error) {
@@ -423,7 +430,7 @@ dropdown.addEventListener('change', (e) => {
 			if (additionVectorSource.getFeatures().length > 0) {
 				map.getView().fit(additionVectorSource.getExtent(), {
 					size: map.getSize(),
-					padding: [300, 300, 300, 300],
+					padding: [100, 100, 100, 100],
 					duration: 2000,
 				});
 			}
