@@ -5,6 +5,7 @@ import { allParcelLayers, parcelColorMap } from './modules/codestatus';
 import { allPrelimParcels } from './modules/prelimparcels';
 import { allZoneLayers } from './modules/zoning';
 import { legendArea } from './modules/maplegend';
+import { contactForm } from './modules/contactform';
 // import { geo } from './modules/countydata';
 import { Map, View, Overlay } from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -54,10 +55,24 @@ const additionVectorLayer = new VectorLayer({
 const popupContainer = document.getElementById('popup');
 const popupContent = document.getElementById('popup-content');
 const popupCloser = document.getElementById('popup-closer');
+const contactPopupContainer = document.getElementById('contact-popup');
+const contactPopupContent = document.getElementById('contact-popup-content');
+const contactPopupCloser = document.getElementById('contact-popup-closer');
 
 // create overlay layer
 const popupOverlay = new Overlay({
+	id: 'popup-overlay',
 	element: popupContainer,
+	autoPan: {
+		animation: {
+			duration: 250,
+		},
+	},
+});
+
+const contactPopupOverlay = new Overlay({
+	id: 'contact-overlay',
+	element: contactPopupContainer,
 	autoPan: {
 		animation: {
 			duration: 250,
@@ -73,7 +88,7 @@ const map = new Map({
 		center: fromLonLat([-96.74, 43.56]),
 		zoom: 12,
 	}),
-	overlays: [popupOverlay],
+	overlays: [popupOverlay, contactPopupOverlay],
 	target: 'map',
 });
 
@@ -336,7 +351,15 @@ const closePopup = () => {
 	popupCloser.blur();
 	return;
 };
+const closeContactPopup = () => {
+	contactPopupOverlay.setPosition(undefined);
+	contactPopupCloser.blur();
+	return;
+};
 popupCloser.onclick = function () {
+	closePopup();
+};
+contactPopupCloser.onclick = function () {
 	closePopup();
 };
 
@@ -348,6 +371,10 @@ const idUrl = (id) =>
 	id +
 	'&outFields=OBJECTID,TAG,ADDITION,PARCEL_LOT,BlockDesignator&outSR=4326&f=GEOjson&returnGeometry=false';
 
+const handlePopupLinkClick = (evt) => {
+	// evt.preventDefault();
+	console.log('popup link click');
+};
 // get feature at point clicked
 map.on('singleclick', function (evt) {
 	var feature = map.forEachFeatureAtPixel(
@@ -365,31 +392,50 @@ map.on('singleclick', function (evt) {
 	// const lonLat = toLonLat(coordinate);
 
 	if (feature) {
+		popupContent.innerHTML = '';
 		try {
 			fetch(idUrl(feature.getId()))
 				.then((res) => res.json())
 				.then((data) => data.features[0].properties)
 				.then((relevantData) => {
 					console.log(relevantData);
-					let innerPopupContent =
-						'<div>City Parcel  ID ' +
-						relevantData.TAG +
-						'</div><hr /><div>Subdivision: ' +
-						relevantData.ADDITION +
-						'</div>';
+					// const innerPopupContent = document.createElement('div');
+					const parcelId = document.createElement('div');
+					parcelId.innerText = 'City Parcel  ID ' + relevantData.TAG;
+					popupContent.appendChild(parcelId);
+					const line = document.createElement('hr');
+					popupContent.appendChild(line);
+					const subdivision = document.createElement('div');
+					subdivision.innerText =
+						'Subdivision: ' + relevantData.ADDITION;
+					popupContent.appendChild(subdivision);
 					if (relevantData.BlockDesignator) {
-						innerPopupContent +=
-							'<div>Block: ' +
-							relevantData.BlockDesignator +
-							'</div>';
+						const block = document.createElement('div');
+						block.innerText =
+							'Block: ' + relevantData.BlockDesignator;
+						popupContent.appendChild(block);
 					}
 					if (relevantData.PARCEL_LOT) {
-						innerPopupContent +=
-							'<div>Lot: ' + relevantData.PARCEL_LOT + '</div>';
+						const lot = document.createElement('div');
+						lot.innerText = 'Lot: ' + relevantData.PARCEL_LOT;
+						popupContent.appendChild(lot);
 					}
-					innerPopupContent +=
-						'<br /><div>For More Information, Email<br/><a href="">info@core-companies.com</a></div>';
-					popupContent.innerHTML = innerPopupContent;
+					const contactLinkArea = document.createElement('div');
+					contactLinkArea.innerText = 'For More Information, Email';
+					const lineBreak = document.createElement('br');
+					contactLinkArea.appendChild(lineBreak);
+					// contactLinkArea.appendChild(line);
+					const contactLink = document.createElement('a');
+					contactLink.innerText = 'info@core-companies.com';
+					contactLinkArea.appendChild(contactLink);
+					popupContent.appendChild(contactLinkArea);
+
+					// contactLink.addEventListener('click', (evt) => {
+					// 	evt.preventDefault();
+					// 	console.log('contact link click');
+					// });
+					console.log(popupContent);
+					// popupContent.innerHTML = innerPopupContent;
 				});
 		} catch (error) {
 			console.error(error);

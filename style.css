@@ -299,3 +299,11 @@ body {
 .ol-popup-closer:after {
 	content: '✖';
 }
+.contact-form {
+	width: 75%;
+	height: 75%;
+	margin: auto;
+	background-color: rgba(125, 125, 125, 0.2);
+	border-radius: 1rem;
+	border: 1px solid black;
+}
