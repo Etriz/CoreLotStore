@@ -5,7 +5,8 @@ export { legendArea };
 
 // create the map legend area
 const legendArea = document.createElement('div');
-legendArea.className = 'legend-area';
+legendArea.id = 'legend-area';
+legendArea.className = 'open';
 
 const legendField = document.createElement('fieldset');
 legendArea.appendChild(legendField);

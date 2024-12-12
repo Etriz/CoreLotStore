@@ -170,20 +170,23 @@ map.addControl(
 
 // create the button area
 const buttonArea = document.createElement('div');
-buttonArea.className = 'button-area';
+buttonArea.id = 'button-area';
+buttonArea.className = 'open';
 buttonArea.style.display = 'block';
 
 // hamburger menu
-const menu = document.getElementById('hamburger-menu');
-menu.addEventListener('click', () => {
-	if (buttonArea.style.display === 'block') {
-		buttonArea.style.display = 'none';
-		legendArea.style.display = 'none';
-		menu.className = '';
+const hamburgerMenu = document.getElementById('hamburger-menu');
+hamburgerMenu.addEventListener('click', () => {
+	if (hamburgerMenu.className == 'open') {
+		// buttonArea.style.display = 'none';
+		legendArea.className = '';
+		hamburgerMenu.className = '';
+		buttonArea.className = '';
 	} else {
-		buttonArea.style.display = 'block';
-		legendArea.style.display = 'block';
-		menu.className = 'open';
+		// buttonArea.style.display = 'block';
+		legendArea.className = 'open';
+		hamburgerMenu.className = 'open';
+		buttonArea.className = 'open';
 	}
 });
 
