@@ -377,7 +377,8 @@ const handlePopupLinkClick = () => {
 	setMenuView('hide');
 	lightbox.insertSlide({
 		content: contactFormContainer,
-	});
+		// width:'800px',
+	},1);
 	lightbox.open();
 };
 // get feature at point clicked
