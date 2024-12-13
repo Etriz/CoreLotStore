@@ -1,4 +1,5 @@
 @import 'node_modules/ol/ol.css';
+@import 'node_modules/glightbox/src/postcss/glightbox.css';
 
 html,
 body {
@@ -67,27 +68,27 @@ body {
 	top: 18px;
 }
 
-#hamburger-menu.open span:nth-child(1) {
+#hamburger-menu.show span:nth-child(1) {
 	top: 18px;
 	width: 0%;
 	left: 50%;
 }
 
-#hamburger-menu.open span:nth-child(2) {
+#hamburger-menu.show span:nth-child(2) {
 	-webkit-transform: rotate(45deg);
 	-moz-transform: rotate(45deg);
 	-o-transform: rotate(45deg);
 	transform: rotate(45deg);
 }
 
-#hamburger-menu.open span:nth-child(3) {
+#hamburger-menu.show span:nth-child(3) {
 	-webkit-transform: rotate(-45deg);
 	-moz-transform: rotate(-45deg);
 	-o-transform: rotate(-45deg);
 	transform: rotate(-45deg);
 }
 
-#hamburger-menu.open span:nth-child(4) {
+#hamburger-menu.show span:nth-child(4) {
 	top: 18px;
 	width: 0%;
 	left: 50%;
@@ -125,7 +126,7 @@ body {
 	background-color: rgba(128, 128, 128, 0.5);
 	transition: all 0.5s;
 }
-#legend-area.open {
+#legend-area.show {
 	right: 0.5rem;
 }
 #legend-area fieldset {
@@ -171,7 +172,7 @@ body {
 	border-radius: 0 0 0.5rem 0;
 	transition: all 0.5s;
 }
-#button-area.open {
+#button-area.show {
 	left: 0;
 }
 
@@ -299,11 +300,13 @@ body {
 .ol-popup-closer:after {
 	content: '✖';
 }
-.contact-form {
-	width: 75%;
-	height: 75%;
-	margin: auto;
-	background-color: rgba(125, 125, 125, 0.2);
+.contact {
+	position: relative;
+	/* width: 50vw;
+	height: 50vh; */
+	background-color: rgba(125, 125, 125, 0.5);
 	border-radius: 1rem;
-	border: 1px solid black;
+}
+.goverlay {
+	background: rgba(0, 0, 0, 0.75);
 }

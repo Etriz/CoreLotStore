@@ -5,7 +5,7 @@ import { allParcelLayers, parcelColorMap } from './modules/codestatus';
 import { allPrelimParcels } from './modules/prelimparcels';
 import { allZoneLayers } from './modules/zoning';
 import { legendArea } from './modules/maplegend';
-import { contactForm } from './modules/contactform';
+import { contactFormContainer } from './modules/contactform';
 // import { geo } from './modules/countydata';
 import { Map, View, Overlay } from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -19,6 +19,7 @@ import Control from 'ol/control/Control';
 import { toLonLat } from 'ol/proj';
 import LayerGroup from 'ol/layer/Group';
 import { Style, Stroke } from 'ol/style';
+import GLightbox from 'glightbox';
 
 const localApiResponse = './data/apiresponse.json';
 const localSingleApiResponse = './data/singleapiresponse.json';
@@ -70,15 +71,10 @@ const popupOverlay = new Overlay({
 	},
 });
 
-const contactPopupOverlay = new Overlay({
-	id: 'contact-overlay',
-	element: contactPopupContainer,
-	autoPan: {
-		animation: {
-			duration: 250,
-		},
-	},
-});
+// const contactPopupOverlay = new Overlay({
+// 	id: 'contact-overlay',
+// 	element: contactPopupContainer,
+// });
 
 // create map and add layers and set view
 const map = new Map({
@@ -88,7 +84,7 @@ const map = new Map({
 		center: fromLonLat([-96.74, 43.56]),
 		zoom: 12,
 	}),
-	overlays: [popupOverlay, contactPopupOverlay],
+	overlays: [popupOverlay],
 	target: 'map',
 });
 
@@ -182,6 +178,11 @@ const resetMapZoom = () => {
 		}
 	);
 };
+const setMenuView = (str) => {
+	legendArea.className = str;
+	hamburgerMenu.className = str;
+	buttonArea.className = str;
+};
 
 // add map legend from module
 map.addControl(
@@ -193,22 +194,16 @@ map.addControl(
 // create the button area
 const buttonArea = document.createElement('div');
 buttonArea.id = 'button-area';
-buttonArea.className = 'open';
+buttonArea.className = 'show';
 buttonArea.style.display = 'block';
 
 // hamburger menu
 const hamburgerMenu = document.getElementById('hamburger-menu');
 hamburgerMenu.addEventListener('click', () => {
-	if (hamburgerMenu.className == 'open') {
-		// buttonArea.style.display = 'none';
-		legendArea.className = '';
-		hamburgerMenu.className = '';
-		buttonArea.className = '';
+	if (hamburgerMenu.className == 'show') {
+		setMenuView('hide');
 	} else {
-		// buttonArea.style.display = 'block';
-		legendArea.className = 'open';
-		hamburgerMenu.className = 'open';
-		buttonArea.className = 'open';
+		setMenuView('show');
 	}
 });
 
@@ -359,9 +354,9 @@ const closeContactPopup = () => {
 popupCloser.onclick = function () {
 	closePopup();
 };
-contactPopupCloser.onclick = function () {
-	closePopup();
-};
+// contactPopupCloser.onclick = function () {
+// 	closeContactPopup();
+// };
 
 /**
  * Add a click handler to the map to render the popup.
@@ -371,9 +366,19 @@ const idUrl = (id) =>
 	id +
 	'&outFields=OBJECTID,TAG,ADDITION,PARCEL_LOT,BlockDesignator&outSR=4326&f=GEOjson&returnGeometry=false';
 
-const handlePopupLinkClick = (evt) => {
-	// evt.preventDefault();
-	console.log('popup link click');
+const lightbox = GLightbox({
+	openEffect: 'fade',
+	closeEffect: 'fade',
+	selector: '.glightbox',
+});
+document.body.appendChild(contactFormContainer);
+const handlePopupLinkClick = () => {
+	closePopup();
+	setMenuView('hide');
+	lightbox.insertSlide({
+		content: contactFormContainer,
+	});
+	lightbox.open();
 };
 // get feature at point clicked
 map.on('singleclick', function (evt) {
@@ -403,8 +408,7 @@ map.on('singleclick', function (evt) {
 					const parcelId = document.createElement('div');
 					parcelId.innerText = 'City Parcel  ID ' + relevantData.TAG;
 					popupContent.appendChild(parcelId);
-					const line = document.createElement('hr');
-					popupContent.appendChild(line);
+					popupContent.appendChild(document.createElement('hr'));
 					const subdivision = document.createElement('div');
 					subdivision.innerText =
 						'Subdivision: ' + relevantData.ADDITION;
@@ -420,22 +424,21 @@ map.on('singleclick', function (evt) {
 						lot.innerText = 'Lot: ' + relevantData.PARCEL_LOT;
 						popupContent.appendChild(lot);
 					}
+					popupContent.appendChild(document.createElement('hr'));
 					const contactLinkArea = document.createElement('div');
 					contactLinkArea.innerText = 'For More Information, Email';
-					const lineBreak = document.createElement('br');
-					contactLinkArea.appendChild(lineBreak);
-					// contactLinkArea.appendChild(line);
+					contactLinkArea.appendChild(document.createElement('br'));
 					const contactLink = document.createElement('a');
 					contactLink.innerText = 'info@core-companies.com';
+					contactLink.setAttribute('href', '#contact-form');
+					contactLink.className = 'glightbox';
 					contactLinkArea.appendChild(contactLink);
 					popupContent.appendChild(contactLinkArea);
 
-					// contactLink.addEventListener('click', (evt) => {
-					// 	evt.preventDefault();
-					// 	console.log('contact link click');
-					// });
-					console.log(popupContent);
-					// popupContent.innerHTML = innerPopupContent;
+					contactLink.addEventListener('click', (evt) => {
+						evt.preventDefault();
+						handlePopupLinkClick(coordinate);
+					});
 				});
 		} catch (error) {
 			console.error(error);

@@ -12,6 +12,7 @@
 	"dependencies": {
 		"colormap": "^2.3.2",
 		"geoshp": "^0.1.5",
+		"glightbox": "^3.3.0",
 		"ol": "latest",
 		"shp2geo": "^1.1.3"
 	}
