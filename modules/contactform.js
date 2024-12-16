@@ -1,4 +1,9 @@
+// const nodemailer = require('nodemailer');
+// import createTransport from 'nodemailer';
 export { contactFormContainer };
+export const parcelInfo = {};
+
+// const transporter = nodemailer.createTransport('SMTP', {});
 
 const contactFormContainer = document.createElement('div');
 contactFormContainer.id = 'contact-form';
@@ -74,6 +79,24 @@ agreeLabel.setAttribute('for', 'agree');
 checkArea.appendChild(agreeCheck);
 checkArea.appendChild(agreeLabel);
 // submit button
+const handleContactSubmit = (evt, parcelInfo) => {
+	evt.preventDefault();
+	console.log(parcelInfo);
+	// Email.send({
+	// 	Host: 'smtp.ethereal.email',
+	// 	port: 587,
+	// 	Username: 'jackie.gerhold33@ethereal.email',
+	// 	Password: 'zXY2mWMNm1tq186JBd',
+	// 	To: 'info@core-companies.com',
+	// 	From: 'corelotstore@core-companies.com',
+	// 	Subject: 'Parcel ' + parcelInfo.COUNTYID,
+	// 	Body: 'Requesting info',
+	// }).then((message) => alert(message));
+};
+
 const submitButton = document.createElement('button');
 submitButton.innerText = 'Submit';
+submitButton.addEventListener('click', (evt) => {
+	handleContactSubmit(evt, parcelInfo);
+});
 contactForm.appendChild(submitButton);

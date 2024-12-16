@@ -6,7 +6,7 @@ import { allPrelimParcels } from './modules/prelimparcels';
 import { allZoneLayers } from './modules/zoning';
 import { allFloodLayers } from './modules/floodplain';
 import { legendArea } from './modules/maplegend';
-import { contactFormContainer } from './modules/contactform';
+import { contactFormContainer, parcelInfo } from './modules/contactform';
 // import { geo } from './modules/countydata';
 import { Map, View, Overlay } from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -273,7 +273,7 @@ for (let index = 0; index < activityCodes.length; index++) {
 			.getAllLayers()
 			.find((layer) => layer.get('id') == e.target.id);
 		wantedLayer.setVisible(!wantedLayer.isVisible());
-		console.log(e.target.id);
+		// console.log(e.target.id);
 		if (!parcelLayerGroup.getVisible()) {
 			parcelLayerGroup.setVisible(true);
 			setAllToggleSwitches(true);
@@ -387,11 +387,6 @@ const closePopup = () => {
 	popupCloser.blur();
 	return;
 };
-const closeContactPopup = () => {
-	contactPopupOverlay.setPosition(undefined);
-	contactPopupCloser.blur();
-	return;
-};
 popupCloser.onclick = function () {
 	closePopup();
 };
@@ -423,15 +418,15 @@ lightbox.on('close', () => {
 lightbox.insertSlide(
 	{
 		content: contactFormContainer,
-		// width:'800px',
 	},
 	1
 );
 document.body.appendChild(contactFormContainer);
-const handlePopupLinkClick = () => {
+const handlePopupLinkClick = (str) => {
 	closePopup();
 	setMenuView('hide');
 	lightbox.open();
+	parcelInfo.COUNTYID = str;
 };
 // get feature at point clicked
 map.on('singleclick', function (evt) {
@@ -456,8 +451,7 @@ map.on('singleclick', function (evt) {
 				.then((res) => res.json())
 				.then((data) => data.features[0].properties)
 				.then((relevantData) => {
-					console.log(relevantData);
-					// const innerPopupContent = document.createElement('div');
+					// console.log(relevantData);
 					const parcelID = document.createElement('div');
 					parcelID.innerText = 'Parcel ID ' + relevantData.COUNTYID;
 					popupContent.appendChild(parcelID);
@@ -479,17 +473,18 @@ map.on('singleclick', function (evt) {
 					}
 					popupContent.appendChild(document.createElement('hr'));
 					const contactLinkArea = document.createElement('div');
-					contactLinkArea.innerText = 'For More Information ';
+					contactLinkArea.innerText = 'To Request More Information ';
 					const contactLink = document.createElement('a');
 					contactLink.innerText = 'Click Here';
 					contactLink.setAttribute('href', '#contact-form');
 					contactLink.className = 'glightbox';
+					contactLinkArea.appendChild(document.createElement('br'));
 					contactLinkArea.appendChild(contactLink);
 					popupContent.appendChild(contactLinkArea);
 
 					contactLink.addEventListener('click', (evt) => {
 						evt.preventDefault();
-						handlePopupLinkClick(coordinate);
+						handlePopupLinkClick(relevantData.COUNTYID);
 					});
 				});
 		} catch (error) {
