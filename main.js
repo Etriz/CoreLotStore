@@ -364,21 +364,32 @@ popupCloser.onclick = function () {
 const idUrl = (id) =>
 	'https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=OBJECTID=' +
 	id +
-	'&outFields=OBJECTID,TAG,ADDITION,PARCEL_LOT,BlockDesignator&outSR=4326&f=GEOjson&returnGeometry=false';
+	'&outFields=OBJECTID,COUNTYID,TAG,ADDITION,PARCEL_LOT,BlockDesignator&outSR=4326&f=GEOjson&returnGeometry=false';
 
 const lightbox = GLightbox({
 	openEffect: 'fade',
 	closeEffect: 'fade',
 	selector: '.glightbox',
+	draggable: false,
+	width: '500px',
+	height: 'auto',
+	zoomable: 'false',
+	closeButton: 'false',
 });
+lightbox.on('close', () => {
+	setMenuView('show');
+});
+lightbox.insertSlide(
+	{
+		content: contactFormContainer,
+		// width:'800px',
+	},
+	1
+);
 document.body.appendChild(contactFormContainer);
 const handlePopupLinkClick = () => {
 	closePopup();
 	setMenuView('hide');
-	lightbox.insertSlide({
-		content: contactFormContainer,
-		// width:'800px',
-	},1);
 	lightbox.open();
 };
 // get feature at point clicked
@@ -406,9 +417,9 @@ map.on('singleclick', function (evt) {
 				.then((relevantData) => {
 					console.log(relevantData);
 					// const innerPopupContent = document.createElement('div');
-					const parcelId = document.createElement('div');
-					parcelId.innerText = 'City Parcel  ID ' + relevantData.TAG;
-					popupContent.appendChild(parcelId);
+					const parcelID = document.createElement('div');
+					parcelID.innerText = 'Parcel ID ' + relevantData.COUNTYID;
+					popupContent.appendChild(parcelID);
 					popupContent.appendChild(document.createElement('hr'));
 					const subdivision = document.createElement('div');
 					subdivision.innerText =
@@ -427,10 +438,9 @@ map.on('singleclick', function (evt) {
 					}
 					popupContent.appendChild(document.createElement('hr'));
 					const contactLinkArea = document.createElement('div');
-					contactLinkArea.innerText = 'For More Information, Email';
-					contactLinkArea.appendChild(document.createElement('br'));
+					contactLinkArea.innerText = 'For More Information ';
 					const contactLink = document.createElement('a');
-					contactLink.innerText = 'info@core-companies.com';
+					contactLink.innerText = 'Click Here';
 					contactLink.setAttribute('href', '#contact-form');
 					contactLink.className = 'glightbox';
 					contactLinkArea.appendChild(contactLink);
