@@ -4,6 +4,7 @@ import { allSchoolLayers, sdSchoolCodes } from './modules/schooldistricts';
 import { allParcelLayers, parcelColorMap } from './modules/codestatus';
 import { allPrelimParcels } from './modules/prelimparcels';
 import { allZoneLayers } from './modules/zoning';
+import { allFloodLayers } from './modules/floodplain';
 import { legendArea } from './modules/maplegend';
 import { contactFormContainer } from './modules/contactform';
 // import { geo } from './modules/countydata';
@@ -104,6 +105,14 @@ const zoneLayerGroup = new LayerGroup({
 });
 map.addLayer(zoneLayerGroup);
 
+// add all layers from floodplain module
+const floodLayerGroup = new LayerGroup({
+	layers: [...allFloodLayers],
+	id: 'floodGroup',
+	visible: false,
+});
+map.addLayer(floodLayerGroup);
+
 // add all layers from codestatus module
 const parcelLayerGroup = new LayerGroup({
 	layers: [...allParcelLayers],
@@ -166,6 +175,15 @@ const setZoningVisible = (str) => {
 		zoneLegend.style.display = 'none';
 		zoneLayerGroup.setVisible(false);
 		viewZoningButton.innerText = 'Show Zoning';
+	}
+};
+const setFloodplainVisible = (str) => {
+	if (str) {
+		floodLayerGroup.setVisible(true);
+		viewFloodButton.innerText = 'Hide Floodplain';
+	} else {
+		floodLayerGroup.setVisible(false);
+		viewFloodButton.innerText = 'Show Floodplain';
 	}
 };
 const resetMapZoom = () => {
@@ -315,10 +333,12 @@ viewSchoolDistrict.addEventListener('click', () => {
 		setParcelLegendVisible(true);
 		setSchoolDistrictVisible(false);
 		setZoningVisible(false);
+		setFloodplainVisible(false);
 	} else {
 		setParcelLegendVisible(false);
 		setSchoolDistrictVisible(true);
 		setZoningVisible(false);
+		setFloodplainVisible(false);
 	}
 });
 zoneField.appendChild(viewSchoolDistrict);
@@ -332,13 +352,34 @@ viewZoningButton.addEventListener('click', () => {
 		setParcelLegendVisible(true);
 		setSchoolDistrictVisible(false);
 		setZoningVisible(false);
+		setFloodplainVisible(false);
 	} else {
 		setParcelLegendVisible(false);
 		setSchoolDistrictVisible(false);
 		setZoningVisible(true);
+		setFloodplainVisible(false);
 	}
 });
 zoneField.appendChild(viewZoningButton);
+
+// view floodplain button
+const viewFloodButton = document.createElement('button');
+viewFloodButton.className = 'view-floodplain button';
+viewFloodButton.innerText = 'Show Floodplain';
+viewFloodButton.addEventListener('click', () => {
+	if (floodLayerGroup.getVisible()) {
+		setParcelLegendVisible(true);
+		setSchoolDistrictVisible(false);
+		setZoningVisible(false);
+		setFloodplainVisible(false);
+	} else {
+		setParcelLegendVisible(true);
+		setSchoolDistrictVisible(false);
+		setZoningVisible(false);
+		setFloodplainVisible(true);
+	}
+});
+zoneField.appendChild(viewFloodButton);
 
 // click handler for closing popup
 const closePopup = () => {
@@ -503,19 +544,6 @@ const defaultOption = document.createElement('option');
 defaultOption.value = 'Default';
 defaultOption.text = '--Choose Addition--';
 dropdown.appendChild(defaultOption);
-
-// Promise.all(
-// 	activityCodes.map((id) =>
-// 		fetch(
-// 			'https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=ACTIVITY=' +
-// 				id +
-// 				'&outFields=OBJECTID,ADDITION&outSR=4326&f=GEOjson&returnGeometry=false'
-// 		).then((res) => res.json())
-// 	)
-// ).then((resAll) => {
-// 	// const abc = resAll.json();
-// 	// console.log(resAll);
-// });
 
 // code to get ONLY Addition names for dropdown options
 const additionUrl =
