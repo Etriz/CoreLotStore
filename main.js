@@ -7,6 +7,7 @@ import { allZoneLayers } from './modules/zoning';
 import { allFloodLayers } from './modules/floodplain';
 import { legendArea } from './modules/maplegend';
 import { contactFormContainer, parcelInfo } from './modules/contactform';
+import { getLoggedInStatus } from './modules/login';
 // import { geo } from './modules/countydata';
 import { Map, View, Overlay } from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -21,9 +22,7 @@ import { toLonLat } from 'ol/proj';
 import LayerGroup from 'ol/layer/Group';
 import { Style, Stroke } from 'ol/style';
 import GLightbox from 'glightbox';
-
-const localApiResponse = './data/apiresponse.json';
-const localSingleApiResponse = './data/singleapiresponse.json';
+import { Attribution, defaults as defaultControls } from 'ol/control.js';
 
 const satelliteTileLayer = new TileLayer({
 	source: new OSM({
@@ -72,10 +71,10 @@ const popupOverlay = new Overlay({
 	},
 });
 
-// const contactPopupOverlay = new Overlay({
-// 	id: 'contact-overlay',
-// 	element: contactPopupContainer,
-// });
+const attribution = new Attribution({
+	collapsible: false,
+	attributions: ' Boundaries Deemed Reliable But Not Guaranteed',
+});
 
 // create map and add layers and set view
 const map = new Map({
@@ -85,6 +84,7 @@ const map = new Map({
 		center: fromLonLat([-96.74, 43.56]),
 		zoom: 12,
 	}),
+	controls: defaultControls({ attribution: false }).extend([attribution]),
 	overlays: [popupOverlay],
 	target: 'map',
 });
@@ -448,7 +448,9 @@ map.on('singleclick', function (evt) {
 				.then((data) => data.features[0].properties)
 				.then((relevantData) => {
 					// console.log(relevantData);
+					const loggedIn = getLoggedInStatus();
 					const parcelID = document.createElement('div');
+
 					parcelID.innerText = 'Parcel ID ' + relevantData.COUNTYID;
 					popupContent.appendChild(parcelID);
 					popupContent.appendChild(document.createElement('hr'));
@@ -467,21 +469,31 @@ map.on('singleclick', function (evt) {
 						lot.innerText = 'Lot: ' + relevantData.PARCEL_LOT;
 						popupContent.appendChild(lot);
 					}
-					popupContent.appendChild(document.createElement('hr'));
-					const contactLinkArea = document.createElement('div');
-					contactLinkArea.innerText = 'To Request More Information ';
-					const contactLink = document.createElement('a');
-					contactLink.innerText = 'Click Here';
-					contactLink.setAttribute('href', '#contact-form');
-					contactLink.className = 'glightbox';
-					contactLinkArea.appendChild(document.createElement('br'));
-					contactLinkArea.appendChild(contactLink);
-					popupContent.appendChild(contactLinkArea);
-
-					contactLink.addEventListener('click', (evt) => {
-						evt.preventDefault();
-						handlePopupLinkClick(relevantData.COUNTYID);
-					});
+					if (loggedIn) {
+						const contactHello = document.createElement('div');
+						contactHello.innerText = 'Hello Joel!';
+						contactHello.style.color = 'red';
+						contactHello.style.fontWeight = 'bold';
+						popupContent.appendChild(contactHello);
+					} else {
+						popupContent.appendChild(document.createElement('hr'));
+						const contactLinkArea = document.createElement('div');
+						contactLinkArea.innerText =
+							'To Request More Information ';
+						const contactLink = document.createElement('a');
+						contactLink.innerText = 'Click Here';
+						contactLink.setAttribute('href', '#contact-form');
+						contactLink.className = 'glightbox';
+						contactLinkArea.appendChild(
+							document.createElement('br')
+						);
+						contactLinkArea.appendChild(contactLink);
+						popupContent.appendChild(contactLinkArea);
+						contactLink.addEventListener('click', (evt) => {
+							evt.preventDefault();
+							handlePopupLinkClick(relevantData.COUNTYID);
+						});
+					}
 				});
 		} catch (error) {
 			console.error(error);
