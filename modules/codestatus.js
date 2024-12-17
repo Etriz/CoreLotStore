@@ -28,6 +28,8 @@ const parcelColorMap = (actCode) => {
 					color: [255, 150, 0, 1],
 				}),
 			});
+		case 90:
+		case 92:
 		case 98:
 			return new Style({
 				fill: new Fill({
@@ -38,15 +40,8 @@ const parcelColorMap = (actCode) => {
 				}),
 			});
 		case 93:
-			return new Style({
-				fill: new Fill({
-					color: [0, 0, 255, fillAlpha],
-				}),
-				stroke: new Stroke({
-					color: [0, 0, 255, 1],
-				}),
-			});
 		case 94:
+		case 95:
 			return new Style({
 				fill: new Fill({
 					color: [0, 0, 255, fillAlpha],
@@ -56,6 +51,7 @@ const parcelColorMap = (actCode) => {
 				}),
 			});
 		case 96:
+		case 97:
 			return new Style({
 				fill: new Fill({
 					color: [255, 0, 0, fillAlpha],

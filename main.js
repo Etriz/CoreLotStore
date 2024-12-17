@@ -188,11 +188,10 @@ const setFloodplainVisible = (str) => {
 };
 const resetMapZoom = () => {
 	map.getView().fit(
-		parcelLayerGroup.getLayersArray()[0].getSource().getExtent(),
+		parcelLayerGroup.getLayersArray()[3].getSource().getExtent(),
 		{
 			size: map.getSize(),
 			duration: 2000,
-			zoom: 25,
 		}
 	);
 };
@@ -254,7 +253,7 @@ buttonArea.appendChild(satelliteView);
 
 // lot overlays area
 const checkField = document.createElement('fieldset');
-checkField.innerHTML = '<legend>Lot Overlays</legend>';
+checkField.innerHTML = '<legend>Open Spaces Overlays</legend>';
 buttonArea.appendChild(checkField);
 // lot code buttons
 for (let index = 0; index < activityCodes.length; index++) {
@@ -390,9 +389,6 @@ const closePopup = () => {
 popupCloser.onclick = function () {
 	closePopup();
 };
-// contactPopupCloser.onclick = function () {
-// 	closeContactPopup();
-// };
 
 /**
  * Add a click handler to the map to render the popup.
