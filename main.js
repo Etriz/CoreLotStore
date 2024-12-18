@@ -6,6 +6,7 @@ import { allPrelimParcels } from './modules/prelimparcels';
 import { allZoneLayers } from './modules/zoning';
 import { allFloodLayers } from './modules/floodplain';
 import { legendArea } from './modules/maplegend';
+import { showParcelInfo } from './modules/popup';
 import { contactFormContainer, parcelInfo } from './modules/contactform';
 import { getLoggedInStatus } from './modules/login';
 // import { geo } from './modules/countydata';
@@ -192,6 +193,7 @@ const resetMapZoom = () => {
 		{
 			size: map.getSize(),
 			duration: 2000,
+			padding: [20, 0, 20, 0],
 		}
 	);
 };
@@ -396,7 +398,7 @@ popupCloser.onclick = function () {
 const idUrl = (id) =>
 	'https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=OBJECTID=' +
 	id +
-	'&outFields=OBJECTID,COUNTYID,TAG,ADDITION,PARCEL_LOT,BlockDesignator&outSR=4326&f=GEOjson&returnGeometry=false';
+	'&outFields=*&outSR=4326&f=GEOjson&returnGeometry=false';
 
 const lightbox = GLightbox({
 	openEffect: 'fade',
@@ -449,46 +451,9 @@ map.on('singleclick', function (evt) {
 				.then((relevantData) => {
 					// console.log(relevantData);
 					const loggedIn = getLoggedInStatus();
-					const parcelID = document.createElement('div');
-
-					parcelID.innerText = 'Parcel ID ' + relevantData.COUNTYID;
-					popupContent.appendChild(parcelID);
-					popupContent.appendChild(document.createElement('hr'));
-					const subdivision = document.createElement('div');
-					subdivision.innerText =
-						'Subdivision: ' + relevantData.ADDITION;
-					popupContent.appendChild(subdivision);
-					if (relevantData.BlockDesignator) {
-						const block = document.createElement('div');
-						block.innerText =
-							'Block: ' + relevantData.BlockDesignator;
-						popupContent.appendChild(block);
-					}
-					if (relevantData.PARCEL_LOT) {
-						const lot = document.createElement('div');
-						lot.innerText = 'Lot: ' + relevantData.PARCEL_LOT;
-						popupContent.appendChild(lot);
-					}
-					if (loggedIn) {
-						const contactHello = document.createElement('div');
-						contactHello.innerText = 'Hello Joel!';
-						contactHello.style.color = 'red';
-						contactHello.style.fontWeight = 'bold';
-						popupContent.appendChild(contactHello);
-					} else {
-						popupContent.appendChild(document.createElement('hr'));
-						const contactLinkArea = document.createElement('div');
-						contactLinkArea.innerText =
-							'To Request More Information ';
-						const contactLink = document.createElement('a');
-						contactLink.innerText = 'Click Here';
-						contactLink.setAttribute('href', '#contact-form');
-						contactLink.className = 'glightbox';
-						contactLinkArea.appendChild(
-							document.createElement('br')
-						);
-						contactLinkArea.appendChild(contactLink);
-						popupContent.appendChild(contactLinkArea);
+					showParcelInfo(loggedIn, relevantData);
+					const contactLink = document.getElementById('contact-link');
+					if (contactLink != null) {
 						contactLink.addEventListener('click', (evt) => {
 							evt.preventDefault();
 							handlePopupLinkClick(relevantData.COUNTYID);
