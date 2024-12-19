@@ -1,4 +1,3 @@
-// import { mapZoomToExtent } from '../main';
 import { searchVectorLayer } from './searchlayer';
 export { loginBox, getLoggedInStatus };
 
@@ -71,13 +70,13 @@ loginSubmit.addEventListener('click', (evt) => {
 });
 
 // logged in search box
-const searchArea = document.createElement('div');
+const searchArea = document.createElement('form');
 searchArea.id = 'search';
 const searchInput = document.createElement('input');
 searchInput.type = 'search';
-searchInput.id = 'site-search';
 searchInput.placeholder = 'Search County ID';
 const searchButton = document.createElement('button');
+searchButton.id = 'site-search';
 searchButton.innerText = 'Search';
 searchButton.addEventListener('click', (evt) => {
 	evt.preventDefault();
@@ -85,7 +84,6 @@ searchButton.addEventListener('click', (evt) => {
 	searchVectorLayer.getSource().setUrl(findByCountyId(value));
 	searchVectorLayer.getSource().refresh();
 	searchInput.value = '';
-	// mapZoomToExtent(searchVectorLayer.getSource());
 });
 const resetSearchButton = document.createElement('button');
 resetSearchButton.innerText = 'Reset';

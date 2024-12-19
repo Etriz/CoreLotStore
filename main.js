@@ -566,3 +566,17 @@ dropdownReset.addEventListener('click', () => {
 });
 buttonArea.appendChild(dropdownReset);
 buttonArea.appendChild(dropdown);
+
+// logged in search and reset buttons
+const siteSearch = document.getElementById('site-search');
+siteSearch.addEventListener('click', () => {
+	const source = searchVectorLayer.getSource();
+	source.refresh();
+	setTimeout(() => {
+		map.getView().fit(source.getExtent(), {
+			size: map.getSize(),
+			padding: [200, 200, 200, 200],
+			duration: 2000,
+		});
+	}, 500);
+});
