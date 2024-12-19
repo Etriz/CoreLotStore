@@ -136,6 +136,41 @@ body {
   border: none;
   border-bottom: 1px solid #dde3ec;
 }
+#header #search {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  position: fixed;
+  z-index: 999;
+  top: 35px;
+  right: 5rem;
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 0 0 0.5rem 0.5rem;
+  padding: 0.5rem;
+}
+#header #search input {
+  padding: 5px;
+  border: none;
+  background: whitesmoke;
+  outline: none;
+  resize: none;
+  border-bottom: 2px solid #dde3ec;
+}
+#header #search input:focus {
+  border-bottom-color: black;
+}
+#header #search button {
+  cursor: pointer;
+  padding: 0.25rem;
+  margin-left: 1rem;
+  text-decoration: none;
+  font-size: inherit;
+  text-align: center;
+  line-height: 0.4em;
+  border-radius: 4px;
+  border: none;
+  border-bottom: 1px solid #dde3ec;
+}
 
 #map {
   position: absolute;

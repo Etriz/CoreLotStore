@@ -9,6 +9,7 @@ import { legendArea } from './modules/maplegend';
 import { showParcelInfo } from './modules/popup';
 import { contactFormContainer, parcelInfo } from './modules/contactform';
 import { getLoggedInStatus } from './modules/login';
+import { searchVectorLayer } from './modules/searchlayer';
 // import { geo } from './modules/countydata';
 import { Map, View, Overlay } from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -127,6 +128,9 @@ const prelimLayerGroup = new LayerGroup({
 });
 map.addLayer(prelimLayerGroup);
 
+// add from searchlayer module
+map.addLayer(searchVectorLayer);
+
 /* GLOBAL USE FUNCTIONS*/
 const setAllToggleSwitches = (state) => {
 	const inputSwitches = Array.from(document.getElementsByTagName('input'));
@@ -193,6 +197,17 @@ const resetMapZoom = () => {
 			padding: [20, 0, 20, 0],
 		}
 	);
+};
+export const mapZoomToExtent = (source) => {
+	if (source.getState() === 'ready') {
+		if (source.getFeatures().length > 0) {
+			map.getView().fit(source.getExtent(), {
+				size: map.getSize(),
+				padding: [100, 100, 100, 100],
+				duration: 2000,
+			});
+		}
+	}
 };
 const setMenuView = (str) => {
 	legendArea.className = str;
