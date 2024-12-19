@@ -57,9 +57,6 @@ const additionVectorLayer = new VectorLayer({
 const popupContainer = document.getElementById('popup');
 const popupContent = document.getElementById('popup-content');
 const popupCloser = document.getElementById('popup-closer');
-const contactPopupContainer = document.getElementById('contact-popup');
-const contactPopupContent = document.getElementById('contact-popup-content');
-const contactPopupCloser = document.getElementById('contact-popup-closer');
 
 // create overlay layer
 const popupOverlay = new Overlay({
@@ -181,10 +178,10 @@ const setZoningVisible = (str) => {
 const setFloodplainVisible = (str) => {
 	if (str) {
 		floodLayerGroup.setVisible(true);
-		viewFloodButton.innerText = 'Hide Floodplain';
+		viewFloodButton.innerText = 'Hide Flood Restrictions in City';
 	} else {
 		floodLayerGroup.setVisible(false);
-		viewFloodButton.innerText = 'Show Floodplain';
+		viewFloodButton.innerText = 'Show Flood Restrictions in City';
 	}
 };
 const resetMapZoom = () => {
@@ -366,7 +363,7 @@ zoneField.appendChild(viewZoningButton);
 // view floodplain button
 const viewFloodButton = document.createElement('button');
 viewFloodButton.className = 'view-floodplain button';
-viewFloodButton.innerText = 'Show Floodplain';
+viewFloodButton.innerText = 'Show Flood Restrictions In City';
 viewFloodButton.addEventListener('click', () => {
 	if (floodLayerGroup.getVisible()) {
 		setParcelLegendVisible(true);
@@ -547,7 +544,6 @@ const dropdownReset = document.createElement('button');
 dropdownReset.className = 'dropdown-reset button';
 dropdownReset.innerText = 'Addition Reset';
 dropdownReset.addEventListener('click', () => {
-	setAllToggleSwitches(true);
 	parcelLayerGroup.setVisible(true);
 	additionVectorLayer.setVisible(false);
 	dropdown.selectedIndex = 0;

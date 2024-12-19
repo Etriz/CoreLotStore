@@ -24,6 +24,11 @@ export const showParcelInfo = (loggedIn = false, data) => {
 		lot.innerText = 'Lot: ' + data.PARCEL_LOT;
 		popupContent.appendChild(lot);
 	}
+	if (data.ADDRESS !== '0') {
+		const address = document.createElement('div');
+		address.innerText = 'Address: ' + data.ADDRESS;
+		popupContent.appendChild(address);
+	}
 	if (!loggedIn) {
 		popupContent.appendChild(document.createElement('hr'));
 		const contactLinkArea = document.createElement('div');
