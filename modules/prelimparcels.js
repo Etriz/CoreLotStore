@@ -31,17 +31,13 @@ const prelimUrl = (page = 0) => {
 // 	return ctx.createPattern(cnv, 'repeat');
 // }
 
-const addMiddleDot = (geometry) => {
-	geometry.getInteriorPoint();
-};
-
 for (let i = 0; i < 6; i++) {
 	const prelimSource = new VectorSource({
 		url: prelimUrl(i),
 		format: new GeoJSON(),
 	});
 	const prelimLayer = new VectorLayer({
-		minZoom: 14.5,
+		minZoom: 15,
 		source: prelimSource,
 		className: 'Preliminary Lot',
 		id: 'prelim',
@@ -57,9 +53,6 @@ for (let i = 0; i < 6; i++) {
 			}),
 		}),
 	});
-	// prelimLayer.getSource().on('featuresloadstart', () => {
-	// 	console.log('All features loaded');
-	// });
-	// prelimSource.features;
+
 	allPrelimParcels.push(prelimLayer);
 }
