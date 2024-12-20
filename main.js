@@ -3,6 +3,7 @@ import { activityCodes } from './modules/activitycodes';
 import { allSchoolLayers } from './modules/schooldistricts';
 import { allParcelLayers } from './modules/codestatus';
 import { allPrelimParcels } from './modules/prelimparcels';
+import { allPrelimAddress } from './modules/prelimaddress';
 import { allZoneLayers } from './modules/zoning';
 import { allFloodLayers } from './modules/floodplain';
 import { legendArea } from './modules/maplegend';
@@ -127,6 +128,14 @@ const prelimLayerGroup = new LayerGroup({
 	visible: true,
 });
 map.addLayer(prelimLayerGroup);
+
+// add all layers from prelimaddress module
+const prelimAddressLayerGroup = new LayerGroup({
+	layers: [...allPrelimAddress],
+	id: 'prelimGroup',
+	visible: true,
+});
+map.addLayer(prelimAddressLayerGroup);
 
 // add from searchlayer module
 map.addLayer(searchVectorLayer);
@@ -463,7 +472,7 @@ map.on('singleclick', function (evt) {
 				.then((res) => res.json())
 				.then((data) => data.features[0].properties)
 				.then((relevantData) => {
-					// console.log(relevantData);
+					console.log(relevantData);
 					const loggedIn = getLoggedInStatus();
 					showParcelInfo(loggedIn, relevantData);
 					const contactLink = document.getElementById('contact-link');
