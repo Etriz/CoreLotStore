@@ -1,7 +1,7 @@
 import './style.css';
 import { activityCodes } from './modules/activitycodes';
-import { allSchoolLayers, sdSchoolCodes } from './modules/schooldistricts';
-import { allParcelLayers, parcelColorMap } from './modules/codestatus';
+import { allSchoolLayers } from './modules/schooldistricts';
+import { allParcelLayers } from './modules/codestatus';
 import { allPrelimParcels } from './modules/prelimparcels';
 import { allZoneLayers } from './modules/zoning';
 import { allFloodLayers } from './modules/floodplain';
@@ -579,4 +579,12 @@ siteSearch.addEventListener('click', () => {
 			duration: 2000,
 		});
 	}, 500);
+});
+const fetchBtn = document.getElementById('fetchBtn');
+fetchBtn.addEventListener('click', async () => {
+	const response = await fetch('./netlify/functions/pokedex').then(
+		(response) => response.json()
+	);
+
+	console.log(JSON.stringify(response));
 });

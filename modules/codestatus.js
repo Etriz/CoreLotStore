@@ -6,7 +6,7 @@ import { Style, Fill, Stroke } from 'ol/style';
 import { activityCodes } from './activitycodes';
 
 const allParcelLayers = [];
-export { allParcelLayers, parcelColorMap };
+export { allParcelLayers };
 
 const reqActivity = (code) => {
 	const url =
@@ -65,18 +65,44 @@ const parcelColorMap = (actCode) => {
 	}
 };
 
+const manyPagesUrl = (page = 0) => {
+	const num = page * 1000;
+	return (
+		'https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=ACTIVITY=93&outFields=*&outSR=4326&f=GEOjson&resultOffset=' +
+		num
+	);
+};
+
 activityCodes.map((actCode) => {
-	const actSource = new VectorSource({
-		url: reqActivity(actCode[1]),
-		format: new GeoJSON(),
-	});
-	const actLayer = new VectorLayer({
-		source: actSource,
-		className: actCode[0],
-		id: actCode[1],
-		group: 'parcelGroup',
-		visible: true,
-		style: parcelColorMap(actCode[1]),
-	});
-	allParcelLayers.push(actLayer);
+	if (actCode[1] == 93) {
+		for (let i = 0; i < 2; i++) {
+			const code93PagesSource = new VectorSource({
+				url: manyPagesUrl(i),
+				format: new GeoJSON(),
+			});
+			const code93PagesLayer = new VectorLayer({
+				source: code93PagesSource,
+				className: actCode[0],
+				id: actCode[1],
+				group: 'parcelGroup',
+				visible: true,
+				style: parcelColorMap(actCode[1]),
+			});
+			allParcelLayers.push(code93PagesLayer);
+		}
+	} else {
+		const actSource = new VectorSource({
+			url: reqActivity(actCode[1]),
+			format: new GeoJSON(),
+		});
+		const actLayer = new VectorLayer({
+			source: actSource,
+			className: actCode[0],
+			id: actCode[1],
+			group: 'parcelGroup',
+			visible: true,
+			style: parcelColorMap(actCode[1]),
+		});
+		allParcelLayers.push(actLayer);
+	}
 });
