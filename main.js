@@ -282,10 +282,12 @@ for (let index = 0; index < activityCodes.length; index++) {
 	label.innerText = activityCodes[index][0];
 
 	checkBox.addEventListener('click', function (e) {
-		const wantedLayer = map
+		const wantedLayers = map
 			.getAllLayers()
-			.find((layer) => layer.get('id') == e.target.id);
-		wantedLayer.setVisible(!wantedLayer.isVisible());
+			.filter((layer) => layer.get('id') == e.target.id);
+		wantedLayers.forEach((item) => {
+			item.setVisible(!item.isVisible());
+		});
 		// console.log(e.target.id);
 		if (!parcelLayerGroup.getVisible()) {
 			parcelLayerGroup.setVisible(true);
