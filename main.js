@@ -132,7 +132,7 @@ map.addLayer(prelimLayerGroup);
 // add all layers from prelimaddress module
 const prelimAddressLayerGroup = new LayerGroup({
 	layers: [...allPrelimAddress],
-	id: 'prelimGroup',
+	id: 'prelimAddressGroup',
 	visible: true,
 });
 map.addLayer(prelimAddressLayerGroup);
@@ -423,6 +423,11 @@ const idUrl = (id) =>
 	id +
 	'&outFields=*&outSR=4326&f=GEOjson&returnGeometry=false';
 
+const addressUrl = (id) =>
+	'https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/0/query?where=OBJECTID=' +
+	id +
+	'&outFields=*&outSR=4326&f=Geojson&returnGeometry=false';
+
 const lightbox = GLightbox({
 	openEffect: 'fade',
 	closeEffect: 'fade',
@@ -458,7 +463,10 @@ map.on('singleclick', function (evt) {
 		},
 		{
 			layerFilter: function (layer) {
-				return layer.get('group') === 'parcelGroup';
+				return (
+					layer.get('group') === 'prelimAddressGroup' ||
+					layer.get('group') === 'parcelGroup'
+				);
 			},
 		}
 	);
@@ -467,25 +475,41 @@ map.on('singleclick', function (evt) {
 
 	if (feature) {
 		popupContent.innerHTML = '';
-		try {
-			fetch(idUrl(feature.getId()))
-				.then((res) => res.json())
-				.then((data) => data.features[0].properties)
-				.then((relevantData) => {
-					console.log(relevantData);
-					const loggedIn = getLoggedInStatus();
-					showParcelInfo(loggedIn, relevantData);
-					const contactLink = document.getElementById('contact-link');
-					if (contactLink != null) {
-						contactLink.addEventListener('click', (evt) => {
-							evt.preventDefault();
-							handlePopupLinkClick(relevantData.COUNTYID);
-						});
-					}
-				});
-		} catch (error) {
-			console.error(error);
-			closePopup();
+		const featureId = feature.getId();
+		const loggedIn = getLoggedInStatus();
+		if (feature.getGeometry().getType() == 'Point') {
+			try {
+				fetch(addressUrl(featureId))
+					.then((res) => res.json())
+					.then((data) => data.features[0].properties)
+					.then((relevantData) => {
+						showParcelInfo(loggedIn, relevantData, 'address');
+					});
+			} catch (error) {
+				console.error(error);
+				closePopup();
+			}
+		} else {
+			try {
+				fetch(idUrl(featureId))
+					.then((res) => res.json())
+					.then((data) => data.features[0].properties)
+					.then((relevantData) => {
+						// console.log(relevantData);
+						showParcelInfo(loggedIn, relevantData, 'standard');
+						const contactLink =
+							document.getElementById('contact-link');
+						if (contactLink != null) {
+							contactLink.addEventListener('click', (evt) => {
+								evt.preventDefault();
+								handlePopupLinkClick(relevantData.COUNTYID);
+							});
+						}
+					});
+			} catch (error) {
+				console.error(error);
+				closePopup();
+			}
 		}
 		popupOverlay.setPosition(coordinate);
 	} else {

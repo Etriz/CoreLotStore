@@ -24,7 +24,7 @@ for (let i = 0; i < 5; i++) {
 		source: pointSource,
 		className: 'Preliminary Address',
 		id: 'prelim',
-		group: 'prelimGroup',
+		group: 'prelimAddressGroup',
 		visible: true,
 		style: new Style({
 			image: new Circle({
