@@ -8,7 +8,7 @@ import { allZoneLayers } from './modules/zoning';
 import { allFloodLayers } from './modules/floodplain';
 import { legendArea } from './modules/maplegend';
 import { showParcelInfo } from './modules/popup';
-import { contactFormContainer, parcelInfo } from './modules/contactform';
+import { contactFormContainer, contactInfo } from './modules/contactform';
 import { getLoggedInStatus } from './modules/login';
 import { searchVectorLayer } from './modules/searchlayer';
 // import { geo } from './modules/countydata';
@@ -452,7 +452,7 @@ const handlePopupLinkClick = (str) => {
 	closePopup();
 	setMenuView('hide');
 	lightbox.open();
-	parcelInfo.COUNTYID = str;
+	contactInfo.COUNTYID = str;
 };
 // get feature at point clicked
 map.on('singleclick', function (evt) {
@@ -617,9 +617,15 @@ siteSearch.addEventListener('click', () => {
 });
 const fetchBtn = document.getElementById('fetchBtn');
 fetchBtn.addEventListener('click', async () => {
-	const response = await fetch('./netlify/functions/pokedex').then(
-		(response) => response.json()
-	);
-
+	const response = await fetch('/.netlify/functions/sendEmail', {
+		method: 'POST',
+		body: JSON.stringify({
+			id: '82444',
+			firstName: 'First',
+			lastName: 'Last',
+			email: 'email@gmail.com',
+			phone: '605-438-2673',
+		}),
+	}).then((response) => response.json());
 	console.log(JSON.stringify(response));
 });

@@ -131,3 +131,6 @@ dist
 
 # large files
 /data/parcels.geojson
+
+# Local Netlify folder
+.netlify

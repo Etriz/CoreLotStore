@@ -1,9 +1,5 @@
-// const nodemailer = require('nodemailer');
-// import createTransport from 'nodemailer';
 export { contactFormContainer };
-export const parcelInfo = {};
-
-// const transporter = nodemailer.createTransport('SMTP', {});
+export const contactInfo = {};
 
 const contactFormContainer = document.createElement('div');
 contactFormContainer.id = 'contact-form';
@@ -22,6 +18,9 @@ const firstNameInput = document.createElement('input');
 firstNameInput.className = 'form-input';
 firstNameInput.id = 'firstname';
 firstNameInput.required = 'true';
+firstNameInput.addEventListener('change', () => {
+	contactInfo.firstName = firstNameInput.value;
+});
 const firstNameLabel = document.createElement('label');
 firstNameLabel.innerText = 'First Name';
 firstNameLabel.setAttribute('for', 'firstname');
@@ -34,6 +33,9 @@ const lastNameInput = document.createElement('input');
 lastNameInput.className = 'form-input';
 lastNameInput.id = 'lastname';
 lastNameInput.required = 'true';
+lastNameInput.addEventListener('change', () => {
+	contactInfo.lastName = lastNameInput.value;
+});
 const lastNameLabel = document.createElement('label');
 lastNameLabel.innerText = 'Last Name';
 lastNameLabel.setAttribute('for', 'lastname');
@@ -47,6 +49,9 @@ emailInput.className = 'form-input';
 emailInput.id = 'email';
 emailInput.type = 'email';
 emailInput.required = 'true';
+emailInput.addEventListener('change', () => {
+	contactInfo.email = emailInput.value;
+});
 const emailLabel = document.createElement('label');
 emailLabel.innerText = 'Email';
 emailLabel.setAttribute('for', 'lastname');
@@ -59,6 +64,9 @@ const phoneInput = document.createElement('input');
 phoneInput.className = 'form-input';
 phoneInput.id = 'phone';
 phoneInput.type = 'phone';
+phoneInput.addEventListener('change', () => {
+	contactInfo.phone = phoneInput.value;
+});
 const phoneLabel = document.createElement('label');
 phoneLabel.innerText = 'Phone Number';
 phoneLabel.setAttribute('for', 'lastname');
@@ -79,24 +87,19 @@ agreeLabel.setAttribute('for', 'agree');
 checkArea.appendChild(agreeCheck);
 checkArea.appendChild(agreeLabel);
 // submit button
-const handleContactSubmit = (evt, parcelInfo) => {
+const handleContactSubmit = async (evt, parcelInfo) => {
 	evt.preventDefault();
 	console.log(parcelInfo);
-	// Email.send({
-	// 	Host: 'smtp.ethereal.email',
-	// 	port: 587,
-	// 	Username: 'jackie.gerhold33@ethereal.email',
-	// 	Password: 'zXY2mWMNm1tq186JBd',
-	// 	To: 'info@core-companies.com',
-	// 	From: 'corelotstore@core-companies.com',
-	// 	Subject: 'Parcel ' + parcelInfo.COUNTYID,
-	// 	Body: 'Requesting info',
-	// }).then((message) => alert(message));
+	const response = await fetch('/.netlify/functions/sendEmail', {
+		method: 'POST',
+		body: JSON.stringify(contactInfo),
+	}).then((response) => response.json());
+	console.log(JSON.stringify(response));
 };
 
 const submitButton = document.createElement('button');
 submitButton.innerText = 'Submit';
 submitButton.addEventListener('click', (evt) => {
-	handleContactSubmit(evt, parcelInfo);
+	handleContactSubmit(evt, contactInfo);
 });
 contactForm.appendChild(submitButton);
