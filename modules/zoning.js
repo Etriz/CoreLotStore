@@ -48,6 +48,7 @@ const reqZoneMap = (code) => {
 };
 
 const colorMap = (zoneCode) => {
+	const alpha = 1;
 	switch (zoneCode) {
 		case 'RR':
 		case 'RS':
@@ -56,42 +57,30 @@ const colorMap = (zoneCode) => {
 		case 'RHP':
 			return new Style({
 				fill: new Fill({
-					color: [254, 241, 0, 0.5],
+					color: [254, 241, 0, alpha],
 				}),
-				// stroke: new Stroke({
-				// 	color: [0, 0, 0, 1],
-				// }),
 			});
 		case 'MH':
 			return new Style({
 				fill: new Fill({
-					color: [248, 205, 191, 0.5],
+					color: [248, 205, 191, alpha],
 				}),
-				// stroke: new Stroke({
-				// 	color: [0, 0, 0, 1],
-				// }),
 			});
 		case 'RD-1':
 		case 'RD-2':
 		case 'RT-2':
 			return new Style({
 				fill: new Fill({
-					color: [249, 166, 26, 0.5],
+					color: [249, 166, 26, alpha],
 				}),
-				// stroke: new Stroke({
-				// 	color: [0, 0, 0, 1],
-				// }),
 			});
 		case 'RA-1':
 		case 'RA-2':
 		case 'RA-3':
 			return new Style({
 				fill: new Fill({
-					color: [194, 131, 18, 0.5],
+					color: [194, 131, 18, alpha],
 				}),
-				// stroke: new Stroke({
-				// 	color: [0, 0, 0, 1],
-				// }),
 			});
 		case 'O':
 		case 'S-1':
@@ -99,22 +88,16 @@ const colorMap = (zoneCode) => {
 		case 'LW':
 			return new Style({
 				fill: new Fill({
-					color: [0, 114, 187, 0.5],
+					color: [0, 114, 187, alpha],
 				}),
-				// stroke: new Stroke({
-				// 	color: [0, 0, 0, 1],
-				// }),
 			});
 		case 'MMU1':
 		case 'MMU2':
 		case 'MMU3':
 			return new Style({
 				fill: new Fill({
-					color: [191, 191, 191, 0.5],
+					color: [191, 191, 191, alpha],
 				}),
-				// stroke: new Stroke({
-				// 	color: [0, 0, 0, 1],
-				// }),
 			});
 		case 'C-1':
 		case 'C-2':
@@ -122,50 +105,38 @@ const colorMap = (zoneCode) => {
 		case 'C-4':
 			return new Style({
 				fill: new Fill({
-					color: [238, 28, 37, 0.5],
+					color: [238, 28, 37, alpha],
 				}),
-				// stroke: new Stroke({
-				// 	color: [0, 0, 0, 1],
-				// }),
 			});
 		case 'I-1':
 		case 'I-2':
 		case 'AP':
 			return new Style({
 				fill: new Fill({
-					color: [239, 76, 155, 0.5],
+					color: [239, 76, 155, alpha],
 				}),
-				// stroke: new Stroke({
-				// 	color: [0, 0, 0, 1],
-				// }),
 			});
 		case 'CN':
 		case 'REC':
 		case 'AG':
 			return new Style({
 				fill: new Fill({
-					color: [0, 166, 80, 0.5],
+					color: [0, 166, 80, alpha],
 				}),
-				// stroke: new Stroke({
-				// 	color: [0, 0, 0, 1],
-				// }),
 			});
 		case 'POPUD':
 		case 'VPUD':
 		case 'DTPUD':
 			return new Style({
 				fill: new Fill({
-					color: [120, 43, 145, 0.5],
+					color: [120, 43, 145, alpha],
 				}),
 			});
 		default:
 			return new Style({
 				fill: new Fill({
-					color: [120, 43, 145, 0.5],
+					color: [120, 43, 145, alpha],
 				}),
-				// stroke: new Stroke({
-				// 	color: [0, 0, 0, 1],
-				// }),
 			});
 	}
 };

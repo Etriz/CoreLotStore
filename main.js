@@ -225,11 +225,11 @@ const setMenuView = (str) => {
 };
 
 // add map legend from module
-map.addControl(
-	new Control({
-		element: legendArea,
-	})
-);
+// map.addControl(
+// 	new Control({
+// 		element: legendArea,
+// 	})
+// );
 
 // create the button area
 const buttonArea = document.createElement('div');
@@ -274,40 +274,6 @@ satelliteView.addEventListener('click', () => {
 });
 buttonArea.appendChild(satelliteView);
 
-// lot overlays area
-const checkField = document.createElement('fieldset');
-checkField.innerHTML = '<legend>Open Spaces Overlays</legend>';
-buttonArea.appendChild(checkField);
-// lot code buttons
-for (let index = 0; index < activityCodes.length; index++) {
-	const checkDiv = document.createElement('div');
-	checkDiv.className = 'toggle';
-	const checkBox = document.createElement('input');
-	checkBox.setAttribute('type', 'checkbox');
-	checkBox.setAttribute('id', activityCodes[index][1]);
-	checkBox.checked = true;
-	const label = document.createElement('label');
-	label.setAttribute('for', activityCodes[index][1]);
-	label.innerText = activityCodes[index][0];
-
-	checkBox.addEventListener('click', function (e) {
-		const wantedLayers = map
-			.getAllLayers()
-			.filter((layer) => layer.get('id') == e.target.id);
-		wantedLayers.forEach((item) => {
-			item.setVisible(!item.isVisible());
-		});
-		// console.log(e.target.id);
-		if (!parcelLayerGroup.getVisible()) {
-			parcelLayerGroup.setVisible(true);
-			setAllToggleSwitches(true);
-		}
-	});
-
-	checkDiv.appendChild(checkBox);
-	checkDiv.appendChild(label);
-	checkField.appendChild(checkDiv);
-}
 map.addControl(
 	new Control({
 		element: buttonArea,
@@ -602,6 +568,8 @@ dropdownReset.addEventListener('click', () => {
 buttonArea.appendChild(dropdownReset);
 buttonArea.appendChild(dropdown);
 
+buttonArea.appendChild(legendArea);
+
 // logged in search and reset buttons
 const siteSearch = document.getElementById('site-search');
 siteSearch.addEventListener('click', () => {
@@ -617,15 +585,24 @@ siteSearch.addEventListener('click', () => {
 });
 const fetchBtn = document.getElementById('fetchBtn');
 fetchBtn.addEventListener('click', async () => {
-	const response = await fetch('/.netlify/functions/sendEmail', {
-		method: 'POST',
-		body: JSON.stringify({
-			id: '82444',
-			firstName: 'First',
-			lastName: 'Last',
-			email: 'email@gmail.com',
-			phone: '605-438-2673',
-		}),
-	}).then((response) => response.json());
+	const response = await fetch(
+		'https://coreserver.netlify.app/.netlify/functions/sendEmail',
+		{
+			method: 'POST',
+			body: JSON.stringify({
+				id: '82444',
+				firstName: 'First',
+				lastName: 'Last',
+				email: 'email@gmail.com',
+				phone: '605-438-2673',
+			}),
+		}
+	)
+		.then((response) => response.json())
+		.then((data) => {
+			console.log(JSON.stringify(data));
+		});
+	const branding = document.getElementsByClassName('branding');
+	console.log(branding);
 	console.log(JSON.stringify(response));
 });

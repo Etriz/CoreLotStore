@@ -4,20 +4,17 @@ import { sdSchoolCodes } from './schooldistricts';
 export { legendArea };
 
 // create the map legend area
-const legendArea = document.createElement('div');
+const legendArea = document.createElement('fieldset');
 legendArea.id = 'legend-area';
 legendArea.className = 'show';
-
-const legendField = document.createElement('fieldset');
-legendArea.appendChild(legendField);
 const legendFieldLabel = document.createElement('legend');
 legendFieldLabel.innerText = 'Legend';
-legendField.appendChild(legendFieldLabel);
+legendArea.appendChild(legendFieldLabel);
 // this is for the parcel legend
 const legendParcels = document.createElement('div');
 legendParcels.id = 'legend-parcels';
 legendParcels.style.display = 'block';
-legendField.appendChild(legendParcels);
+legendArea.appendChild(legendParcels);
 activityCodes.map((code) => {
 	const item = document.createElement('div');
 	const colorBlock = document.createElement('div');
@@ -31,7 +28,7 @@ activityCodes.map((code) => {
 const legendSchools = document.createElement('div');
 legendSchools.id = 'legend-schools';
 legendSchools.style.display = 'none';
-legendField.appendChild(legendSchools);
+legendArea.appendChild(legendSchools);
 sdSchoolCodes.map((code) => {
 	const item = document.createElement('div');
 	const colorBlock = document.createElement('div');
@@ -45,7 +42,7 @@ sdSchoolCodes.map((code) => {
 const legendZoning = document.createElement('div');
 legendZoning.id = 'legend-zoning';
 legendZoning.style.display = 'none';
-legendField.appendChild(legendZoning);
+legendArea.appendChild(legendZoning);
 // residential item
 const residentialItem = document.createElement('div');
 const resiColorBlock = document.createElement('div');
