@@ -10,21 +10,22 @@ body {
 }
 
 #header {
-  display: grid;
-  grid-template-columns: 5% auto 20%;
-  align-items: center;
+  display: flex;
+  justify-content: space-between;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
+  overflow: hidden;
   height: 35px;
   color: #ffffff;
-  background-color: rgb(125, 125, 125);
+  background-color: rgb(128, 128, 128);
 }
 #header #hamburger-menu {
   width: 30px;
   height: 25px;
   position: relative;
-  margin: 5px 0 5px 1rem;
+  margin: 5px;
+  margin-left: 1rem;
   -webkit-transform: rotate(0deg);
   -moz-transform: rotate(0deg);
   -o-transform: rotate(0deg);
@@ -86,14 +87,20 @@ body {
 }
 #header .branding {
   font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #header .links {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  align-items: center;
+  margin: 0.25rem;
 }
 #header .links a {
   cursor: pointer;
+  margin: 0 0.5rem;
 }
 #header .login-box {
   display: flex;
@@ -188,9 +195,6 @@ body {
 #map .ol-zoom .ol-zoom-out {
   border-radius: 2px;
 }
-#map .ol-control button {
-  display: inline;
-}
 
 #legend-parcels > div {
   display: flex;
@@ -229,11 +233,17 @@ body {
 #button-area.show {
   left: 0;
 }
+#button-area .view-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 #button-area fieldset {
   margin: 1.5rem 0 1rem 0;
   padding-top: 0;
   border-radius: 0.5rem;
-  background-color: rgba(128, 128, 128, 0.5);
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
 }
 #button-area fieldset legend {
   position: relative;
@@ -241,6 +251,10 @@ body {
   background-color: whitesmoke;
   border-radius: 0.5rem 0.5rem 0 0;
   padding: 0 0.5rem;
+}
+#button-area fieldset button {
+  color: white;
+  background-color: gray;
 }
 #button-area fieldset .toggle {
   margin-top: 10px;
@@ -285,17 +299,15 @@ body {
 }
 #button-area button {
   width: auto;
-  padding: 0.5rem;
+  padding: 0.25rem 0.5rem;
   display: block;
   margin: 0.5rem 0;
   font-weight: bold;
   text-decoration: none;
   font-size: inherit;
   text-align: center;
-  height: 1.375em;
-  line-height: 0.4em;
   border: none;
-  border-radius: 2px;
+  border-radius: 0.25rem;
 }
 #button-area button:hover {
   cursor: pointer;
@@ -436,6 +448,34 @@ body {
 
 .form-check {
   width: 50px;
+}
+
+@media screen and (max-width: 750px) {
+  #header .links a {
+    margin: 0 0.25rem;
+  }
+  #button-area {
+    width: fit-content;
+    background-color: rgba(128, 128, 128, 0.75);
+  }
+  #button-area fieldset {
+    background-color: rgba(255, 255, 255, 0.75);
+  }
+  .ol-attribution {
+    max-width: 100vw;
+  }
+  .ol-attribution ul {
+    display: flex;
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: 380px) {
+  #header .branding {
+    font-size: 1rem;
+  }
+  #header .links {
+    font-size: 1rem;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

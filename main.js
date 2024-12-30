@@ -247,6 +247,9 @@ hamburgerMenu.addEventListener('click', () => {
 	}
 });
 
+const topViewButtons = document.createElement('div');
+topViewButtons.className = 'view-buttons';
+buttonArea.appendChild(topViewButtons);
 // reset button
 const resetButton = document.createElement('button');
 resetButton.className = 'reset button';
@@ -258,7 +261,7 @@ resetButton.addEventListener('click', () => {
 	additionVectorLayer.setVisible(false);
 	dropdown.selectedIndex = 0;
 });
-buttonArea.appendChild(resetButton);
+topViewButtons.appendChild(resetButton);
 
 // switch to satellite view
 const satelliteView = document.createElement('button');
@@ -272,7 +275,7 @@ satelliteView.addEventListener('click', () => {
 		satelliteView.innerText = 'Show Satellite View';
 	}
 });
-buttonArea.appendChild(satelliteView);
+topViewButtons.appendChild(satelliteView);
 
 map.addControl(
 	new Control({
