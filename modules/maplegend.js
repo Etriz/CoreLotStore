@@ -15,15 +15,50 @@ const legendParcels = document.createElement('div');
 legendParcels.id = 'legend-parcels';
 legendParcels.style.display = 'block';
 legendArea.appendChild(legendParcels);
-activityCodes.map((code) => {
-	const item = document.createElement('div');
-	const colorBlock = document.createElement('div');
-	colorBlock.className = 'color-block';
-	colorBlock.setAttribute('style', 'background-color:rgb(' + code[2] + ')');
-	item.appendChild(colorBlock);
-	item.appendChild(document.createElement('div')).innerText = code[0];
-	legendParcels.appendChild(item);
-});
+// activityCodes.map((code) => {
+// 	const item = document.createElement('div');
+// 	const colorBlock = document.createElement('div');
+// 	colorBlock.className = 'color-block';
+// 	colorBlock.setAttribute('style', 'background-color:rgb(' + code[2] + ')');
+// 	item.appendChild(colorBlock);
+// 	item.appendChild(document.createElement('div')).innerText = code[0];
+// 	legendParcels.appendChild(item);
+// });
+// agricultural parcel item
+const agLand = document.createElement('div');
+const agColorBlock = document.createElement('div');
+agColorBlock.className = 'color-block';
+agColorBlock.setAttribute('style', 'background-color:rgb(255,150,0)');
+agLand.appendChild(agColorBlock);
+agLand.appendChild(document.createElement('div')).innerText = 'Annexed Ag Land';
+legendParcels.appendChild(agLand);
+// unplatted parcel item
+const unplatted = document.createElement('div');
+const unplattedColorBlock = document.createElement('div');
+unplattedColorBlock.className = 'color-block';
+unplattedColorBlock.setAttribute('style', 'background-color:rgb(255,0,255)');
+unplatted.appendChild(unplattedColorBlock);
+unplatted.appendChild(document.createElement('div')).innerText =
+	'Unplatted Parcel';
+legendParcels.appendChild(unplatted);
+// unplatted parcel item
+const platted = document.createElement('div');
+const plattedColorBlock = document.createElement('div');
+plattedColorBlock.className = 'color-block';
+plattedColorBlock.setAttribute('style', 'background-color:rgb(0,0,255)');
+platted.appendChild(plattedColorBlock);
+platted.appendChild(document.createElement('div')).innerText = 'Platted Parcel';
+legendParcels.appendChild(platted);
+// permit parcel item
+const permits = document.createElement('div');
+const permitColorBlock = document.createElement('div');
+permitColorBlock.className = 'color-block';
+permitColorBlock.setAttribute('style', 'background-color:rgb(255,0,0)');
+permits.appendChild(permitColorBlock);
+permits.appendChild(document.createElement('div')).innerText =
+	'Approved Permits';
+legendParcels.appendChild(permits);
+
 // this is for the school district legend
 const legendSchools = document.createElement('div');
 legendSchools.id = 'legend-schools';
