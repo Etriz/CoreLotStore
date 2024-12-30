@@ -45,14 +45,10 @@ export const showParcelInfo = (loggedIn = false, data, type) => {
 			contactLink.innerText = 'Click Here';
 			contactLink.setAttribute('href', '#contact-form');
 			contactLink.className = 'glightbox';
-			contactLink.id = 'contact-link';
+			contactLink.id = 'popup-contact-link';
 			contactLinkArea.appendChild(document.createElement('br'));
 			contactLinkArea.appendChild(contactLink);
 			popupContent.appendChild(contactLinkArea);
-			contactLink.addEventListener('click', (evt) => {
-				evt.preventDefault();
-				handlePopupLinkClick(relevantData.COUNTYID);
-			});
 		} else {
 			const loggedInInfo = document.createElement('div');
 			loggedInInfo.appendChild(document.createElement('hr'));

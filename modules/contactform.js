@@ -89,12 +89,21 @@ checkArea.appendChild(agreeLabel);
 // submit button
 const handleContactSubmit = async (evt, parcelInfo) => {
 	evt.preventDefault();
-	console.log(parcelInfo);
-	const response = await fetch('/.netlify/functions/sendEmail', {
-		method: 'POST',
-		body: JSON.stringify(contactInfo),
-	}).then((response) => response.json());
-	console.log(JSON.stringify(response));
+	if (agreeCheck.checked == true) {
+		console.log(parcelInfo);
+		const response = await fetch(
+			'https://coreserver.netlify.app/.netlify/functions/sendEmail',
+			// currently workin with ntl dev server but not in live production
+			// 'http://localhost:8888/.netlify/functions/sendEmail',
+			{
+				method: 'POST',
+				body: JSON.stringify(parcelInfo),
+			}
+		).then((response) => response.json());
+		console.log(JSON.stringify(response));
+	} else {
+		console.warn('Checkbox not checked');
+	}
 };
 
 const submitButton = document.createElement('button');

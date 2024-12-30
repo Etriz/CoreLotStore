@@ -12,6 +12,8 @@ const handleLoginLinkClick = () => {
 	if (!loggedIn) {
 		if (loginBox.style.display == 'none') {
 			loginBox.style.display = 'flex';
+			const pwInput = document.getElementById('login-input');
+			pwInput.focus();
 		} else {
 			loginBox.style.display = 'none';
 		}
@@ -60,6 +62,7 @@ headerBar.appendChild(loginBox);
 const loginInput = document.createElement('input');
 loginInput.type = 'password';
 loginInput.autocomplete = 'password';
+loginInput.id = 'login-input';
 const loginSubmit = document.createElement('button');
 loginSubmit.innerText = 'Submit';
 loginBox.appendChild(loginInput);

@@ -18,7 +18,8 @@ body {
 	overflow: hidden;
 	height: 35px;
 	color: #ffffff;
-	background-color: rgb(128, 128, 128);
+	// background-color: rgb(128, 128, 128);
+	background-color: slategray;
 	#hamburger-menu {
 		width: 30px;
 		height: 25px;
@@ -151,10 +152,11 @@ body {
 		justify-content: space-around;
 		position: fixed;
 		z-index: 999;
-		top: 35px;
-		right: 5rem;
-		background-color: rgba(128, 128, 128, 0.5);
-		border-radius: 0 0 0.5rem 0.5rem;
+		bottom: 2rem;
+		right: 0;
+		background-color: slategray;
+		border-radius: 0.5rem 0 0 0.5rem;
+		width: fit-content;
 		padding: 0.5rem;
 		input {
 			padding: 5px;
@@ -189,6 +191,7 @@ body {
 	.ol-zoom {
 		right: 0.5rem;
 		left: auto;
+		display: none;
 		.ol-zoom-in {
 			border-radius: 2px;
 		}
@@ -253,7 +256,7 @@ body {
 		}
 		button {
 			color: white;
-			background-color: gray;
+			background-color: slategray;
 		}
 		.toggle {
 			margin-top: 10px;
@@ -452,9 +455,24 @@ body {
 	#header {
 		// grid-template-columns: 50px auto auto;
 		.links {
+			#about-link {
+				display: none;
+			}
 			a {
 				margin: 0 0.25rem;
 			}
+		}
+		#search {
+			width: 100vw;
+			bottom: 0;
+			padding: 0.5rem 0;
+			border-radius: 0;
+		}
+	}
+	#map {
+		.ol-zoom {
+			display: block;
+			right: 0;
 		}
 	}
 	#button-area {

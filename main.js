@@ -466,13 +466,16 @@ map.on('singleclick', function (evt) {
 					.then((relevantData) => {
 						// console.log(relevantData);
 						showParcelInfo(loggedIn, relevantData, 'standard');
-						const contactLink =
-							document.getElementById('contact-link');
-						if (contactLink != null) {
-							contactLink.addEventListener('click', (evt) => {
-								evt.preventDefault();
-								handlePopupLinkClick(relevantData.COUNTYID);
-							});
+						const popupContactLink =
+							document.getElementById('popup-contact-link');
+						if (popupContactLink != null) {
+							popupContactLink.addEventListener(
+								'click',
+								(evt) => {
+									evt.preventDefault();
+									handlePopupLinkClick(relevantData.COUNTYID);
+								}
+							);
 						}
 					});
 			} catch (error) {
@@ -586,26 +589,26 @@ siteSearch.addEventListener('click', () => {
 		});
 	}, 500);
 });
-const fetchBtn = document.getElementById('fetchBtn');
-fetchBtn.addEventListener('click', async () => {
-	const response = await fetch(
-		'https://coreserver.netlify.app/.netlify/functions/sendEmail',
-		{
-			method: 'POST',
-			body: JSON.stringify({
-				id: '82444',
-				firstName: 'First',
-				lastName: 'Last',
-				email: 'email@gmail.com',
-				phone: '605-438-2673',
-			}),
-		}
-	)
-		.then((response) => response.json())
-		.then((data) => {
-			console.log(JSON.stringify(data));
-		});
-	const branding = document.getElementsByClassName('branding');
-	console.log(branding);
-	console.log(JSON.stringify(response));
-});
+// const fetchBtn = document.getElementById('fetchBtn');
+// fetchBtn.addEventListener('click', async () => {
+// 	const response = await fetch(
+// 		'https://coreserver.netlify.app/.netlify/functions/sendEmail',
+// 		{
+// 			method: 'POST',
+// 			body: JSON.stringify({
+// 				id: '82444',
+// 				firstName: 'First',
+// 				lastName: 'Last',
+// 				email: 'email@gmail.com',
+// 				phone: '605-438-2673',
+// 			}),
+// 		}
+// 	)
+// 		.then((response) => response.json())
+// 		.then((data) => {
+// 			console.log(JSON.stringify(data));
+// 		});
+// 	const branding = document.getElementsByClassName('branding');
+// 	console.log(branding);
+// 	console.log(JSON.stringify(response));
+// });
