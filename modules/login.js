@@ -47,6 +47,13 @@ const findByCountyId = (id) => {
 		"'&outFields=*&outSR=4326&f=GEOjson";
 	return url;
 };
+const findByAddress = (address) => {
+	const url =
+		"https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/0/query?where=ADDRESS='" +
+		address +
+		"'&outFields=*&outSR=4326&f=Geojson";
+	return url;
+};
 
 // login popup box
 const headerBar = document.getElementById('header');
@@ -77,16 +84,20 @@ const searchArea = document.createElement('form');
 searchArea.id = 'search';
 const searchInput = document.createElement('input');
 searchInput.type = 'search';
-searchInput.placeholder = 'Search County ID';
+searchInput.placeholder = 'County ID or Address';
 const searchButton = document.createElement('button');
 searchButton.id = 'site-search';
 searchButton.innerText = 'Search';
 searchButton.addEventListener('click', (evt) => {
 	evt.preventDefault();
 	const value = searchInput.value;
-	searchVectorLayer.getSource().setUrl(findByCountyId(value));
+	if (isNaN(value)) {
+		searchVectorLayer.getSource().setUrl(findByAddress(value));
+	} else {
+		searchVectorLayer.getSource().setUrl(findByCountyId(value));
+	}
 	searchVectorLayer.getSource().refresh();
-	searchInput.value = '';
+	// searchInput.value = '';
 });
 const resetSearchButton = document.createElement('button');
 resetSearchButton.innerText = 'Reset';
