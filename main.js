@@ -20,12 +20,14 @@ import GeoJSON from 'ol/format/GeoJSON';
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import Feature from 'ol/Feature';
+import { Point } from 'ol/geom';
 import Control from 'ol/control/Control';
 import { toLonLat } from 'ol/proj';
 import LayerGroup from 'ol/layer/Group';
 import { Style, Stroke } from 'ol/style';
 import { lightbox } from './modules/lightbox';
 import { Attribution, defaults as defaultControls } from 'ol/control.js';
+import { defaults as defaultInteractions } from 'ol/interaction/defaults';
 
 const satelliteTileLayer = new TileLayer({
 	source: new OSM({
@@ -83,11 +85,56 @@ const map = new Map({
 	view: new View({
 		center: fromLonLat([-96.74, 43.56]),
 		zoom: 12,
+		enableRotation: false,
 	}),
-	controls: defaultControls({ attribution: false }).extend([attribution]),
+	controls: defaultControls({ attribution: false, rotate: false }).extend([
+		attribution,
+	]),
+	interactions: defaultInteractions({
+		altShiftDragRotate: false,
+		pinchRotate: false,
+	}),
 	overlays: [popupOverlay],
 	target: 'map',
 });
+
+// add button for geolocation
+const geoSource = new VectorSource();
+const geoLayer = new VectorLayer({
+	source: geoSource,
+	visible: true,
+});
+map.addLayer(geoLayer);
+const locate = document.createElement('div');
+locate.className = 'ol-control ol-unselectable locate';
+locate.innerHTML = '<button title="Locate me">◎</button>';
+locate.addEventListener('click', function () {
+	navigator.geolocation.getCurrentPosition(
+		function (pos) {
+			const coords = [pos.coords.longitude, pos.coords.latitude];
+			geoSource.clear(true);
+			geoSource.addFeature(new Feature(new Point(fromLonLat(coords))));
+			console.log(coords);
+			if (!geoSource.isEmpty()) {
+				map.getView().fit(geoSource.getExtent(), {
+					maxZoom: 14,
+					duration: 1500,
+				});
+			}
+		},
+		function (error) {
+			alert(`ERROR: ${error.message}`);
+		},
+		{
+			enableHighAccuracy: true,
+		}
+	);
+});
+map.addControl(
+	new Control({
+		element: locate,
+	})
+);
 
 // add all layers from schooldistricts module
 const schoolLayerGroup = new LayerGroup({

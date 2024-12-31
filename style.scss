@@ -191,13 +191,18 @@ body {
 	.ol-zoom {
 		right: 0.5rem;
 		left: auto;
-		display: none;
+		// display: none;
 		.ol-zoom-in {
 			border-radius: 2px;
 		}
 		.ol-zoom-out {
 			border-radius: 2px;
 		}
+	}
+	.locate {
+		display: none;
+		right: 0.5rem;
+		top: 4.5rem;
 	}
 	// .ol-control button {
 	// 	display: inline;
@@ -473,6 +478,9 @@ body {
 		.ol-zoom {
 			display: block;
 			right: 0;
+		}
+		.locate {
+			display: block;
 		}
 	}
 	#button-area {

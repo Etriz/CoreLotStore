@@ -189,13 +189,17 @@ body {
 #map .ol-zoom {
   right: 0.5rem;
   left: auto;
-  display: none;
 }
 #map .ol-zoom .ol-zoom-in {
   border-radius: 2px;
 }
 #map .ol-zoom .ol-zoom-out {
   border-radius: 2px;
+}
+#map .locate {
+  display: none;
+  right: 0.5rem;
+  top: 4.5rem;
 }
 
 #legend-parcels > div {
@@ -468,6 +472,9 @@ body {
   #map .ol-zoom {
     display: block;
     right: 0;
+  }
+  #map .locate {
+    display: block;
   }
   #button-area {
     width: fit-content;
