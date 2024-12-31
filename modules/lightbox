@@ -1,0 +1,12 @@
+import GLightbox from 'glightbox';
+
+export const lightbox = GLightbox({
+	openEffect: 'fade',
+	closeEffect: 'fade',
+	selector: '.glightbox',
+	draggable: false,
+	width: '500px',
+	height: 'auto',
+	zoomable: 'false',
+	closeButton: 'false',
+});

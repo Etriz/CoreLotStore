@@ -1,3 +1,4 @@
+import { sendEmail } from './sendEmail';
 export { contactFormContainer };
 export const contactInfo = {};
 
@@ -87,20 +88,10 @@ agreeLabel.setAttribute('for', 'agree');
 checkArea.appendChild(agreeCheck);
 checkArea.appendChild(agreeLabel);
 // submit button
-const handleContactSubmit = async (evt, parcelInfo) => {
+const handleContactSubmit = (evt, parcelInfo) => {
 	evt.preventDefault();
 	if (agreeCheck.checked == true) {
-		console.log(parcelInfo);
-		const response = await fetch(
-			'https://coreserver.netlify.app/.netlify/functions/sendEmail',
-			// currently workin with ntl dev server but not in live production
-			// 'http://localhost:8888/.netlify/functions/sendEmail',
-			{
-				method: 'POST',
-				body: JSON.stringify(parcelInfo),
-			}
-		).then((response) => response.json());
-		console.log(JSON.stringify(response));
+		sendEmail(parcelInfo);
 	} else {
 		console.warn('Checkbox not checked');
 	}
@@ -108,6 +99,7 @@ const handleContactSubmit = async (evt, parcelInfo) => {
 
 const submitButton = document.createElement('button');
 submitButton.innerText = 'Submit';
+submitButton.id = 'popup-submit';
 submitButton.addEventListener('click', (evt) => {
 	handleContactSubmit(evt, contactInfo);
 });

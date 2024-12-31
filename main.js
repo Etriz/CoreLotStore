@@ -24,7 +24,7 @@ import Control from 'ol/control/Control';
 import { toLonLat } from 'ol/proj';
 import LayerGroup from 'ol/layer/Group';
 import { Style, Stroke } from 'ol/style';
-import GLightbox from 'glightbox';
+import { lightbox } from './modules/lightbox';
 import { Attribution, defaults as defaultControls } from 'ol/control.js';
 
 const satelliteTileLayer = new TileLayer({
@@ -397,16 +397,6 @@ const addressUrl = (id) =>
 	id +
 	'&outFields=*&outSR=4326&f=Geojson&returnGeometry=false';
 
-const lightbox = GLightbox({
-	openEffect: 'fade',
-	closeEffect: 'fade',
-	selector: '.glightbox',
-	draggable: false,
-	width: '500px',
-	height: 'auto',
-	zoomable: 'false',
-	closeButton: 'false',
-});
 lightbox.on('close', () => {
 	setMenuView('show');
 });
