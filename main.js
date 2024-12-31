@@ -407,11 +407,15 @@ lightbox.insertSlide(
 	1
 );
 document.body.appendChild(contactFormContainer);
-const handlePopupLinkClick = (str) => {
+const handlePopupLinkClick = (type, data) => {
 	closePopup();
 	setMenuView('hide');
 	lightbox.open();
-	contactInfo.COUNTYID = str;
+	if ((type = 'address')) {
+		contactInfo.ADDRESS = data;
+	} else {
+		contactInfo.COUNTYID = data;
+	}
 };
 // get feature at point clicked
 map.on('singleclick', function (evt) {
@@ -442,7 +446,22 @@ map.on('singleclick', function (evt) {
 					.then((res) => res.json())
 					.then((data) => data.features[0].properties)
 					.then((relevantData) => {
+						console.log(relevantData);
 						showParcelInfo(loggedIn, relevantData, 'address');
+						const popupContactLink =
+							document.getElementById('popup-contact-link');
+						if (popupContactLink != null) {
+							popupContactLink.addEventListener(
+								'click',
+								(evt) => {
+									evt.preventDefault();
+									handlePopupLinkClick(
+										'address',
+										relevantData.ADDRESS
+									);
+								}
+							);
+						}
 					});
 			} catch (error) {
 				console.error(error);
@@ -454,7 +473,7 @@ map.on('singleclick', function (evt) {
 					.then((res) => res.json())
 					.then((data) => data.features[0].properties)
 					.then((relevantData) => {
-						// console.log(relevantData);
+						console.log(relevantData);
 						showParcelInfo(loggedIn, relevantData, 'standard');
 						const popupContactLink =
 							document.getElementById('popup-contact-link');
@@ -463,7 +482,10 @@ map.on('singleclick', function (evt) {
 								'click',
 								(evt) => {
 									evt.preventDefault();
-									handlePopupLinkClick(relevantData.COUNTYID);
+									handlePopupLinkClick(
+										'countyid',
+										relevantData.COUNTYID
+									);
 								}
 							);
 						}
