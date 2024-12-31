@@ -1,4 +1,5 @@
 import GLightbox from 'glightbox';
+import { headerContactFormContainer } from './headercontactform';
 
 export const lightbox = GLightbox({
 	openEffect: 'fade',
@@ -10,3 +11,10 @@ export const lightbox = GLightbox({
 	zoomable: 'false',
 	closeButton: 'false',
 });
+
+lightbox.insertSlide(
+	{
+		content: headerContactFormContainer,
+	},
+	1
+);

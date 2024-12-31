@@ -270,14 +270,12 @@ const setMenuView = (str) => {
 	hamburgerMenu.className = str;
 	buttonArea.className = str;
 };
-
-// add map legend from module
-// map.addControl(
-// 	new Control({
-// 		element: legendArea,
-// 	})
-// );
-
+// header contact link
+const contactButton = document.getElementById('contact-link');
+contactButton.addEventListener('click', () => {
+	setMenuView('hide');
+	lightbox.openAt(1);
+});
 // create the button area
 const buttonArea = document.createElement('div');
 buttonArea.id = 'button-area';
@@ -451,13 +449,13 @@ lightbox.insertSlide(
 	{
 		content: contactFormContainer,
 	},
-	1
+	0
 );
 document.body.appendChild(contactFormContainer);
 const handlePopupLinkClick = (type, data) => {
 	closePopup();
 	setMenuView('hide');
-	lightbox.open();
+	lightbox.openAt(0);
 	if ((type = 'address')) {
 		contactInfo.ADDRESS = data;
 	} else {
