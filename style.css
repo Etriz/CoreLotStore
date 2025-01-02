@@ -102,6 +102,11 @@ body {
   cursor: pointer;
   margin: 0 0.5rem;
 }
+#header .links a:hover {
+  color: #dde3ec;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
 #header .login-box {
   display: flex;
   flex-direction: column;
@@ -143,6 +148,10 @@ body {
   border: none;
   border-bottom: 1px solid #dde3ec;
 }
+#header .login-box button:hover {
+  background-color: #dde3ec;
+  border-bottom: 1px solid slategray;
+}
 #header #search {
   display: flex;
   flex-direction: row;
@@ -178,6 +187,9 @@ body {
   border-radius: 4px;
   border: none;
   border-bottom: 1px solid #dde3ec;
+}
+#header #search button:hover {
+  background-color: #dde3ec;
 }
 
 #map {
@@ -261,6 +273,11 @@ body {
 #button-area fieldset button {
   color: white;
   background-color: slategray;
+  border-bottom: 1px solid slategray;
+}
+#button-area fieldset button:hover {
+  background-color: #dde3ec;
+  color: black;
 }
 #button-area fieldset .toggle {
   margin-top: 10px;
@@ -314,9 +331,15 @@ body {
   text-align: center;
   border: none;
   border-radius: 0.25rem;
+  color: black;
+  background-color: rgb(240, 240, 240);
+  border-bottom: 1px solid #dde3ec;
 }
 #button-area button:hover {
   cursor: pointer;
+  background-color: #dde3ec;
+  border-bottom: 1px solid slategray;
+  color: black;
 }
 
 .ol-popup {
@@ -380,6 +403,8 @@ body {
 #contact-form .contact {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
   margin: 0;
   height: auto;
   border-radius: 0.5rem;
@@ -406,7 +431,6 @@ body {
   font-size: 16px;
   outline: none;
   resize: none;
-  /* border: 1px solid #cccccc; */
   border-bottom: 2px solid #dde3ec;
   border-radius: 0.25rem;
 }
@@ -445,9 +469,13 @@ body {
   border-radius: 4px;
   border: none;
   border-bottom: 1px solid #dde3ec;
+  background-color: slategray;
+  color: white;
 }
 #contact-form .contact button:hover {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid slategray;
+  background-color: #dde3ec;
+  color: black;
 }
 #contact-form .contact .optionContainer {
   display: flex;
@@ -462,7 +490,12 @@ body {
   margin: 1rem;
   border-radius: 0.5rem;
   background-color: slategray;
+  border-bottom: 1px solid slategray;
   color: white;
+}
+#contact-form .contact .optionContainer > div:hover {
+  background-color: #dde3ec;
+  color: black;
 }
 
 .form-check {
