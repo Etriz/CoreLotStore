@@ -482,6 +482,16 @@ map.on('singleclick', function (evt) {
 	// const lonLat = toLonLat(coordinate);
 
 	if (feature) {
+		const mapWidth = window.innerWidth;
+		const mapHeight = window.innerHeight;
+		var oldCenter = map.getView().getCenter();
+		map.getView().centerOn(coordinate, map.getSize(), [
+			mapWidth * 0.5,
+			mapHeight * 0.75,
+		]);
+		var newCenter = map.getView().getCenter();
+		map.getView().setCenter(oldCenter);
+		map.getView().animate({ center: newCenter });
 		popupContent.innerHTML = '';
 		const featureId = feature.getId();
 		const loggedIn = getLoggedInStatus();

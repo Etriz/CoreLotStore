@@ -91,7 +91,8 @@ searchButton.innerText = 'Search';
 searchButton.addEventListener('click', (evt) => {
 	evt.preventDefault();
 	const value = searchInput.value;
-	if (isNaN(value)) {
+	const valueCheck = value.split('.').join('');
+	if (isNaN(valueCheck)) {
 		searchVectorLayer.getSource().setUrl(findByAddress(value));
 	} else {
 		searchVectorLayer.getSource().setUrl(findByCountyId(value));
@@ -103,6 +104,7 @@ const resetSearchButton = document.createElement('button');
 resetSearchButton.innerText = 'Reset';
 resetSearchButton.addEventListener('click', (evt) => {
 	evt.preventDefault();
+	searchInput.value = '';
 	searchVectorLayer.getSource().setUrl('');
 	searchVectorLayer.getSource().refresh();
 });
