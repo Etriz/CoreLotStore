@@ -1,6 +1,6 @@
-import { sendEmail } from './sendEmail';
+import { lightbox } from './lightbox.js';
+
 export { headerContactFormContainer };
-export const contactInfo = {};
 
 const headerContactFormContainer = document.createElement('div');
 headerContactFormContainer.id = 'contact-form';
@@ -11,22 +11,25 @@ const title = document.createElement('h2');
 title.innerText = 'What Can We Help You With?';
 title.className = 'title';
 headerContactFormContainer.appendChild(contactForm);
+const optionContainer = document.createElement('div');
+optionContainer.className = 'optionContainer';
 contactForm.appendChild(title);
+contactForm.appendChild(optionContainer);
+// option 1
+const lotInfo = document.createElement('div');
+lotInfo.id = 'option1';
+const optionOneTitle = document.createElement('h3');
+optionOneTitle.innerText = 'Lot Information';
+lotInfo.addEventListener('click', () => {
+	lightbox.goToSlide(0);
+});
+lotInfo.appendChild(optionOneTitle);
+// option 2
+const optionTwo = document.createElement('div');
+optionTwo.id = 'option2';
+const optionTwoTitle = document.createElement('h3');
+optionTwoTitle.innerText = 'Option Two';
+optionTwo.appendChild(optionTwoTitle);
 
-// submit button
-// const handleContactSubmit = (evt, parcelInfo) => {
-// 	evt.preventDefault();
-// 	if (agreeCheck.checked == true) {
-// 		sendEmail(parcelInfo);
-// 	} else {
-// 		console.warn('Checkbox not checked');
-// 	}
-// };
-
-// const submitButton = document.createElement('button');
-// submitButton.innerText = 'Submit';
-// submitButton.id = 'popup-submit';
-// submitButton.addEventListener('click', (evt) => {
-// 	handleContactSubmit(evt, contactInfo);
-// });
-// contactForm.appendChild(submitButton);
+optionContainer.appendChild(lotInfo);
+optionContainer.appendChild(optionTwo);

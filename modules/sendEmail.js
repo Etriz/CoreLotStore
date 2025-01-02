@@ -1,5 +1,5 @@
 import emailjs from '@emailjs/browser';
-import { lightbox } from './lightbox';
+import { lightbox } from './lightbox.js';
 
 emailjs.init({
 	publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,

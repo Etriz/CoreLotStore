@@ -25,7 +25,7 @@ import Control from 'ol/control/Control';
 import { toLonLat } from 'ol/proj';
 import LayerGroup from 'ol/layer/Group';
 import { Style, Stroke } from 'ol/style';
-import { lightbox } from './modules/lightbox';
+import { lightbox } from './modules/lightbox.js';
 import { Attribution, defaults as defaultControls } from 'ol/control.js';
 import { defaults as defaultInteractions } from 'ol/interaction/defaults';
 
@@ -451,8 +451,7 @@ lightbox.insertSlide(
 	},
 	0
 );
-document.body.appendChild(contactFormContainer);
-const handlePopupLinkClick = (type, data) => {
+const handlePopupLinkClick = (type = 'popup', data) => {
 	closePopup();
 	setMenuView('hide');
 	lightbox.openAt(0);
@@ -485,10 +484,17 @@ map.on('singleclick', function (evt) {
 		const mapWidth = window.innerWidth;
 		const mapHeight = window.innerHeight;
 		var oldCenter = map.getView().getCenter();
-		map.getView().centerOn(coordinate, map.getSize(), [
-			mapWidth * 0.5,
-			mapHeight * 0.75,
-		]);
+		if (mapWidth < 750) {
+			map.getView().centerOn(coordinate, map.getSize(), [
+				mapWidth - 300,
+				mapHeight * 0.5,
+			]);
+		} else {
+			map.getView().centerOn(coordinate, map.getSize(), [
+				mapWidth * 0.5,
+				mapHeight * 0.65,
+			]);
+		}
 		var newCenter = map.getView().getCenter();
 		map.getView().setCenter(oldCenter);
 		map.getView().animate({ center: newCenter });
