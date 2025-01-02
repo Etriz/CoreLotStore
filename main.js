@@ -11,6 +11,7 @@ import { showParcelInfo } from './modules/popup';
 import { contactFormContainer, contactInfo } from './modules/contactform';
 import { getLoggedInStatus } from './modules/login';
 import { searchVectorLayer } from './modules/searchlayer';
+import { allLincolnLayers } from './modules/newplatlincolncounty.js';
 // import { geo } from './modules/countydata';
 import { Map, View, Overlay } from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -186,6 +187,14 @@ map.addLayer(prelimAddressLayerGroup);
 
 // add from searchlayer module
 map.addLayer(searchVectorLayer);
+
+// add from testlincolncounty module
+const lincolnCountyLayerGroup = new LayerGroup({
+	layers: [...allLincolnLayers],
+	id: 'lincolnCountyGroup',
+	visible: true,
+});
+map.addLayer(lincolnCountyLayerGroup);
 
 /* GLOBAL USE FUNCTIONS*/
 const setAllToggleSwitches = (state) => {

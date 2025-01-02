@@ -58,6 +58,14 @@ permits.appendChild(permitColorBlock);
 permits.appendChild(document.createElement('div')).innerText =
 	'Approved Permits';
 legendParcels.appendChild(permits);
+// lincoln county item
+const lincoln = document.createElement('div');
+const lincolnColorBlock = document.createElement('div');
+lincolnColorBlock.className = 'color-block';
+lincolnColorBlock.setAttribute('style', 'background-color:rgb(0,255,0)');
+lincoln.appendChild(lincolnColorBlock);
+lincoln.appendChild(document.createElement('div')).innerText = 'Lincoln County';
+legendParcels.appendChild(lincoln);
 
 // this is for the school district legend
 const legendSchools = document.createElement('div');
