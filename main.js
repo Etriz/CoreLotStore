@@ -11,7 +11,7 @@ import { showParcelInfo } from './modules/popup';
 import { contactFormContainer, contactInfo } from './modules/contactform';
 import { getLoggedInStatus } from './modules/login';
 import { searchVectorLayer } from './modules/searchlayer';
-import { allLincolnLayers } from './modules/newplatlincolncounty.js';
+import { allLincolnLayers } from './modules/lincolncounty.js';
 // import { geo } from './modules/countydata';
 import { Map, View, Overlay } from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -441,10 +441,15 @@ popupCloser.onclick = function () {
 /**
  * Add a click handler to the map to render the popup.
  */
-const idUrl = (id) =>
+const sfIdUrl = (id) =>
 	'https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=OBJECTID=' +
 	id +
 	'&outFields=*&outSR=4326&f=GEOjson&returnGeometry=false';
+
+const lcIdUrl = (id) =>
+	'https://maps.lincolncountysd.org/webmapadaptor/rest/services/Pro29/Base/MapServer/2/query?where=CountyService.DBO.Parcel.OBJECTID=' +
+	id +
+	'&outFields=*&outSR=4326&returnGeometry=false&f=geojson';
 
 const addressUrl = (id) =>
 	'https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/0/query?where=OBJECTID=' +
@@ -481,7 +486,8 @@ map.on('singleclick', function (evt) {
 			layerFilter: function (layer) {
 				return (
 					layer.get('group') === 'prelimAddressGroup' ||
-					layer.get('group') === 'parcelGroup'
+					layer.get('group') === 'parcelGroup' ||
+					layer.get('group') === 'lincolnCountyGroup'
 				);
 			},
 		}
@@ -539,27 +545,52 @@ map.on('singleclick', function (evt) {
 			}
 		} else {
 			try {
-				fetch(idUrl(featureId))
-					.then((res) => res.json())
-					.then((data) => data.features[0].properties)
-					.then((relevantData) => {
-						// console.log(relevantData);
-						showParcelInfo(loggedIn, relevantData, 'standard');
-						const popupContactLink =
-							document.getElementById('popup-contact-link');
-						if (popupContactLink != null) {
-							popupContactLink.addEventListener(
-								'click',
-								(evt) => {
-									evt.preventDefault();
-									handlePopupLinkClick(
-										'countyid',
-										relevantData.COUNTYID
-									);
-								}
-							);
-						}
-					});
+				// console.log(feature.getKeys().length);
+				if (feature.getKeys().length == 44) {
+					fetch(sfIdUrl(featureId))
+						.then((res) => res.json())
+						.then((data) => data.features[0].properties)
+						.then((relevantData) => {
+							// console.log(relevantData);
+							showParcelInfo(loggedIn, relevantData, 'standard');
+							const popupContactLink =
+								document.getElementById('popup-contact-link');
+							if (popupContactLink != null) {
+								popupContactLink.addEventListener(
+									'click',
+									(evt) => {
+										evt.preventDefault();
+										handlePopupLinkClick(
+											'countyid',
+											relevantData.COUNTYID
+										);
+									}
+								);
+							}
+						});
+				} else {
+					fetch(lcIdUrl(featureId))
+						.then((res) => res.json())
+						.then((data) => data.features[0].properties)
+						.then((relevantData) => {
+							console.log(relevantData);
+							showParcelInfo(loggedIn, relevantData, 'standard');
+							const popupContactLink =
+								document.getElementById('popup-contact-link');
+							if (popupContactLink != null) {
+								popupContactLink.addEventListener(
+									'click',
+									(evt) => {
+										evt.preventDefault();
+										handlePopupLinkClick(
+											'countyid',
+											relevantData.COUNTYID
+										);
+									}
+								);
+							}
+						});
+				}
 			} catch (error) {
 				console.error(error);
 				closePopup();

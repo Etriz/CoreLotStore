@@ -33,24 +33,29 @@ export const showParcelInfo = (loggedIn = false, data, type) => {
 		case 'standard':
 			const parcelID = document.createElement('div');
 			parcelID.innerText = 'Parcel ID ' + data.COUNTYID;
+			parcelID.innerText = `Parcel ID ${
+				data.COUNTYID ?? data['CountyService.DBO.GIS.Parcel_ID']
+			}`;
 			popupContent.appendChild(parcelID);
 			popupContent.appendChild(document.createElement('hr'));
 			const subdivision = document.createElement('div');
-			subdivision.innerText = 'Subdivision: ' + data.ADDITION;
+			subdivision.innerText = data.ADDITION
+				? `Subdivision: ${data.ADDITION}`
+				: null;
 			popupContent.appendChild(subdivision);
-			if (data.BlockDesignator) {
-				const block = document.createElement('div');
-				block.innerText = 'Block: ' + data.BlockDesignator;
-				popupContent.appendChild(block);
-			}
-			if (data.PARCEL_LOT) {
-				const lot = document.createElement('div');
-				lot.innerText = 'Lot: ' + data.PARCEL_LOT;
-				popupContent.appendChild(lot);
-			}
+			const block = document.createElement('div');
+			block.innerText = data.BlockDesignator
+				? `Block: ${data.BlockDesignator}`
+				: null;
+			popupContent.appendChild(block);
+			const lot = document.createElement('div');
+			lot.innerText = data.PARCEL_LOT ? `Lot: ${data.PARCEL_LOT}` : null;
+			popupContent.appendChild(lot);
 			if (data.ADDRESS !== '0') {
 				const address = document.createElement('div');
-				address.innerText = 'Address: ' + data.ADDRESS;
+				address.innerText = `Address: ${
+					data.ADDRESS ?? data['CountyService.DBO.GIS.Add2']
+				}`;
 				popupContent.appendChild(address);
 			}
 			if (!loggedIn) {
