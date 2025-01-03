@@ -573,7 +573,7 @@ map.on('singleclick', function (evt) {
 						.then((res) => res.json())
 						.then((data) => data.features[0].properties)
 						.then((relevantData) => {
-							// console.log(relevantData);
+							console.log(relevantData);
 							showParcelInfo(loggedIn, relevantData, 'standard');
 							const popupContactLink =
 								document.getElementById('popup-contact-link');
