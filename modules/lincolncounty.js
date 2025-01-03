@@ -25,7 +25,7 @@ for (let i = 0; i < 4; i++) {
 		group: 'lincolnCountyGroup',
 		style: new Style({
 			fill: new Fill({
-				color: [0, 255, 0, 0.5],
+				color: [0, 255, 0, 0.2],
 			}),
 			stroke: new Stroke({
 				color: [0, 0, 0, 0.5],
