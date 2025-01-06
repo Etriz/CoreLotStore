@@ -441,16 +441,25 @@ popupCloser.onclick = function () {
 /**
  * Add a click handler to the map to render the popup.
  */
+/**
+ * @param {number} id Sioux Falls parcel OBJECTID
+ */
 const sfIdUrl = (id) =>
 	'https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=OBJECTID=' +
 	id +
 	'&outFields=*&outSR=4326&f=GEOjson&returnGeometry=false';
 
+/**
+ * @param {number} id Lincoln County parcel OBJECTID
+ */
 const lcIdUrl = (id) =>
 	'https://maps.lincolncountysd.org/webmapadaptor/rest/services/Pro29/Base/MapServer/2/query?where=CountyService.DBO.Parcel.OBJECTID=' +
 	id +
 	'&outFields=*&outSR=4326&returnGeometry=false&f=geojson';
 
+/**
+ * @param {number} id Sioux Falls parcel address OBJECTID
+ */
 const addressUrl = (id) =>
 	'https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/0/query?where=OBJECTID=' +
 	id +
@@ -465,13 +474,17 @@ lightbox.insertSlide(
 	},
 	0
 );
-const handlePopupLinkClick = (type = 'popup', data) => {
+/**
+ * @param {string} type Type of data to be passed in
+ * @param {number} data Data to display in the popup
+ */
+const handlePopupLinkClick = (type, data) => {
 	closePopup();
 	setMenuView('hide');
 	lightbox.openAt(0);
 	if ((type = 'address')) {
 		contactInfo.ADDRESS = data;
-	} else {
+	} else if ((type = 'countyid')) {
 		contactInfo.COUNTYID = data;
 	}
 };
@@ -573,7 +586,9 @@ map.on('singleclick', function (evt) {
 						.then((res) => res.json())
 						.then((data) => data.features[0].properties)
 						.then((relevantData) => {
-							console.log(relevantData);
+							console.log(
+								`Class 1: ${relevantData['CountyService.DBO.GIS.Class1']}, Class 2: ${relevantData['CountyService.DBO.GIS.Class2']}`
+							);
 							showParcelInfo(loggedIn, relevantData, 'standard');
 							const popupContactLink =
 								document.getElementById('popup-contact-link');

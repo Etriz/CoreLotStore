@@ -15,15 +15,15 @@ const legendParcels = document.createElement('div');
 legendParcels.id = 'legend-parcels';
 legendParcels.style.display = 'block';
 legendArea.appendChild(legendParcels);
-// activityCodes.map((code) => {
-// 	const item = document.createElement('div');
-// 	const colorBlock = document.createElement('div');
-// 	colorBlock.className = 'color-block';
-// 	colorBlock.setAttribute('style', 'background-color:rgb(' + code[2] + ')');
-// 	item.appendChild(colorBlock);
-// 	item.appendChild(document.createElement('div')).innerText = code[0];
-// 	legendParcels.appendChild(item);
-// });
+
+// out of town agricultural
+const lincoln = document.createElement('div');
+const lincolnColorBlock = document.createElement('div');
+lincolnColorBlock.className = 'color-block';
+lincolnColorBlock.setAttribute('style', 'background-color:rgb(0,200,0)');
+lincoln.appendChild(lincolnColorBlock);
+lincoln.appendChild(document.createElement('div')).innerText = 'Agricultural';
+legendParcels.appendChild(lincoln);
 // agricultural parcel item
 const agLand = document.createElement('div');
 const agColorBlock = document.createElement('div');
@@ -58,14 +58,6 @@ permits.appendChild(permitColorBlock);
 permits.appendChild(document.createElement('div')).innerText =
 	'Approved Permits';
 legendParcels.appendChild(permits);
-// lincoln county item
-const lincoln = document.createElement('div');
-const lincolnColorBlock = document.createElement('div');
-lincolnColorBlock.className = 'color-block';
-lincolnColorBlock.setAttribute('style', 'background-color:rgb(0,255,0)');
-lincoln.appendChild(lincolnColorBlock);
-lincoln.appendChild(document.createElement('div')).innerText = 'Lincoln County';
-legendParcels.appendChild(lincoln);
 
 // this is for the school district legend
 const legendSchools = document.createElement('div');
