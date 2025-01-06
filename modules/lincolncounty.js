@@ -18,7 +18,7 @@ const reqUrl = (code, page = 0) => {
  * @param {VectorSource} source Layer Source to filter
  * @param {array} codeArray Array of Class Codes to remove
  */
-const filterSource = (source, codeArray) => {
+const filterSourceClass2 = (source, codeArray) => {
 	const wantedFeatures = [];
 	const sourceFeatures = source.getFeatures();
 	sourceFeatures.map((feature) => {
@@ -34,6 +34,22 @@ const filterSource = (source, codeArray) => {
 	source.clear();
 	source.addFeatures(wantedFeatures);
 };
+/**
+ * @param {VectorSource} source Layer Source to filter
+ * @param {string} auth Name of City to remove
+ */
+const filterSourceSubdivAuth = (source, auth) => {
+	const wantedFeatures = [];
+	const sourceFeatures = source.getFeatures();
+	sourceFeatures.map((feature) => {
+		const properties = feature.getProperties();
+		if (properties['CountyService.DBO.Parcel.SubdivAuth'] !== auth) {
+			wantedFeatures.push(feature);
+		}
+	});
+	source.clear();
+	source.addFeatures(wantedFeatures);
+};
 // blue
 for (let i = 0; i < 3; i++) {
 	const testSource = new VectorSource({
@@ -41,7 +57,8 @@ for (let i = 0; i < 3; i++) {
 		format: new GeoJSON(),
 	});
 	testSource.on('featuresloadend', function () {
-		filterSource(testSource, ['NADO', 'NAD1', 'NADM1']);
+		filterSourceClass2(testSource, ['NADO', 'NAD1', 'NADM1']);
+		filterSourceSubdivAuth(testSource, 'Sioux Falls');
 	});
 	const testVectorLayer = new VectorLayer({
 		source: testSource,
@@ -67,7 +84,8 @@ for (let i = 0; i < 4; i++) {
 		format: new GeoJSON(),
 	});
 	testSource.on('featuresloadend', function () {
-		filterSource(testSource, ['AGD', 'NAD1O']);
+		filterSourceClass2(testSource, ['AGD', 'NAD1O']);
+		filterSourceSubdivAuth(testSource, 'Sioux Falls');
 	});
 	const testVectorLayer = new VectorLayer({
 		source: testSource,
@@ -93,7 +111,8 @@ for (let i = 0; i < 4; i++) {
 		format: new GeoJSON(),
 	});
 	testSource.on('featuresloadend', function () {
-		filterSource(testSource, ['AGC1', 'NAC1O']);
+		filterSourceClass2(testSource, ['AGC1', 'NAC1', 'NAC1O']);
+		filterSourceSubdivAuth(testSource, 'Sioux Falls');
 	});
 	const testVectorLayer = new VectorLayer({
 		source: testSource,

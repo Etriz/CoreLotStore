@@ -40,16 +40,43 @@ const handleLoginSubmit = (evt, str) => {
 		searchArea.style.display = 'flex';
 	}
 };
-const findByCountyId = (id) => {
+/**
+ * @param {number} id Minnehaha COUNTYID to search for
+ */
+const findByMinneCountyId = (id) => {
 	const url =
 		"https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=COUNTYID='" +
 		id +
 		"'&outFields=*&outSR=4326&f=GEOjson";
 	return url;
 };
-const findByAddress = (address) => {
+/**
+ * @param {string} address Sioux Falls ADDRESS to search for
+ */
+const findBySFAddress = (address) => {
 	const url =
 		"https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/0/query?where=ADDRESS='" +
+		address +
+		"'&outFields=*&outSR=4326&f=Geojson";
+	return url;
+};
+/**
+ * @param {number} id Lincoln County PID to search for
+ */
+const findByLincolnCountyId = (id) => {
+	const url =
+		"https://maps.lincolncountysd.org/webmapadaptor/rest/services/Pro29/Base/MapServer/2/query?where=CountyService.DBO.Parcel.PID='" +
+		id +
+		"'&outFields=*&outSR=4326&f=GEOjson";
+	return url;
+};
+/**
+ * @param {string} address Lincoln County ADDRESS to search for
+ */
+const findByLCAddress = (address) => {
+	console.log(address);
+	const url =
+		"https://maps.lincolncountysd.org/webmapadaptor/rest/services/Pro29/Base/MapServer/2/query?where=CountyService.DBO.GIS.ReInqAddre='" +
 		address +
 		"'&outFields=*&outSR=4326&f=Geojson";
 	return url;
@@ -80,38 +107,86 @@ loginSubmit.addEventListener('click', (evt) => {
 });
 
 // logged in search box
-const searchArea = document.createElement('form');
-searchArea.id = 'search';
-const searchInput = document.createElement('input');
-searchInput.type = 'search';
-searchInput.placeholder = 'County ID or Address';
-const searchButton = document.createElement('button');
-searchButton.id = 'site-search';
-searchButton.innerText = 'Search';
-searchButton.addEventListener('click', (evt) => {
+const searchArea = document.createElement('div');
+searchArea.id = 'searcharea';
+// minnehaha county search area
+const minneSearchArea = document.createElement('form');
+minneSearchArea.className = 'searchbox';
+const minneSearchInput = document.createElement('input');
+minneSearchInput.type = 'search';
+minneSearchInput.placeholder = 'Minnehaha ID or Address';
+const minneSearchButton = document.createElement('button');
+minneSearchButton.id = 'minne-search';
+minneSearchButton.innerText = 'Search';
+minneSearchButton.addEventListener('click', (evt) => {
 	evt.preventDefault();
-	const value = searchInput.value;
+	const value = minneSearchInput.value;
 	const valueCheck = value.split('.').join('');
-	if (isNaN(valueCheck)) {
-		searchVectorLayer.getSource().setUrl(findByAddress(value));
-	} else {
-		searchVectorLayer.getSource().setUrl(findByCountyId(value));
+	try {
+		if (isNaN(valueCheck)) {
+			searchVectorLayer.getSource().setUrl(findBySFAddress(value));
+		} else {
+			searchVectorLayer.getSource().setUrl(findByMinneCountyId(value));
+		}
+	} catch (error) {
+		console.error('SEARCH ERROR: ', error);
 	}
 	searchVectorLayer.getSource().refresh();
 	// searchInput.value = '';
 });
-const resetSearchButton = document.createElement('button');
-resetSearchButton.innerText = 'Reset';
-resetSearchButton.addEventListener('click', (evt) => {
+const resetMinneSearchButton = document.createElement('button');
+resetMinneSearchButton.innerText = 'Reset';
+resetMinneSearchButton.addEventListener('click', (evt) => {
 	evt.preventDefault();
-	searchInput.value = '';
+	minneSearchInput.value = '';
+	lincolnSearchInput.value = '';
 	searchVectorLayer.getSource().setUrl('');
 	searchVectorLayer.getSource().refresh();
 });
-searchArea.appendChild(searchInput);
-searchArea.appendChild(searchButton);
-searchArea.appendChild(resetSearchButton);
+searchArea.appendChild(minneSearchArea);
+minneSearchArea.appendChild(minneSearchInput);
+minneSearchArea.appendChild(minneSearchButton);
+minneSearchArea.appendChild(resetMinneSearchButton);
 headerBar.appendChild(searchArea);
+// Lincoln county search area
+const lincolnSearchArea = document.createElement('form');
+lincolnSearchArea.className = 'searchbox';
+const lincolnSearchInput = document.createElement('input');
+lincolnSearchInput.type = 'search';
+lincolnSearchInput.placeholder = 'Lincoln ID or Address';
+const lincolnSearchButton = document.createElement('button');
+lincolnSearchButton.id = 'lincoln-search';
+lincolnSearchButton.innerText = 'Search';
+lincolnSearchButton.addEventListener('click', (evt) => {
+	evt.preventDefault();
+	const value = lincolnSearchInput.value;
+	const valueCheck = value.split('.').join('').slice(0, 7);
+	try {
+		if (isNaN(valueCheck)) {
+			searchVectorLayer.getSource().setUrl(findByLCAddress(value));
+		} else {
+			searchVectorLayer.getSource().setUrl(findByLincolnCountyId(value));
+		}
+	} catch (error) {
+		console.error('SEARCH ERROR: ', error);
+	}
+	searchVectorLayer.getSource().refresh();
+	// searchInput.value = '';
+});
+const resetLincolnSearchButton = document.createElement('button');
+resetLincolnSearchButton.innerText = 'Reset';
+resetLincolnSearchButton.addEventListener('click', (evt) => {
+	evt.preventDefault();
+	minneSearchInput.value = '';
+	lincolnSearchInput.value = '';
+	searchVectorLayer.getSource().setUrl('');
+	searchVectorLayer.getSource().refresh();
+});
+
+searchArea.appendChild(lincolnSearchArea);
+lincolnSearchArea.appendChild(lincolnSearchInput);
+lincolnSearchArea.appendChild(lincolnSearchButton);
+lincolnSearchArea.appendChild(resetLincolnSearchButton);
 
 window.onload = (evt) => {
 	if (getLoggedInStatus(true)) {

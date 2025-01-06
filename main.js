@@ -587,9 +587,9 @@ map.on('singleclick', function (evt) {
 						.then((data) => data.features[0].properties)
 						.then((relevantData) => {
 							// console.log(relevantData);
-							console.log(
-								`Class 1: ${relevantData['CountyService.DBO.GIS.Class1']}, Class 2: ${relevantData['CountyService.DBO.GIS.Class2']}`
-							);
+							// console.log(
+							// 	`Class 1: ${relevantData['CountyService.DBO.GIS.Class1']}, Class 2: ${relevantData['CountyService.DBO.GIS.Class2']}`
+							// );
 							showParcelInfo(loggedIn, relevantData, 'standard');
 							const popupContactLink =
 								document.getElementById('popup-contact-link');
@@ -706,39 +706,29 @@ buttonArea.appendChild(dropdown);
 buttonArea.appendChild(legendArea);
 
 // logged in search and reset buttons
-const siteSearch = document.getElementById('site-search');
-siteSearch.addEventListener('click', () => {
+const minneSearch = document.getElementById('minne-search');
+minneSearch.addEventListener('click', () => {
 	const source = searchVectorLayer.getSource();
 	source.refresh();
-	setTimeout(() => {
+	source.on('featuresloadend', () => {
 		map.getView().fit(source.getExtent(), {
 			size: map.getSize(),
 			padding: [200, 200, 200, 200],
 			duration: 2000,
 			maxZoom: 19,
 		});
-	}, 500);
+	});
 });
-// const fetchBtn = document.getElementById('fetchBtn');
-// fetchBtn.addEventListener('click', async () => {
-// 	const response = await fetch(
-// 		'https://coreserver.netlify.app/.netlify/functions/sendEmail',
-// 		{
-// 			method: 'POST',
-// 			body: JSON.stringify({
-// 				id: '82444',
-// 				firstName: 'First',
-// 				lastName: 'Last',
-// 				email: 'email@gmail.com',
-// 				phone: '605-438-2673',
-// 			}),
-// 		}
-// 	)
-// 		.then((response) => response.json())
-// 		.then((data) => {
-// 			console.log(JSON.stringify(data));
-// 		});
-// 	const branding = document.getElementsByClassName('branding');
-// 	console.log(branding);
-// 	console.log(JSON.stringify(response));
-// });
+const lincolnSearch = document.getElementById('lincoln-search');
+lincolnSearch.addEventListener('click', () => {
+	const source = searchVectorLayer.getSource();
+	source.refresh();
+	source.on('featuresloadend', () => {
+		map.getView().fit(source.getExtent(), {
+			size: map.getSize(),
+			padding: [200, 200, 200, 200],
+			duration: 2000,
+			maxZoom: 19,
+		});
+	});
+});
