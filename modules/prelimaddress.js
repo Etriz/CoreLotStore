@@ -28,7 +28,7 @@ for (let i = 0; i < 5; i++) {
 		visible: true,
 		style: new Style({
 			image: new Circle({
-				radius: 6,
+				radius: 7,
 				fill: new Fill({
 					color: [255, 145, 0, 1],
 				}),

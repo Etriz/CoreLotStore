@@ -586,6 +586,7 @@ map.on('singleclick', function (evt) {
 						.then((res) => res.json())
 						.then((data) => data.features[0].properties)
 						.then((relevantData) => {
+							// console.log(relevantData);
 							console.log(
 								`Class 1: ${relevantData['CountyService.DBO.GIS.Class1']}, Class 2: ${relevantData['CountyService.DBO.GIS.Class2']}`
 							);
@@ -714,6 +715,7 @@ siteSearch.addEventListener('click', () => {
 			size: map.getSize(),
 			padding: [200, 200, 200, 200],
 			duration: 2000,
+			maxZoom: 19,
 		});
 	}, 500);
 });
