@@ -20,7 +20,10 @@ legendArea.appendChild(legendParcels);
 const lincoln = document.createElement('div');
 const lincolnColorBlock = document.createElement('div');
 lincolnColorBlock.className = 'color-block';
-lincolnColorBlock.setAttribute('style', 'background-color:rgb(0,200,0)');
+lincolnColorBlock.setAttribute(
+	'style',
+	'background-color:rgba(0,200,0,.25);border:2px solid rgb(0,200,0)'
+);
 lincoln.appendChild(lincolnColorBlock);
 lincoln.appendChild(document.createElement('div')).innerText = 'Agricultural';
 legendParcels.appendChild(lincoln);
@@ -28,7 +31,10 @@ legendParcels.appendChild(lincoln);
 const agLand = document.createElement('div');
 const agColorBlock = document.createElement('div');
 agColorBlock.className = 'color-block';
-agColorBlock.setAttribute('style', 'background-color:rgb(255,150,0)');
+agColorBlock.setAttribute(
+	'style',
+	'background-color:rgba(255,150,0,.25);border:2px solid rgb(255,150,0)'
+);
 agLand.appendChild(agColorBlock);
 agLand.appendChild(document.createElement('div')).innerText = 'Annexed Ag Land';
 legendParcels.appendChild(agLand);
@@ -36,7 +42,10 @@ legendParcels.appendChild(agLand);
 const unplatted = document.createElement('div');
 const unplattedColorBlock = document.createElement('div');
 unplattedColorBlock.className = 'color-block';
-unplattedColorBlock.setAttribute('style', 'background-color:rgb(255,0,255)');
+unplattedColorBlock.setAttribute(
+	'style',
+	'background-color:rgba(255,0,255,.25);border:2px solid rgb(255,0,255)'
+);
 unplatted.appendChild(unplattedColorBlock);
 unplatted.appendChild(document.createElement('div')).innerText =
 	'Unplatted Parcel';
@@ -45,7 +54,10 @@ legendParcels.appendChild(unplatted);
 const platted = document.createElement('div');
 const plattedColorBlock = document.createElement('div');
 plattedColorBlock.className = 'color-block';
-plattedColorBlock.setAttribute('style', 'background-color:rgb(0,0,255)');
+plattedColorBlock.setAttribute(
+	'style',
+	'background-color:rgba(0,0,255,.25);border:2px solid rgb(0,0,255)'
+);
 platted.appendChild(plattedColorBlock);
 platted.appendChild(document.createElement('div')).innerText = 'Platted Parcel';
 legendParcels.appendChild(platted);
@@ -53,7 +65,10 @@ legendParcels.appendChild(platted);
 const permits = document.createElement('div');
 const permitColorBlock = document.createElement('div');
 permitColorBlock.className = 'color-block';
-permitColorBlock.setAttribute('style', 'background-color:rgb(255,0,0)');
+permitColorBlock.setAttribute(
+	'style',
+	'background-color:rgba(255,0,0,.25);border:2px solid rgb(255,0,0)'
+);
 permits.appendChild(permitColorBlock);
 permits.appendChild(document.createElement('div')).innerText =
 	'Approved Permits';
