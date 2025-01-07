@@ -15,21 +15,40 @@ const optionContainer = document.createElement('div');
 optionContainer.className = 'optionContainer';
 contactForm.appendChild(title);
 contactForm.appendChild(optionContainer);
-// option 1
+// option 1 -- Lot Information
 const lotInfo = document.createElement('div');
 lotInfo.id = 'option1';
-const optionOneTitle = document.createElement('h3');
-optionOneTitle.innerText = 'Lot Information';
+lotInfo.className = 'contact-option';
+lotInfo.innerText = 'Lot Information';
 lotInfo.addEventListener('click', () => {
 	lightbox.goToSlide(0);
 });
-lotInfo.appendChild(optionOneTitle);
-// option 2
-const optionTwo = document.createElement('div');
-optionTwo.id = 'option2';
-const optionTwoTitle = document.createElement('h3');
-optionTwoTitle.innerText = 'Option Two';
-optionTwo.appendChild(optionTwoTitle);
+// option 2 -- General Inquiry
+const generalInfo = document.createElement('div');
+generalInfo.id = 'option2';
+generalInfo.className = 'contact-option';
+generalInfo.innerText = 'Other Questions';
+generalInfo.addEventListener('click', () => {
+	lightbox.goToSlide(2);
+});
+// option 3 -- Builder
+const optionThree = document.createElement('div');
+optionThree.id = 'option3';
+optionThree.className = 'contact-option';
+optionThree.innerText = 'Find A Builder';
+optionThree.addEventListener('click', () => {
+	lightbox.goToSlide(3);
+});
+// option 4 -- General Inquiry
+const optionFour = document.createElement('div');
+optionFour.id = 'option4';
+optionFour.className = 'contact-option';
+optionFour.innerText = 'Maybe Two Lines Long';
+optionFour.addEventListener('click', () => {
+	lightbox.goToSlide(4);
+});
 
 optionContainer.appendChild(lotInfo);
-optionContainer.appendChild(optionTwo);
+optionContainer.appendChild(generalInfo);
+optionContainer.appendChild(optionThree);
+optionContainer.appendChild(optionFour);

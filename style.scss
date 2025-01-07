@@ -216,8 +216,8 @@ body {
 	}
 	.locate {
 		display: none;
-		right: 0.5rem;
-		top: 4.5rem;
+		right: 0rem;
+		top: 6.5rem;
 	}
 	// .ol-control button {
 	// 	display: inline;
@@ -412,6 +412,24 @@ body {
 		border-radius: 0.5rem;
 		.title {
 			margin: 0 auto;
+			text-align: center;
+			font-size: 1.75rem;
+		}
+		.optionContainer {
+			display: grid;
+			grid-template-columns: 50% 50%;
+			padding: 0;
+			.contact-option {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				width: 85%;
+				padding: 0.5rem;
+				margin: 0.25rem auto;
+				font-size: 1.5rem;
+				font-weight: 500;
+				text-align: center;
+			}
 		}
 		> div {
 			display: flex;
@@ -448,13 +466,18 @@ body {
 					margin-right: 1rem;
 				}
 			}
-		}
-		label::after {
-			content: ' *';
-			color: darkred;
-		}
-		div:nth-child(5) label::after {
-			content: '';
+			&.check-area {
+				display: flex;
+				flex-direction: row;
+				justify-content: start;
+			}
+			label::after {
+				content: ' *';
+				color: darkred;
+			}
+			&:nth-child(5) label::after {
+				content: '';
+			}
 		}
 		button {
 			cursor: pointer;
@@ -479,13 +502,11 @@ body {
 			}
 		}
 		.optionContainer {
-			display: flex;
-			flex-direction: row;
-			justify-content: space-between;
+			display: grid;
+			grid-template-columns: 50% 50%;
 			> div {
 				cursor: pointer;
 				justify-items: center;
-				width: 45%;
 				padding: 0.5rem;
 				margin: 1rem;
 				border-radius: 0.5rem;
@@ -549,20 +570,9 @@ body {
 	}
 	#contact-form {
 		.contact {
-			.optionContainer {
-				display: flex;
-				flex-direction: column;
-				> div {
-					width: 85%;
-					padding: 0.5rem;
-					margin: 0.5rem auto;
-					&:first-child {
-						margin-top: 1rem;
-					}
-					&:last-child {
-						margin-bottom: 1rem;
-					}
-				}
+			padding: 0;
+			.title {
+				text-align: center;
 			}
 		}
 	}

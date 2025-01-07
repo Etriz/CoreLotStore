@@ -67,14 +67,13 @@ const findByLincolnCountyId = (id) => {
 	const url =
 		"https://maps.lincolncountysd.org/webmapadaptor/rest/services/Pro29/Base/MapServer/2/query?where=CountyService.DBO.Parcel.PID='" +
 		id +
-		"'&outFields=*&outSR=4326&f=GEOjson";
+		"'&outFields=*&outSR=4326&f=Geojson";
 	return url;
 };
 /**
  * @param {string} address Lincoln County ADDRESS to search for
  */
 const findByLCAddress = (address) => {
-	console.log(address);
 	const url =
 		"https://maps.lincolncountysd.org/webmapadaptor/rest/services/Pro29/Base/MapServer/2/query?where=CountyService.DBO.GIS.ReInqAddre='" +
 		address +

@@ -12,7 +12,9 @@ emailjs.init({
 		watchVariable: 'email',
 	},
 });
-
+/**
+ * @param {object} templateParams Contact Info to send along with email
+ */
 export const sendEmail = (templateParams) => {
 	const btn = document.getElementById('popup-submit');
 	btn.innerText = 'Sending...';

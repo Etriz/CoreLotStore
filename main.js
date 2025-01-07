@@ -12,6 +12,7 @@ import { contactFormContainer, contactInfo } from './modules/contactform';
 import { getLoggedInStatus } from './modules/login';
 import { searchVectorLayer } from './modules/searchlayer';
 import { allLincolnLayers } from './modules/lincolncounty.js';
+// import { allMinneLayers } from './modules/minnehahacounty.js';
 // import { geo } from './modules/countydata';
 import { Map, View, Overlay } from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -188,13 +189,21 @@ map.addLayer(prelimAddressLayerGroup);
 // add from searchlayer module
 map.addLayer(searchVectorLayer);
 
-// add from testlincolncounty module
+// add from lincoln county module
 const lincolnCountyLayerGroup = new LayerGroup({
 	layers: [...allLincolnLayers],
 	id: 'lincolnCountyGroup',
 	visible: true,
 });
 map.addLayer(lincolnCountyLayerGroup);
+
+// add from minnehaha county module
+// const minneCountyLayerGroup = new LayerGroup({
+// 	layers: [...allMinneLayers],
+// 	id: 'minneCountyGroup',
+// 	visible: true,
+// });
+// map.addLayer(minneCountyLayerGroup);
 
 /* GLOBAL USE FUNCTIONS*/
 const setAllToggleSwitches = (state) => {
