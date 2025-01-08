@@ -1,6 +1,7 @@
 {
 	"name": "corelotstore",
 	"version": "1.0.0",
+	"type": "module",
 	"scripts": {
 		"start": "vite",
 		"build": "vite build",
@@ -12,6 +13,7 @@
 	"dependencies": {
 		"@emailjs/browser": "^4.4.1",
 		"@google-cloud/local-auth": "^2.1.0",
+		"cheerio": "^1.0.0",
 		"dotenv": "^16.4.7",
 		"geoshp": "^0.1.5",
 		"glightbox": "^3.3.0",
