@@ -257,10 +257,10 @@ const setZoningVisible = (str) => {
 const setFloodplainVisible = (str) => {
 	if (str) {
 		floodLayerGroup.setVisible(true);
-		viewFloodButton.innerText = 'Hide Flood Restrictions in City';
+		viewFloodButton.innerText = 'Hide Flood Restrictions';
 	} else {
 		floodLayerGroup.setVisible(false);
-		viewFloodButton.innerText = 'Show Flood Restrictions in City';
+		viewFloodButton.innerText = 'Show Flood Restrictions';
 	}
 };
 const resetMapZoom = () => {
@@ -340,6 +340,17 @@ satelliteView.addEventListener('click', () => {
 	}
 });
 topViewButtons.appendChild(satelliteView);
+// info button
+const infoBtn = document.createElement('button');
+infoBtn.className = 'info button';
+const svgQuestion =
+	'<svg xmlns="http://www.w3.org/2000/svg" fill="#000000" class="bi bi-question-circle" viewBox="0 0 25 25" id="Question-Circle--Streamline-Bootstrap" height="25" width="25"><desc>Question Circle Streamline Icon: https://streamlinehq.com</desc><path d="M12.5 23.4375A10.9375 10.9375 0 1 1 12.5 1.5625a10.9375 10.9375 0 0 1 0 21.875m0 1.5625A12.5 12.5 0 1 0 12.5 0a12.5 12.5 0 0 0 0 25" stroke-width="1"></path><path d="M8.2109375 9.040624999999999a0.3703125 0.3703125 0 0 0 0.37656249999999997 0.3859375h1.2890625c0.215625 0 0.3875 -0.1765625 0.415625 -0.390625 0.140625 -1.0250000000000001 0.84375 -1.7718749999999999 2.0968750000000003 -1.7718749999999999 1.0718750000000001 0 2.053125 0.5359375000000001 2.053125 1.825 0 0.9921875 -0.584375 1.4484375 -1.5078125 2.1421875 -1.0515625000000002 0.7640625 -1.884375 1.65625 -1.825 3.1046875000000003l0.0046875 0.3390625a0.390625 0.390625 0 0 0 0.390625 0.384375h1.2671875000000001a0.390625 0.390625 0 0 0 0.390625 -0.390625v-0.1640625c0 -1.121875 0.4265625 -1.4484375 1.578125 -2.321875 0.9515625 -0.7234375000000001 1.94375 -1.5265625 1.94375 -3.2125 0 -2.3609375 -1.9937500000000001 -3.5015625000000004 -4.1765625 -3.5015625000000004 -1.9796874999999998 0 -4.1484375 0.921875 -4.296875 3.571875m2.4328125 9.0046875c0 0.8328125000000001 0.6640625 1.4484375 1.578125 1.4484375 0.9515625 0 1.60625 -0.615625 1.60625 -1.4484375 0 -0.8625 -0.65625 -1.46875 -1.6078124999999999 -1.46875 -0.9125 0 -1.5765624999999999 0.6062500000000001 -1.5765624999999999 1.46875" stroke-width="1"></path></svg>';
+const svgInfo =
+	'<svg xmlns="http://www.w3.org/2000/svg" fill="#000000" class="bi bi-info-circle" viewBox="0 0 25 25" id="Info-Circle--Streamline-Bootstrap" height="25" width="25"><desc>Info Circle Streamline Icon: https://streamlinehq.com</desc><path d="M12.5 23.4375A10.9375 10.9375 0 1 1 12.5 1.5625a10.9375 10.9375 0 0 1 0 21.875m0 1.5625A12.5 12.5 0 1 0 12.5 0a12.5 12.5 0 0 0 0 25" stroke-width="1"></path><path d="m13.953125 10.29375 -3.578125 0.4484375 -0.12812500000000002 0.59375 0.703125 0.1296875c0.459375 0.10937500000000001 0.5499999999999999 0.27499999999999997 0.44999999999999996 0.7328125l-1.153125 5.41875c-0.30312500000000003 1.4015625 0.1640625 2.0609375 1.2625000000000002 2.0609375 0.8515625000000001 0 1.840625 -0.39375 2.2890625 -0.934375l0.13749999999999998 -0.65c-0.3125 0.27499999999999997 -0.76875 0.384375 -1.0718750000000001 0.384375 -0.42968750000000006 0 -0.5859375 -0.3015625 -0.475 -0.8328125000000001zM14.0625 7.03125a1.5625 1.5625 0 1 1 -3.125 0 1.5625 1.5625 0 0 1 3.125 0" stroke-width="1"></path></svg>';
+infoBtn.innerHTML = svgInfo;
+infoBtn.setAttribute('style', 'padding-top:6px');
+infoBtn.addEventListener('click', () => {});
+topViewButtons.appendChild(infoBtn);
 
 map.addControl(
 	new Control({
@@ -422,7 +433,7 @@ zoneField.appendChild(viewZoningButton);
 // view floodplain button
 const viewFloodButton = document.createElement('button');
 viewFloodButton.className = 'view-floodplain button';
-viewFloodButton.innerText = 'Show Flood Restrictions In City';
+viewFloodButton.innerText = 'Show Flood Restrictions';
 viewFloodButton.addEventListener('click', () => {
 	if (floodLayerGroup.getVisible()) {
 		setParcelLegendVisible(true);

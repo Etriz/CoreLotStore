@@ -41,7 +41,7 @@ const colorMap = (zoneCode) => {
 			return;
 	}
 };
-
+const minZoomLevel = 14;
 floodCodes.map((code) => {
 	if (code == 'X') {
 		for (let i = 0; i < 4; i++) {
@@ -50,6 +50,7 @@ floodCodes.map((code) => {
 				format: new GeoJSON(),
 			});
 			const floodLayer = new VectorLayer({
+				minZoom: minZoomLevel,
 				source: floodSource,
 				className: 'floodZone',
 				id: 'floodZone',
@@ -69,6 +70,7 @@ floodCodes.map((code) => {
 		format: new GeoJSON(),
 	});
 	const floodLayer = new VectorLayer({
+		minZoom: minZoomLevel,
 		source: floodSource,
 		className: 'floodZone',
 		id: 'floodZone',
@@ -82,3 +84,28 @@ floodCodes.map((code) => {
 	});
 	allFloodLayers.push(floodLayer);
 });
+
+export const lincolnFloodLayers = [];
+const reqLincolnFloodMap = () => {
+	const url =
+		'https://maps.lincolncountysd.org/webmapadaptor/rest/services/Pro29/Flood/MapServer/4/query?where=1=1&outFields=*&f=geojson&outSR=4326';
+	return url;
+};
+const lincolnFloodSource = new VectorSource({
+	url: reqLincolnFloodMap(),
+	format: new GeoJSON(),
+});
+const lincolnFloodLayer = new VectorLayer({
+	minZoom: minZoomLevel,
+	source: lincolnFloodSource,
+	className: 'floodZone',
+	id: 'floodZone',
+	group: 'floodGroup',
+	visible: true,
+	style: new Style({
+		fill: new Fill({
+			color: [3, 169, 252, 0.5],
+		}),
+	}),
+});
+allFloodLayers.push(lincolnFloodLayer);
