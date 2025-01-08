@@ -5,6 +5,7 @@ import { allParcelLayers } from './modules/codestatus';
 import { allPrelimParcels } from './modules/prelimparcels';
 import { allPrelimAddress } from './modules/prelimaddress';
 import { allZoneLayers } from './modules/zoning';
+import { lincolnZoneLayers } from './modules/zoning';
 import { allFloodLayers } from './modules/floodplain';
 import { legendArea } from './modules/maplegend';
 import { showParcelInfo } from './modules/popup';
@@ -148,7 +149,7 @@ map.addLayer(schoolLayerGroup);
 
 // add all layers from zoning module
 const zoneLayerGroup = new LayerGroup({
-	layers: [...allZoneLayers],
+	layers: [...allZoneLayers, ...lincolnZoneLayers],
 	id: 'zoneGroup',
 	visible: false,
 });

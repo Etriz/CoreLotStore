@@ -55,6 +55,7 @@ const colorMap = (zoneCode) => {
 		case 'RT-1':
 		case 'RCD':
 		case 'RHP':
+		case 'RR  Rural Residential':
 			return new Style({
 				fill: new Fill({
 					color: [254, 241, 0, alpha],
@@ -103,6 +104,7 @@ const colorMap = (zoneCode) => {
 		case 'C-2':
 		case 'C-3':
 		case 'C-4':
+		case 'C  Commercial':
 			return new Style({
 				fill: new Fill({
 					color: [238, 28, 37, alpha],
@@ -111,6 +113,7 @@ const colorMap = (zoneCode) => {
 		case 'I-1':
 		case 'I-2':
 		case 'AP':
+		case 'I-1  Light Industrial':
 			return new Style({
 				fill: new Fill({
 					color: [239, 76, 155, alpha],
@@ -180,3 +183,35 @@ for (let i = 0; i < 4; i++) {
 	});
 	allZoneLayers.push(rsLayer);
 }
+
+export const lincolnZoneLayers = [];
+
+const lincolnZoneCodes = [
+	'RR  Rural Residential',
+	'PD  Planned Development',
+	'C  Commercial',
+	'I-1  Light Industrial',
+];
+
+const reqLincolnZoneMap = (code) => {
+	const url =
+		"https://maps.lincolncountysd.org/webmapadaptor/rest/services/Pro29/Zoning/MapServer/1/query?where=Dscrptn='" +
+		code +
+		"'&outFields=*&f=geojson&outSR=4326";
+	return url;
+};
+lincolnZoneCodes.map((code) => {
+	const zoneSource = new VectorSource({
+		url: reqLincolnZoneMap(code),
+		format: new GeoJSON(),
+	});
+	const zoneLayer = new VectorLayer({
+		source: zoneSource,
+		className: code,
+		id: code,
+		group: 'zoneGroup',
+		visible: true,
+		style: colorMap(code),
+	});
+	lincolnZoneLayers.push(zoneLayer);
+});
