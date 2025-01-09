@@ -43,6 +43,7 @@ const satelliteTileLayer = new TileLayer({
 const defaultTileLayer = new TileLayer({
 	source: new OSM(),
 	id: 'default-tiles',
+	className: 'tiles_bw',
 });
 const additionVectorSource = new VectorSource({
 	url: '',
@@ -295,6 +296,12 @@ contactButton.addEventListener('click', () => {
 	setMenuView('hide');
 	lightbox.openAt(1);
 });
+// header about link
+// const aboutButton = document.getElementById('about-link');
+// aboutButton.addEventListener('click', () => {
+// 	setMenuView('hide');
+// 	lightbox.openAt(3);
+// });
 // create the button area
 const buttonArea = document.createElement('div');
 buttonArea.id = 'button-area';

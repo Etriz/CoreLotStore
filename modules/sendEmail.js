@@ -23,7 +23,7 @@ export const sendEmail = (templateParams) => {
 			console.log('SUCCESS!', response.status, response.text);
 			setTimeout(() => {
 				btn.innerText = 'Submit';
-				lightbox.close();
+				lightbox.goToSlide(3);
 			}, 2000);
 		},
 		(err) => {

@@ -6,7 +6,6 @@ const contactInfo = {};
 
 const generalContactFormContainer = document.createElement('div');
 generalContactFormContainer.id = 'contact-form';
-generalContactFormContainer.style.display = 'none';
 const contactForm = document.createElement('form');
 contactForm.className = 'contact';
 const title = document.createElement('h2');

@@ -1,6 +1,7 @@
 import GLightbox from 'glightbox';
 import { headerContactFormContainer } from './headercontactform';
 import { generalContactFormContainer } from './generalcontactform';
+import { successContainer } from './contactsuccess';
 
 export const lightbox = GLightbox({
 	openEffect: 'fade',
@@ -28,3 +29,18 @@ lightbox.insertSlide(
 	},
 	2
 );
+lightbox.insertSlide(
+	{
+		content: successContainer,
+	},
+	3
+);
+lightbox.on('slide_after_load', (data) => {
+	// data is an object that contain the following
+	const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+	if (slideIndex == 3) {
+		setTimeout(() => {
+			lightbox.close();
+		}, 3000);
+	}
+});
