@@ -197,6 +197,21 @@ body {
   background-color: #dde3ec;
 }
 
+#info-area {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 35px;
+  left: 365px;
+  padding: 0.5rem 1rem;
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 0 0 0.5rem 0;
+  transition: all 0.5s;
+}
+#info-area.hide {
+  display: none;
+}
+
 #map {
   position: absolute;
   top: 35px;
