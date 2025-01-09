@@ -208,8 +208,8 @@ map.addLayer(lincolnCountyLayerGroup);
 // map.addLayer(minneCountyLayerGroup);
 
 /* GLOBAL USE FUNCTIONS*/
-const setAllToggleSwitches = (state) => {
-	const inputSwitches = Array.from(document.getElementsByTagName('input'));
+const setAllZoneToggleSwitches = (state) => {
+	const inputSwitches = Array.from(document.getElementsByClassName('toggle'));
 	inputSwitches.map((item) => {
 		item.checked = state;
 	});
@@ -367,37 +367,134 @@ map.addControl(
 const zoneField = document.createElement('fieldset');
 zoneField.innerHTML = '<legend>Zone Overlays</legend>';
 buttonArea.appendChild(zoneField);
-// test layergroup button
-// const viewLayerGroup = document.createElement('button');
-// viewLayerGroup.className = 'show group';
-// viewLayerGroup.innerText = 'Test Layer Group';
-// viewLayerGroup.addEventListener('click', function () {
-// 	// get only parcel layers
-// 	const parcelLegend = document.getElementById('legend-parcels');
-// 	const tempArray = [];
-// 	const allToggleLayers = map.getAllLayers();
-// 	allToggleLayers.map((layer) => {
-// 		if (layer.get('group') == 'parcelGroup') {
-// 			tempArray.push(layer);
-// 		}
-// 	});
-// 	if (parcelLayerGroup.getVisible()) {
-// 		setAllToggleSwitches(false);
-// 		tempArray.map((layer) => {
-// 			layer.setVisible(false);
-// 		});
-// 		parcelLayerGroup.setVisible(false);
-// 		parcelLegend.style.display = 'none';
-// 	} else {
-// 		setAllToggleSwitches(true);
-// 		tempArray.map((layer) => {
-// 			layer.setVisible(true);
-// 		});
-// 		parcelLayerGroup.setVisible(true);
-// 		parcelLegend.style.display = 'block';
-// 	}
-// });
-// zoneField.appendChild(viewLayerGroup);
+
+// handle toggle switches for zone layers
+window.addEventListener('load', () => {
+	const zoneArray = [];
+	const allMapLayers = map.getAllLayers();
+	allMapLayers.map((layer) => {
+		if (layer.get('group') == 'zoneGroup') {
+			zoneArray.push(layer);
+			// console.log(layer.get('id'));
+		}
+	});
+	const allZoneToggleSwitches = Array.from(
+		document.getElementsByClassName('toggle')
+	);
+	// console.log(allZoneToggleSwitches[0].id);
+	allZoneToggleSwitches.map((item) => {
+		item.addEventListener('click', () => {
+			switch (item.id) {
+				case 'singleFamily':
+					const residentialCodes = [
+						'RR',
+						'RS',
+						'RT-1',
+						'RCD',
+						'RHP',
+						'RR  Rural Residential',
+					];
+					zoneArray.map((layer) => {
+						if (residentialCodes.includes(layer.get('id'))) {
+							layer.setVisible(!layer.getVisible());
+						}
+					});
+					break;
+				case 'manufacturedHomes':
+					const manufacturedCodes = ['MH'];
+					zoneArray.map((layer) => {
+						if (manufacturedCodes.includes(layer.get('id'))) {
+							layer.setVisible(!layer.getVisible());
+						}
+					});
+					break;
+				case 'townhomes':
+					const townhomeCodes = ['RD-1', 'RD-2', 'RT-2'];
+					zoneArray.map((layer) => {
+						if (townhomeCodes.includes(layer.get('id'))) {
+							layer.setVisible(!layer.getVisible());
+						}
+					});
+					break;
+				case 'apartments':
+					const apartmentCodes = ['RA-1', 'RA-2', 'RA-3'];
+					zoneArray.map((layer) => {
+						if (apartmentCodes.includes(layer.get('id'))) {
+							layer.setVisible(!layer.getVisible());
+						}
+					});
+					break;
+				case 'offices':
+					const officeCodes = ['O', 'S-1', 'S-2', 'LW'];
+					zoneArray.map((layer) => {
+						if (officeCodes.includes(layer.get('id'))) {
+							layer.setVisible(!layer.getVisible());
+						}
+					});
+					break;
+				case 'midtownMixed':
+					const mixedCodes = ['MMU1', 'MMU2', 'MMU3'];
+					zoneArray.map((layer) => {
+						if (mixedCodes.includes(layer.get('id'))) {
+							layer.setVisible(!layer.getVisible());
+						}
+					});
+					break;
+				case 'commercial':
+					const commercialCodes = [
+						'C-1',
+						'C-2',
+						'C-3',
+						'C-4',
+						'C  Commercial',
+					];
+					zoneArray.map((layer) => {
+						if (commercialCodes.includes(layer.get('id'))) {
+							layer.setVisible(!layer.getVisible());
+						}
+					});
+					break;
+				case 'industrial':
+					const industrialCodes = [
+						'I-1',
+						'I-2',
+						'AP',
+						'I-1  Light Industrial',
+					];
+					zoneArray.map((layer) => {
+						if (industrialCodes.includes(layer.get('id'))) {
+							layer.setVisible(!layer.getVisible());
+						}
+					});
+					break;
+				case 'openSpace':
+					const openCodes = ['CN', 'REC', 'AG'];
+					zoneArray.map((layer) => {
+						if (openCodes.includes(layer.get('id'))) {
+							layer.setVisible(!layer.getVisible());
+						}
+					});
+					break;
+				case 'pud':
+					const pudCodes = [
+						'POPUD',
+						'VPUD',
+						'DTPUD',
+						'PD  Planned Development',
+					];
+					zoneArray.map((layer) => {
+						if (pudCodes.includes(layer.get('id'))) {
+							layer.setVisible(!layer.getVisible());
+						}
+					});
+					break;
+				default:
+					console.log('switch case', item.id);
+					break;
+			}
+		});
+	});
+});
 
 // view schools button
 const viewSchoolDistrict = document.createElement('button');

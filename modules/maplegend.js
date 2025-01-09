@@ -104,6 +104,7 @@ legendArea.appendChild(legendZoning);
 // residential item
 const residentialItem = document.createElement('div');
 residentialItem.className = 'toggle';
+residentialItem.id = 'singleFamily';
 const resiToggle = document.createElement('input');
 resiToggle.type = 'checkbox';
 resiToggle.checked = true;
@@ -123,6 +124,7 @@ legendZoning.appendChild(residentialItem);
 // manufactured home item
 const manufacturedItem = document.createElement('div');
 manufacturedItem.className = 'toggle';
+manufacturedItem.id = 'manufacturedHomes';
 const manuToggle = document.createElement('input');
 manuToggle.type = 'checkbox';
 manuToggle.checked = true;
@@ -141,6 +143,7 @@ legendZoning.appendChild(manufacturedItem);
 // townhome item
 const townhomeItem = document.createElement('div');
 townhomeItem.className = 'toggle';
+townhomeItem.id = 'townhomes';
 const townToggle = document.createElement('input');
 townToggle.type = 'checkbox';
 townToggle.checked = true;
@@ -158,6 +161,7 @@ legendZoning.appendChild(townhomeItem);
 // apartment item
 const apartmentItem = document.createElement('div');
 apartmentItem.className = 'toggle';
+apartmentItem.id = 'apartments';
 const apartmentToggle = document.createElement('input');
 apartmentToggle.type = 'checkbox';
 apartmentToggle.checked = true;
@@ -176,6 +180,7 @@ legendZoning.appendChild(apartmentItem);
 // office item
 const officeItem = document.createElement('div');
 officeItem.className = 'toggle';
+officeItem.id = 'offices';
 const officeToggle = document.createElement('input');
 officeToggle.type = 'checkbox';
 officeToggle.checked = true;
@@ -193,6 +198,7 @@ legendZoning.appendChild(officeItem);
 // midtown mixed use item
 const mixedItem = document.createElement('div');
 mixedItem.className = 'toggle';
+mixedItem.id = 'midtownMixed';
 const mixedToggle = document.createElement('input');
 mixedToggle.type = 'checkbox';
 mixedToggle.checked = true;
@@ -211,6 +217,7 @@ legendZoning.appendChild(mixedItem);
 // commercial item
 const commercialItem = document.createElement('div');
 commercialItem.className = 'toggle';
+commercialItem.id = 'commercial';
 const commercialToggle = document.createElement('input');
 commercialToggle.type = 'checkbox';
 commercialToggle.checked = true;
@@ -229,6 +236,7 @@ legendZoning.appendChild(commercialItem);
 // industrial item
 const industrialItem = document.createElement('div');
 industrialItem.className = 'toggle';
+industrialItem.id = 'industrial';
 const industrialToggle = document.createElement('input');
 industrialToggle.type = 'checkbox';
 industrialToggle.checked = true;
@@ -247,6 +255,7 @@ legendZoning.appendChild(industrialItem);
 // open space item
 const openItem = document.createElement('div');
 openItem.className = 'toggle';
+openItem.id = 'openSpace';
 const openToggle = document.createElement('input');
 openToggle.type = 'checkbox';
 openToggle.checked = true;
@@ -264,6 +273,7 @@ legendZoning.appendChild(openItem);
 // PUD item
 const pudItem = document.createElement('div');
 pudItem.className = 'toggle';
+pudItem.id = 'pud';
 const pudToggle = document.createElement('input');
 pudToggle.type = 'checkbox';
 pudToggle.checked = true;
