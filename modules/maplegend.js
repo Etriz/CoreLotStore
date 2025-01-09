@@ -83,7 +83,15 @@ sdSchoolCodes.map((code) => {
 	const item = document.createElement('div');
 	const colorBlock = document.createElement('div');
 	colorBlock.className = 'color-block';
-	colorBlock.setAttribute('style', 'background-color:rgb(' + code[2] + ')');
+	const backgroundAlpha = 0.5;
+	colorBlock.setAttribute(
+		'style',
+		'background-color:rgba(' +
+			code[2].concat(backgroundAlpha) +
+			');border:1px solid rgb(' +
+			code[3] +
+			')'
+	);
 	item.appendChild(colorBlock);
 	item.appendChild(document.createElement('div')).innerText = code[0];
 	legendSchools.appendChild(item);
@@ -95,87 +103,178 @@ legendZoning.style.display = 'none';
 legendArea.appendChild(legendZoning);
 // residential item
 const residentialItem = document.createElement('div');
-const resiColorBlock = document.createElement('div');
-resiColorBlock.className = 'color-block';
-resiColorBlock.setAttribute('style', 'background-color:rgb(254,242,0)');
-residentialItem.appendChild(resiColorBlock);
+residentialItem.className = 'toggle';
+const resiToggle = document.createElement('input');
+resiToggle.type = 'checkbox';
+resiToggle.checked = true;
+const resiLabel = document.createElement('label');
+resiLabel.setAttribute('style', 'background:rgb(254,242,0)');
+
+residentialItem.appendChild(resiToggle);
+residentialItem.appendChild(resiLabel);
 residentialItem.appendChild(document.createElement('div')).innerText =
 	'Single Family';
+residentialItem.addEventListener('click', () => {
+	resiToggle.checked
+		? resiLabel.setAttribute('style', 'background:rgb(254,242,0)')
+		: resiLabel.setAttribute('style', 'background:#999');
+});
 legendZoning.appendChild(residentialItem);
 // manufactured home item
 const manufacturedItem = document.createElement('div');
-const manuColorBlock = document.createElement('div');
-manuColorBlock.className = 'color-block';
-manuColorBlock.setAttribute('style', 'background-color:rgb(248,205,191)');
-manufacturedItem.appendChild(manuColorBlock);
+manufacturedItem.className = 'toggle';
+const manuToggle = document.createElement('input');
+manuToggle.type = 'checkbox';
+manuToggle.checked = true;
+const manuLabel = document.createElement('label');
+manuLabel.setAttribute('style', 'background:rgb(248,205,191)');
+manufacturedItem.appendChild(manuToggle);
+manufacturedItem.appendChild(manuLabel);
 manufacturedItem.appendChild(document.createElement('div')).innerText =
 	'Manufactured Homes';
+manufacturedItem.addEventListener('click', () => {
+	manuToggle.checked
+		? manuLabel.setAttribute('style', 'background:rgb(248,205,191)')
+		: manuLabel.setAttribute('style', 'background:#999');
+});
 legendZoning.appendChild(manufacturedItem);
 // townhome item
 const townhomeItem = document.createElement('div');
-const townColorBlock = document.createElement('div');
-townColorBlock.className = 'color-block';
-townColorBlock.setAttribute('style', 'background-color:rgb(249,166,26)');
-townhomeItem.appendChild(townColorBlock);
+townhomeItem.className = 'toggle';
+const townToggle = document.createElement('input');
+townToggle.type = 'checkbox';
+townToggle.checked = true;
+const townLabel = document.createElement('label');
+townLabel.setAttribute('style', 'background-color:rgb(249,166,26)');
+townhomeItem.appendChild(townToggle);
+townhomeItem.appendChild(townLabel);
 townhomeItem.appendChild(document.createElement('div')).innerText = 'Townhomes';
+townhomeItem.addEventListener('click', () => {
+	townToggle.checked
+		? townLabel.setAttribute('style', 'background:rgb(249,166,26)')
+		: townLabel.setAttribute('style', 'background:#999');
+});
 legendZoning.appendChild(townhomeItem);
 // apartment item
 const apartmentItem = document.createElement('div');
-const apartmentColorBlock = document.createElement('div');
-apartmentColorBlock.className = 'color-block';
-apartmentColorBlock.setAttribute('style', 'background-color:rgb(194,131,18)');
-apartmentItem.appendChild(apartmentColorBlock);
+apartmentItem.className = 'toggle';
+const apartmentToggle = document.createElement('input');
+apartmentToggle.type = 'checkbox';
+apartmentToggle.checked = true;
+const apartmentLabel = document.createElement('label');
+apartmentLabel.setAttribute('style', 'background-color:rgb(194,131,18)');
+apartmentItem.appendChild(apartmentToggle);
+apartmentItem.appendChild(apartmentLabel);
 apartmentItem.appendChild(document.createElement('div')).innerText =
 	'Apartments';
+apartmentItem.addEventListener('click', () => {
+	apartmentToggle.checked
+		? apartmentLabel.setAttribute('style', 'background:rgb(194,131,18)')
+		: apartmentLabel.setAttribute('style', 'background:#999');
+});
 legendZoning.appendChild(apartmentItem);
 // office item
 const officeItem = document.createElement('div');
-const officeColorBlock = document.createElement('div');
-officeColorBlock.className = 'color-block';
-officeColorBlock.setAttribute('style', 'background-color:rgb(0,114,187)');
-officeItem.appendChild(officeColorBlock);
+officeItem.className = 'toggle';
+const officeToggle = document.createElement('input');
+officeToggle.type = 'checkbox';
+officeToggle.checked = true;
+const officeLabel = document.createElement('label');
+officeLabel.setAttribute('style', 'background-color:rgb(0,114,187)');
+officeItem.appendChild(officeToggle);
+officeItem.appendChild(officeLabel);
 officeItem.appendChild(document.createElement('div')).innerText = 'Offices';
+officeItem.addEventListener('click', () => {
+	officeToggle.checked
+		? officeLabel.setAttribute('style', 'background:rgb(0,114,187)')
+		: officeLabel.setAttribute('style', 'background:#999');
+});
 legendZoning.appendChild(officeItem);
 // midtown mixed use item
 const mixedItem = document.createElement('div');
-const mixedColorBlock = document.createElement('div');
-mixedColorBlock.className = 'color-block';
-mixedColorBlock.setAttribute('style', 'background-color:rgb(191,191,191)');
-mixedItem.appendChild(mixedColorBlock);
+mixedItem.className = 'toggle';
+const mixedToggle = document.createElement('input');
+mixedToggle.type = 'checkbox';
+mixedToggle.checked = true;
+const mixedLabel = document.createElement('label');
+mixedLabel.setAttribute('style', 'background-color:rgb(191,191,191)');
+mixedItem.appendChild(mixedToggle);
+mixedItem.appendChild(mixedLabel);
 mixedItem.appendChild(document.createElement('div')).innerText =
 	'Midtown Mixed';
+mixedItem.addEventListener('click', () => {
+	mixedToggle.checked
+		? mixedLabel.setAttribute('style', 'background:rgb(191,191,191)')
+		: mixedLabel.setAttribute('style', 'background:#999');
+});
 legendZoning.appendChild(mixedItem);
 // commercial item
 const commercialItem = document.createElement('div');
-const commercialColorBlock = document.createElement('div');
-commercialColorBlock.className = 'color-block';
-commercialColorBlock.setAttribute('style', 'background-color:rgb(238,28,37)');
-commercialItem.appendChild(commercialColorBlock);
+commercialItem.className = 'toggle';
+const commercialToggle = document.createElement('input');
+commercialToggle.type = 'checkbox';
+commercialToggle.checked = true;
+const commercialLabel = document.createElement('label');
+commercialLabel.setAttribute('style', 'background-color:rgb(238,28,37)');
+commercialItem.appendChild(commercialToggle);
+commercialItem.appendChild(commercialLabel);
 commercialItem.appendChild(document.createElement('div')).innerText =
 	'Commercial';
+commercialItem.addEventListener('click', () => {
+	commercialToggle.checked
+		? commercialLabel.setAttribute('style', 'background:rgb(238,28,37)')
+		: commercialLabel.setAttribute('style', 'background:#999');
+});
 legendZoning.appendChild(commercialItem);
 // industrial item
 const industrialItem = document.createElement('div');
-const industrialColorBlock = document.createElement('div');
-industrialColorBlock.className = 'color-block';
-industrialColorBlock.setAttribute('style', 'background-color:rgb(239,76,155)');
-industrialItem.appendChild(industrialColorBlock);
+industrialItem.className = 'toggle';
+const industrialToggle = document.createElement('input');
+industrialToggle.type = 'checkbox';
+industrialToggle.checked = true;
+const industrialLabel = document.createElement('label');
+industrialLabel.setAttribute('style', 'background-color:rgb(239,76,155)');
+industrialItem.appendChild(industrialToggle);
+industrialItem.appendChild(industrialLabel);
 industrialItem.appendChild(document.createElement('div')).innerText =
 	'Industrial';
+industrialItem.addEventListener('click', () => {
+	industrialToggle.checked
+		? industrialLabel.setAttribute('style', 'background:rgb(239,76,155)')
+		: industrialLabel.setAttribute('style', 'background:#999');
+});
 legendZoning.appendChild(industrialItem);
 // open space item
 const openItem = document.createElement('div');
-const openColorBlock = document.createElement('div');
-openColorBlock.className = 'color-block';
-openColorBlock.setAttribute('style', 'background-color:rgb(0,166,80)');
-openItem.appendChild(openColorBlock);
+openItem.className = 'toggle';
+const openToggle = document.createElement('input');
+openToggle.type = 'checkbox';
+openToggle.checked = true;
+const openLabel = document.createElement('label');
+openLabel.setAttribute('style', 'background-color:rgb(0,166,80)');
+openItem.appendChild(openToggle);
+openItem.appendChild(openLabel);
 openItem.appendChild(document.createElement('div')).innerText = 'Open Space';
+openItem.addEventListener('click', () => {
+	openToggle.checked
+		? openLabel.setAttribute('style', 'background:rgb(0,166,80)')
+		: openLabel.setAttribute('style', 'background:#999');
+});
 legendZoning.appendChild(openItem);
 // PUD item
 const pudItem = document.createElement('div');
-const pudColorBlock = document.createElement('div');
-pudColorBlock.className = 'color-block';
-pudColorBlock.setAttribute('style', 'background-color:rgb(120,43,145)');
-pudItem.appendChild(pudColorBlock);
+pudItem.className = 'toggle';
+const pudToggle = document.createElement('input');
+pudToggle.type = 'checkbox';
+pudToggle.checked = true;
+const pudLabel = document.createElement('label');
+pudLabel.setAttribute('style', 'background-color:rgb(120,43,145)');
+pudItem.appendChild(pudToggle);
+pudItem.appendChild(pudLabel);
 pudItem.appendChild(document.createElement('div')).innerText = 'PUD';
+pudItem.addEventListener('click', () => {
+	pudToggle.checked
+		? pudLabel.setAttribute('style', 'background:rgb(120,43,145)')
+		: pudLabel.setAttribute('style', 'background:#999');
+});
 legendZoning.appendChild(pudItem);

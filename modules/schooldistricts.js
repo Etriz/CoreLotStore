@@ -7,18 +7,18 @@ const allSchoolLayers = [];
 export { allSchoolLayers, sdSchoolCodes };
 
 const sdSchoolCodes = [
-	['Sioux Falls', 116, [200, 200, 200]],
-	['Harrisburg', 72, [110, 25, 38]],
-	['Tea', 10, [255, 255, 0]],
-	['Tri-Valley', 94, [255, 255, 255]],
-	['Garretson', 66, [2, 25, 152]],
-	['Lennox', 91, [235, 125, 52]],
-	['West Central', 73, [235, 0, 0]],
-	['Baltic', 21, [0, 74, 155]],
-	['Canton', 35, [0, 1, 164]],
-	['Brandon Valley', 30, [0, 0, 0]],
-	['Dell Rapids', 45, [255, 102, 0]],
-	['Parker', 107, [10, 14, 174]],
+	['Sioux Falls', 116, [200, 200, 200], [0, 0, 0]],
+	['Harrisburg', 72, [110, 25, 38], [255, 102, 0]],
+	['Tea', 10, [255, 255, 0], [0, 0, 255]],
+	['Tri-Valley', 94, [255, 255, 255], [255, 0, 0]],
+	['Garretson', 66, [2, 25, 152], [0, 0, 0]],
+	['Lennox', 91, [235, 125, 52], [0, 0, 0]],
+	['West Central', 73, [235, 0, 0], [0, 0, 0]],
+	['Baltic', 21, [0, 74, 155], [0, 0, 0]],
+	['Canton', 35, [0, 1, 164], [0, 0, 0]],
+	['Brandon Valley', 30, [0, 0, 0], [255, 0, 0]],
+	['Dell Rapids', 45, [255, 102, 0], [0, 0, 0]],
+	['Parker', 107, [10, 14, 174], [0, 0, 0]],
 ];
 
 const sdReqActivity = (code) => {

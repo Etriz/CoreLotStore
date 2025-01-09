@@ -239,6 +239,49 @@ body {
   flex-direction: row;
   margin-bottom: 0.2rem;
 }
+#legend-zoning .toggle {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0.2rem;
+}
+#legend-zoning .toggle label {
+  width: 45px;
+  height: 22px;
+  background: #999;
+  position: relative;
+  display: inline-block;
+  border-radius: 23px;
+  transition: 0.4s;
+  margin-right: 0.5rem;
+}
+#legend-zoning .toggle label:after {
+  top: 0;
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 100%;
+  left: 2px;
+  top: 2px;
+  z-index: 2;
+  background: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: 0.4s;
+}
+#legend-zoning .toggle input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  opacity: 0;
+  cursor: pointer;
+}
+#legend-zoning .toggle input:checked + label:after {
+  left: 25px;
+}
 
 .color-block {
   width: 1rem;
@@ -286,47 +329,6 @@ body {
 #button-area fieldset button:hover {
   background-color: #dde3ec;
   color: black;
-}
-#button-area fieldset .toggle {
-  margin-top: 10px;
-}
-#button-area fieldset .toggle label {
-  position: relative;
-  left: 50px;
-}
-#button-area fieldset .toggle input[type=checkbox] {
-  height: 0;
-  width: 0;
-  display: none;
-}
-#button-area fieldset .toggle input[type=checkbox] + label::before {
-  content: " ";
-  display: block;
-  height: 20px;
-  width: 40px;
-  border-radius: 16px;
-  border: 1px solid darkgray;
-  position: absolute;
-  top: 0px;
-  left: -50px;
-  background: whitesmoke;
-}
-#button-area fieldset .toggle input[type=checkbox] + label::after {
-  content: " ";
-  display: block;
-  height: 16px;
-  width: 16px;
-  border-radius: 100%;
-  position: absolute;
-  top: 3px;
-  left: -46px;
-  background: gray;
-  transition: all 0.3s ease-in;
-}
-#button-area fieldset .toggle input[type=checkbox]:checked + label::after {
-  left: -28px;
-  transition: all 0.3s ease-in;
-  background-color: yellowgreen;
 }
 #button-area button {
   width: auto;
