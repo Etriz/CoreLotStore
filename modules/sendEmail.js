@@ -2,9 +2,7 @@ import emailjs from '@emailjs/browser';
 import { lightbox } from './lightbox.js';
 
 emailjs.init({
-	publicKey:
-		import.meta.env.VITE_EMAILJS_PUBLIC_KEY ||
-		process.env.VITE_EMAILJS_PUBLIC_KEY,
+	publicKey: '2FpEKU9Zq_60k7nSi',
 	// allow headless browsers
 	blockHeadless: false,
 	blockList: {
