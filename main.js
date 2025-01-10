@@ -1,7 +1,6 @@
 import './style.css';
-import { activityCodes } from './modules/activitycodes';
 import { allSchoolLayers } from './modules/schooldistricts';
-import { allParcelLayers } from './modules/codestatus';
+import { allParcelLayers } from './modules/sfparcels.js';
 import { allPrelimParcels } from './modules/prelimparcels';
 import { allPrelimAddress } from './modules/prelimaddress';
 import { allZoneLayers } from './modules/zoning';
@@ -14,6 +13,7 @@ import { contactFormContainer, contactInfo } from './modules/contactform';
 import { getLoggedInStatus } from './modules/login';
 import { searchVectorLayer } from './modules/searchlayer';
 import { allLincolnLayers } from './modules/lincolncounty.js';
+import { allCityLimits } from './modules/citylimits.js';
 // import { allMinneLayers } from './modules/minnehahacounty.js';
 // import { geo } from './modules/countydata';
 import { Map, View, Overlay } from 'ol';
@@ -200,6 +200,14 @@ const lincolnCountyLayerGroup = new LayerGroup({
 });
 map.addLayer(lincolnCountyLayerGroup);
 
+// add from city limits module
+const cityLimitsLayerGroup = new LayerGroup({
+	layers: [...allCityLimits],
+	id: 'cityLimitsGroup',
+	visible: false,
+});
+map.addLayer(cityLimitsLayerGroup);
+
 // add from minnehaha county module
 // const minneCountyLayerGroup = new LayerGroup({
 // 	layers: [...allMinneLayers],
@@ -359,9 +367,6 @@ const svgInfo =
 infoBtn.innerHTML = svgInfo;
 infoBtn.setAttribute('style', 'padding-top:6px');
 infoBtn.addEventListener('click', () => {
-	// if (infoArea.className=='show') {
-
-	// }
 	infoArea.className == 'show'
 		? (infoArea.className = 'hide')
 		: (infoArea.className = 'show');
@@ -562,6 +567,22 @@ viewFloodButton.addEventListener('click', () => {
 	}
 });
 zoneField.appendChild(viewFloodButton);
+
+// view city limits button
+const viewCityLimitsButton = document.createElement('button');
+viewCityLimitsButton.className = 'view-limits button';
+viewCityLimitsButton.innerText = 'Show City Limits';
+viewCityLimitsButton.addEventListener('click', () => {
+	if (cityLimitsLayerGroup.getVisible()) {
+		cityLimitsLayerGroup.setVisible(false);
+		viewCityLimitsButton.innerText = 'Show City Limits';
+	} else {
+		cityLimitsLayerGroup.setVisible(true);
+		viewCityLimitsButton.innerText = 'Hide City Limits';
+	}
+});
+
+zoneField.appendChild(viewCityLimitsButton);
 
 // click handler for closing popup
 const closePopup = () => {
