@@ -82,8 +82,10 @@ const attribution = new Attribution({
 	collapsible: false,
 	attributions: ' Boundaries Deemed Reliable But Not Guaranteed',
 });
-
-// create map and add layers and set view
+/*
+ * CREATE THE MAP HERE
+ * create map and add layers and set view
+ */
 const map = new Map({
 	target: 'map',
 	layers: [defaultTileLayer, satelliteTileLayer, additionVectorLayer],
@@ -102,6 +104,7 @@ const map = new Map({
 	overlays: [popupOverlay],
 	target: 'map',
 });
+// export const mapZoom = map.getView().getZoom();
 
 // add button for geolocation
 const geoSource = new VectorSource();

@@ -50,6 +50,45 @@ const filterSourceSubdivAuth = (source, auth) => {
 	source.clear();
 	source.addFeatures(wantedFeatures);
 };
+/**
+ * @param {number[]} color RGB Stripe color
+ */
+function makeVertLinePattern(color) {
+	var canvas = document.createElement('canvas');
+	var ctx = canvas.getContext('2d');
+	// give the pattern a height and width
+	canvas.width = 12;
+	canvas.height = 12;
+	// give the pattern a line fill color
+	ctx.fillStyle = `rgb(${color})`;
+
+	for (var i = 0; i < canvas.width; ++i) {
+		ctx.fillRect(0, i, canvas.width * 0.75, 1);
+	}
+
+	return ctx.createPattern(canvas, 'repeat');
+}
+/**
+ * @param {number[]} color RGB Stripe color
+ */
+function makeHorzLinePattern(color) {
+	var canvas = document.createElement('canvas');
+	var ctx = canvas.getContext('2d');
+	// give the pattern a height and width
+	canvas.width = 12;
+	canvas.height = 12;
+	// give the pattern a line fill color
+	ctx.fillStyle = `rgb(${color})`;
+
+	for (var i = 0; i < canvas.width; ++i) {
+		ctx.fillRect(i, 0, 1, canvas.height * 0.75);
+	}
+
+	return ctx.createPattern(canvas, 'repeat');
+}
+const fillAlpha = 0.1;
+const strokeWidth = 2;
+
 // blue
 for (let i = 0; i < 3; i++) {
 	const testSource = new VectorSource({
@@ -67,10 +106,11 @@ for (let i = 0; i < 3; i++) {
 		group: 'lincolnCountyGroup',
 		style: new Style({
 			fill: new Fill({
-				color: [0, 0, 255, 0.1],
+				color: makeVertLinePattern([0, 0, 255, fillAlpha]),
 			}),
 			stroke: new Stroke({
 				color: [0, 0, 255, 1],
+				width: strokeWidth,
 			}),
 		}),
 	});
@@ -94,10 +134,11 @@ for (let i = 0; i < 4; i++) {
 		group: 'lincolnCountyGroup',
 		style: new Style({
 			fill: new Fill({
-				color: [255, 150, 0, 0.1],
+				color: makeHorzLinePattern([255, 150, 0, fillAlpha]),
 			}),
 			stroke: new Stroke({
 				color: [255, 150, 0, 1],
+				width: strokeWidth,
 			}),
 		}),
 	});
@@ -121,10 +162,11 @@ for (let i = 0; i < 4; i++) {
 		group: 'lincolnCountyGroup',
 		style: new Style({
 			fill: new Fill({
-				color: [0, 200, 0, 0.1],
+				color: [0, 200, 0, fillAlpha],
 			}),
 			stroke: new Stroke({
 				color: [0, 128, 128, 1],
+				width: strokeWidth,
 			}),
 		}),
 	});
