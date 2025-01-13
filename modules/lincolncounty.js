@@ -173,7 +173,7 @@ for (let i = 0; i < 4; i++) {
 	allLincolnLayers.push(testVectorLayer);
 }
 
-// test -- green -- bare commercial land
+// test -- green -- bare commercial land out of town
 for (let i = 0; i < 4; i++) {
 	const testSource = new VectorSource({
 		url: reqUrl('NACC', i),
@@ -200,7 +200,7 @@ for (let i = 0; i < 4; i++) {
 	});
 	allLincolnLayers.push(testVectorLayer);
 }
-// test 02 -- purple -- bare non-agland
+// test 02 -- purple -- bare non-agland out of town
 for (let i = 0; i < 4; i++) {
 	const testSource = new VectorSource({
 		url: reqUrl('NAC', i),
@@ -227,7 +227,7 @@ for (let i = 0; i < 4; i++) {
 	});
 	allLincolnLayers.push(testVectorLayer);
 }
-// test 03 -- yellow -- bare commercial
+// test 03 -- yellow -- bare commercial in town
 for (let i = 0; i < 4; i++) {
 	const testSource = new VectorSource({
 		url: reqUrl('NADC', i),
