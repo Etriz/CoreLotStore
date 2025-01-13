@@ -30,7 +30,8 @@ for (let i = 0; i < 5; i++) {
 			image: new Circle({
 				radius: 7,
 				fill: new Fill({
-					color: [255, 145, 0, 1],
+					// color: [255, 145, 0, 1], orange dot color
+					color: [128, 128, 128, 1],
 				}),
 				// stroke: new Stroke({
 				// 	color: [255, 145, 0, 1],

@@ -48,7 +48,7 @@ unplattedColorBlock.setAttribute(
 );
 unplatted.appendChild(unplattedColorBlock);
 unplatted.appendChild(document.createElement('div')).innerText =
-	'Unplatted Parcel';
+	'Unplatted Future Parcel';
 legendParcels.appendChild(unplatted);
 // unplatted parcel item
 const platted = document.createElement('div');
@@ -71,7 +71,7 @@ permitColorBlock.setAttribute(
 );
 permits.appendChild(permitColorBlock);
 permits.appendChild(document.createElement('div')).innerText =
-	'Approved Permits';
+	'Building Permit Approved';
 legendParcels.appendChild(permits);
 
 // this is for the school district legend
