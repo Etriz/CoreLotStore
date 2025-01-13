@@ -840,12 +840,10 @@ fetch(additionUrl)
 		tempArray.sort();
 		const sortedSet = new Set(tempArray);
 		sortedSet.forEach((element) => {
-			if (element) {
-				const elemOption = document.createElement('option');
-				elemOption.value = element.toString();
-				elemOption.text = element.toString();
-				dropdown.appendChild(elemOption);
-			}
+			const elemOption = document.createElement('option');
+			elemOption.value = element.toString();
+			elemOption.text = element.toString();
+			dropdown.appendChild(elemOption);
 		});
 	});
 

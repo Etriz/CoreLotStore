@@ -172,3 +172,85 @@ for (let i = 0; i < 4; i++) {
 	});
 	allLincolnLayers.push(testVectorLayer);
 }
+
+// test -- green -- bare commercial land
+for (let i = 0; i < 4; i++) {
+	const testSource = new VectorSource({
+		url: reqUrl('NACC', i),
+		format: new GeoJSON(),
+	});
+	testSource.on('featuresloadend', function () {
+		// filterSourceClass2(testSource, ['AGC1', 'NAC1', 'NAC1O']);
+		filterSourceSubdivAuth(testSource, 'Sioux Falls');
+	});
+	const testVectorLayer = new VectorLayer({
+		source: testSource,
+		className: 'Lincoln-Layer',
+		visible: true,
+		group: 'lincolnCountyGroup',
+		style: new Style({
+			fill: new Fill({
+				color: [0, 255, 0, 0.25],
+			}),
+			stroke: new Stroke({
+				color: [0, 0, 0, 1],
+				width: strokeWidth,
+			}),
+		}),
+	});
+	allLincolnLayers.push(testVectorLayer);
+}
+// test 02 -- purple -- bare non-agland
+for (let i = 0; i < 4; i++) {
+	const testSource = new VectorSource({
+		url: reqUrl('NAC', i),
+		format: new GeoJSON(),
+	});
+	testSource.on('featuresloadend', function () {
+		// filterSourceClass2(testSource, ['AGC1', 'NAC1', 'NAC1O']);
+		filterSourceSubdivAuth(testSource, 'Sioux Falls');
+	});
+	const testVectorLayer = new VectorLayer({
+		source: testSource,
+		className: 'Lincoln-Layer',
+		visible: true,
+		group: 'lincolnCountyGroup',
+		style: new Style({
+			fill: new Fill({
+				color: [128, 0, 255, 0.25],
+			}),
+			stroke: new Stroke({
+				color: [0, 0, 0, 1],
+				width: strokeWidth,
+			}),
+		}),
+	});
+	allLincolnLayers.push(testVectorLayer);
+}
+// test 03 -- yellow -- bare commercial
+for (let i = 0; i < 4; i++) {
+	const testSource = new VectorSource({
+		url: reqUrl('NADC', i),
+		format: new GeoJSON(),
+	});
+	testSource.on('featuresloadend', function () {
+		// filterSourceClass2(testSource, ['AGC1', 'NAC1', 'NAC1O']);
+		filterSourceSubdivAuth(testSource, 'Sioux Falls');
+	});
+	const testVectorLayer = new VectorLayer({
+		source: testSource,
+		className: 'Lincoln-Layer',
+		visible: true,
+		group: 'lincolnCountyGroup',
+		style: new Style({
+			fill: new Fill({
+				color: [255, 255, 0, 0.25],
+			}),
+			stroke: new Stroke({
+				color: [0, 0, 0, 1],
+				width: strokeWidth,
+			}),
+		}),
+	});
+	allLincolnLayers.push(testVectorLayer);
+}
