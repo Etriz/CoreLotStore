@@ -33,14 +33,9 @@ import { lightbox } from './modules/lightbox.js';
 import { Attribution, defaults as defaultControls } from 'ol/control.js';
 import { defaults as defaultInteractions } from 'ol/interaction/defaults';
 
-import { StadiaMaps } from 'ol/source.js';
-
 const satelliteTileLayer = new TileLayer({
-	// source: new OSM({
-	// 	url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-	// }),
-	source: new StadiaMaps({
-		layer: 'alidade_satellite',
+	source: new OSM({
+		url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
 	}),
 	id: 'satellite-tiles',
 	visible: false,
@@ -48,9 +43,6 @@ const satelliteTileLayer = new TileLayer({
 });
 const defaultTileLayer = new TileLayer({
 	source: new OSM(),
-	// source: new StadiaMaps({
-	// 	layer: 'alidade_smooth',
-	// }),
 	id: 'default-tiles',
 	className: 'tiles_bw',
 });
@@ -899,7 +891,7 @@ lincolnSearch.addEventListener('click', () => {
 });
 window.addEventListener('load', () => {
 	const brand = document.getElementsByClassName('branding');
-	const url = './routes/RapidCity/rapidcity';
+	const url = './routes/RapidCity/rapidcity'; /* works on dev but not prod*/
 	brand[0].addEventListener('click', (evt) => {
 		window.location.href = url;
 		console.log('click');
