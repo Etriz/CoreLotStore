@@ -1,4 +1,5 @@
-// import './style.css';
+import '../style.css';
+import { allPenningtonLayers } from './modules/penningtonparcels';
 // import { allZoneLayers } from './modules/zoning.js';
 // import { legendArea } from './modules/maplegend.js';
 // import { showParcelInfo } from './modules/popup.js';
@@ -11,15 +12,10 @@ import { Map, View, Overlay } from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import { fromLonLat } from 'ol/proj';
 import OSM from 'ol/source/OSM';
-import GeoJSON from 'ol/format/GeoJSON';
-import VectorSource from 'ol/source/Vector';
-import VectorLayer from 'ol/layer/Vector';
 import Feature from 'ol/Feature';
-import { Point } from 'ol/geom';
 import Control from 'ol/control/Control';
 import { toLonLat } from 'ol/proj';
 import LayerGroup from 'ol/layer/Group';
-import { Style, Stroke } from 'ol/style';
 import { Attribution, defaults as defaultControls } from 'ol/control.js';
 import { defaults as defaultInteractions } from 'ol/interaction/defaults';
 
@@ -62,10 +58,9 @@ const attribution = new Attribution({
  * create map and add layers and set view
  */
 const map = new Map({
-	target: 'RCmap',
+	target: 'map',
 	layers: [defaultTileLayer, satelliteTileLayer],
 	view: new View({
-		// center: fromLonLat([-96.74, 43.56]), -- Sioux Falls
 		center: fromLonLat([-103.23, 44.08]),
 		zoom: 12,
 		enableRotation: false,
@@ -78,10 +73,17 @@ const map = new Map({
 		pinchRotate: false,
 	}),
 	overlays: [popupOverlay],
-	target: 'RCmap',
 });
 
 map.on('singleclick', function (evt) {
 	const coordinate = evt.coordinate;
 	console.log(toLonLat(coordinate));
 });
+
+// add all layers from pennington parcels module
+const pennLayerGroup = new LayerGroup({
+	layers: [...allPenningtonLayers],
+	id: 'pennGroup',
+	visible: true,
+});
+map.addLayer(pennLayerGroup);

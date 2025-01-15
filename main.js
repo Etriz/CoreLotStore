@@ -891,8 +891,9 @@ lincolnSearch.addEventListener('click', () => {
 });
 window.addEventListener('load', () => {
 	const brand = document.getElementsByClassName('branding');
-	const url = './routes/RapidCity/rapidcity'; /* works on dev but not prod*/
+	const url = '/RapidCity/rapidcity.html'; /* works on dev but not prod*/
 	brand[0].addEventListener('click', (evt) => {
+		history.pushState({}, '', url);
 		window.location.href = url;
 		console.log('click');
 	});
