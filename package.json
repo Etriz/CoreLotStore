@@ -21,6 +21,7 @@
 		"googleapis": "^105.0.0",
 		"nodemailer": "^6.9.16",
 		"ol": "latest",
+		"puppeteer": "^24.1.0",
 		"shp2geo": "^1.1.3"
 	}
 }
