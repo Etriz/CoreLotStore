@@ -24,7 +24,7 @@ export const convertJson = async (filter, input) => {
 	};
 	const url = `https://gis.rcgov.org/arcgiswebadaptor/rest/services/AGOL/TaxParcels/MapServer/0/query?f=json&outFields=*&where=OBJECTID=12440`;
 
-	const apiKey = 'l3zKNyG3BtKXAppjGYyN';
+	const apiKey = '';
 
 	const coordTransform = async (numPair) => {
 		const apiTransform = `https://api.maptiler.com/coordinates/transform/${numPair}.json?key=${apiKey}&s_srs=6574&t_srs=4326`;
