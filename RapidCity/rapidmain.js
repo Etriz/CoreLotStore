@@ -1,5 +1,6 @@
 import '../style.css';
 import { allPenningtonLayers } from './modules/penningtonparcels';
+import { allCityLimits } from './modules/rapidcitylimits';
 // import { allZoneLayers } from './modules/zoning.js';
 // import { legendArea } from './modules/maplegend.js';
 // import { showParcelInfo } from './modules/popup.js';
@@ -87,3 +88,11 @@ const pennLayerGroup = new LayerGroup({
 	visible: true,
 });
 map.addLayer(pennLayerGroup);
+
+// add all layers from pennington citylimits module
+const pennCityLimitsGroup = new LayerGroup({
+	layers: [...allCityLimits],
+	id: 'pennGroup',
+	visible: true,
+});
+map.addLayer(pennCityLimitsGroup);
