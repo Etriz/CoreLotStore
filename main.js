@@ -718,7 +718,7 @@ map.on('singleclick', function (evt) {
 		} else {
 			try {
 				// console.log(feature.getKeys().length);
-				if (feature.getKeys().length == 44) {
+				if (feature.getKeys().length >= 44) {
 					fetch(sfIdUrl(featureId))
 						.then((res) => res.json())
 						.then((data) => data.features[0].properties)
@@ -741,6 +741,9 @@ map.on('singleclick', function (evt) {
 							}
 						});
 				} else {
+					/**
+					 * maps.lincolncountysd.org is not working as of 3/1/25
+					 */
 					fetch(lcIdUrl(featureId))
 						.then((res) => res.json())
 						.then((data) => data.features[0].properties)
