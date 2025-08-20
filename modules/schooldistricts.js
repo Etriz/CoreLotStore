@@ -20,12 +20,25 @@ const sdSchoolCodes = [
 	['Dell Rapids', 45, [255, 102, 0], [0, 0, 0]],
 	['Parker', 107, [10, 14, 174], [0, 0, 0]],
 ];
+/* 
+2021 map version - stopped working summer 2025
+ */
+// const sdReqActivity = (code) => {
+// 	const url =
+// 		'https://utility.arcgis.com/usrsvcs/servers/f6be0828323842f9ac059610b260d96b/rest/services/Hosted/SouthDakota_SchoolDistricts/FeatureServer/0/query?where=fid=' +
+// 		code +
+// 		'&outFields=fid,sdlea,name,short_name&outSR=4326&f=GEOjson&';
 
+// 	return url;
+// };
+
+/*
+updated due to changes 5/14/25
+*/
 const sdReqActivity = (code) => {
 	const url =
-		'https://utility.arcgis.com/usrsvcs/servers/f6be0828323842f9ac059610b260d96b/rest/services/Hosted/SouthDakota_SchoolDistricts/FeatureServer/0/query?where=fid=' +
-		code +
-		'&outFields=fid,sdlea,name,short_name&outSR=4326&f=GEOjson&';
+		'https://services1.arcgis.com/PwrabBhZHUggYYSp/arcgis/rest/services/SchoolDistrictBoundaries2024_2025/FeatureServer/9/query?where=1=1&outFields=*&f=GEOjson&outSR=4326&objectIds=' +
+		code;
 
 	return url;
 };
