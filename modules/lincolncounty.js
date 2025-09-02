@@ -7,12 +7,12 @@ export const allLincolnLayers = [];
 
 const reqUrl = (code, page = 0) => {
 	const num = page * 2000;
-	return (
-		"https://maps.lincolncountysd.org/webmapadaptor/rest/services/Pro29/Base/MapServer/2/query?outFields=*&outSR=4326&f=geojson&where=CountyService.DBO.GIS.Class1='" +
-		code +
-		"'&resultOffset=" +
-		num
-	);
+	// return (
+	// 	"https://maps.lincolncountysd.org/webmapadaptor/rest/services/Pro29/Base/MapServer/2/query?outFields=*&outSR=4326&f=geojson&where=CountyService.DBO.GIS.Class1='" +
+	// 	code +
+	// 	"'&resultOffset=" +
+	// 	num
+	// );
 };
 /**
  * @param {VectorSource} source Layer Source to filter
