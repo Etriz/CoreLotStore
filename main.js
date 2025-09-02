@@ -717,8 +717,7 @@ map.on('singleclick', function (evt) {
 			}
 		} else {
 			try {
-				// console.log(feature.getKeys().length);
-				if (feature.getKeys().length >= 44) {
+				if (feature.getKeys().length >= 42) {
 					fetch(sfIdUrl(featureId))
 						.then((res) => res.json())
 						.then((data) => data.features[0].properties)
@@ -742,32 +741,33 @@ map.on('singleclick', function (evt) {
 						});
 				} else {
 					/**
-					 * maps.lincolncountysd.org is not working as of 3/1/25
+					 * maps.lincolncountysd.org has expired SSL as of 3/1/25
+					 * commented out to avoid throwing errors
 					 */
-					fetch(lcIdUrl(featureId))
-						.then((res) => res.json())
-						.then((data) => data.features[0].properties)
-						.then((relevantData) => {
-							// console.log(relevantData);
-							// console.log(
-							// 	`Class 1: ${relevantData['CountyService.DBO.GIS.Class1']}, Class 2: ${relevantData['CountyService.DBO.GIS.Class2']}`
-							// );
-							showParcelInfo(loggedIn, relevantData, 'standard');
-							const popupContactLink =
-								document.getElementById('popup-contact-link');
-							if (popupContactLink != null) {
-								popupContactLink.addEventListener(
-									'click',
-									(evt) => {
-										evt.preventDefault();
-										handlePopupLinkClick(
-											'countyid',
-											relevantData.COUNTYID
-										);
-									}
-								);
-							}
-						});
+					// fetch(lcIdUrl(featureId))
+					// 	.then((res) => res.json())
+					// 	.then((data) => data.features[0].properties)
+					// 	.then((relevantData) => {
+					// 		// console.log(relevantData);
+					// 		// console.log(
+					// 		// 	`Class 1: ${relevantData['CountyService.DBO.GIS.Class1']}, Class 2: ${relevantData['CountyService.DBO.GIS.Class2']}`
+					// 		// );
+					// 		showParcelInfo(loggedIn, relevantData, 'standard');
+					// 		const popupContactLink =
+					// 			document.getElementById('popup-contact-link');
+					// 		if (popupContactLink != null) {
+					// 			popupContactLink.addEventListener(
+					// 				'click',
+					// 				(evt) => {
+					// 					evt.preventDefault();
+					// 					handlePopupLinkClick(
+					// 						'countyid',
+					// 						relevantData.COUNTYID
+					// 					);
+					// 				}
+					// 			);
+					// 		}
+					// 	});
 				}
 			} catch (error) {
 				console.error(error);
