@@ -824,8 +824,7 @@ defaultOption.text = '--Choose Addition--';
 dropdown.appendChild(defaultOption);
 
 // code to get ONLY Addition names for dropdown options
-const additionUrl =
-	'https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=ACTIVITY=93&outFields=OBJECTID,ADDITION&outSR=4326&f=GEOjson&returnGeometry=false';
+const additionUrl = `https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=ACTIVITY='93%20-%20Developing%20Site%20-%20Unavailable'&outFields=OBJECTID,ADDITION&outSR=4326&f=GEOjson&returnGeometry=false`;
 
 fetch(additionUrl)
 	.then((response) => {
@@ -879,19 +878,7 @@ minneSearch.addEventListener('click', () => {
 		});
 	});
 });
-const lincolnSearch = document.getElementById('lincoln-search');
-lincolnSearch.addEventListener('click', () => {
-	const source = searchVectorLayer.getSource();
-	source.refresh();
-	source.on('featuresloadend', () => {
-		map.getView().fit(source.getExtent(), {
-			size: map.getSize(),
-			padding: [200, 200, 200, 200],
-			duration: 2000,
-			maxZoom: 19,
-		});
-	});
-});
+
 window.addEventListener('load', () => {
 	const brand = document.getElementsByClassName('branding');
 	const url = '/RapidCity/rapidcity.html'; /* works on dev but not prod*/

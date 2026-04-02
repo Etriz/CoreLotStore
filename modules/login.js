@@ -147,45 +147,6 @@ minneSearchArea.appendChild(minneSearchInput);
 minneSearchArea.appendChild(minneSearchButton);
 minneSearchArea.appendChild(resetMinneSearchButton);
 headerBar.appendChild(searchArea);
-// Lincoln county search area
-const lincolnSearchArea = document.createElement('form');
-lincolnSearchArea.className = 'searchbox';
-const lincolnSearchInput = document.createElement('input');
-lincolnSearchInput.type = 'search';
-lincolnSearchInput.placeholder = 'Lincoln PID or Address';
-const lincolnSearchButton = document.createElement('button');
-lincolnSearchButton.id = 'lincoln-search';
-lincolnSearchButton.innerText = 'Search';
-lincolnSearchButton.addEventListener('click', (evt) => {
-	evt.preventDefault();
-	const value = lincolnSearchInput.value;
-	const valueCheck = value.split('.').join('').slice(0, 7);
-	try {
-		if (isNaN(valueCheck)) {
-			searchVectorLayer.getSource().setUrl(findByLCAddress(value));
-		} else {
-			searchVectorLayer.getSource().setUrl(findByLincolnCountyId(value));
-		}
-	} catch (error) {
-		console.error('SEARCH ERROR: ', error);
-	}
-	searchVectorLayer.getSource().refresh();
-	// searchInput.value = '';
-});
-const resetLincolnSearchButton = document.createElement('button');
-resetLincolnSearchButton.innerText = 'Reset';
-resetLincolnSearchButton.addEventListener('click', (evt) => {
-	evt.preventDefault();
-	minneSearchInput.value = '';
-	lincolnSearchInput.value = '';
-	searchVectorLayer.getSource().setUrl('');
-	searchVectorLayer.getSource().refresh();
-});
-
-searchArea.appendChild(lincolnSearchArea);
-lincolnSearchArea.appendChild(lincolnSearchInput);
-lincolnSearchArea.appendChild(lincolnSearchButton);
-lincolnSearchArea.appendChild(resetLincolnSearchButton);
 
 window.onload = (evt) => {
 	if (getLoggedInStatus(true)) {
