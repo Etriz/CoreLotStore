@@ -9,10 +9,8 @@ const allParcelLayers = [];
 export { allParcelLayers };
 
 const reqActivity = (code) => {
-	const url =
-		'https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=ACTIVITY=' +
-		code +
-		'&outFields=*&outSR=4326&f=GEOjson';
+	let prettyCode = code.toString().replace(/\s+/g, '%20');
+	const url = `https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=ACTIVITY='${prettyCode}'&outFields=*&outSR=4326&f=GEOjson`;
 	return url;
 };
 
@@ -75,7 +73,7 @@ const parcelColorMap = (actCode) => {
 	const fillAlpha = 0.1;
 	const strokeWidth = 2;
 	switch (actCode) {
-		case 91:
+		case '91 - Agricultural Land':
 			return new Style({
 				fill: new Fill({
 					// color: [255, 150, 0, fillAlpha],
@@ -86,9 +84,9 @@ const parcelColorMap = (actCode) => {
 					width: strokeWidth,
 				}),
 			});
-		case 90:
-		case 92:
-		case 98:
+		case '90 - Vacant':
+		case '92 - Limited Development Potential':
+		case '98 - Developing Site - Preliminary Plan':
 			return new Style({
 				fill: new Fill({
 					color: [255, 0, 255, fillAlpha],
@@ -98,9 +96,9 @@ const parcelColorMap = (actCode) => {
 					width: strokeWidth,
 				}),
 			});
-		case 93:
-		case 94:
-		case 95:
+		case '93 - Developing Site - Unavailable':
+		case '94 - Developing Site - New serviceable lot':
+		case '95 - Developing Site - Redeveloping lot':
 			return new Style({
 				fill: new Fill({
 					// color: [0, 0, 255, fillAlpha],
@@ -111,8 +109,8 @@ const parcelColorMap = (actCode) => {
 					width: strokeWidth,
 				}),
 			});
-		case 96:
-		case 97:
+		case '96 - Residential Building Permit':
+		case '97 - Non-Residential Building Permit':
 			return new Style({
 				fill: new Fill({
 					// color: [255, 0, 0, fillAlpha],
@@ -131,13 +129,13 @@ const parcelColorMap = (actCode) => {
 const manyPagesUrl = (page = 0) => {
 	const num = page * 1000;
 	return (
-		'https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=ACTIVITY=93&outFields=*&outSR=4326&f=GEOjson&resultOffset=' +
+		`https://gis.siouxfalls.gov/arcgis/rest/services/Data/Property/MapServer/1/query?where=ACTIVITY='93%20-%20Developing%20Site%20-%20Unavailable'&outFields=*&outSR=4326&f=GEOjson&resultOffset=` +
 		num
 	);
 };
 
 activityCodes.map((actCode) => {
-	if (actCode[1] == 93) {
+	if (actCode[1] == '93 - Developing Site - Unavailable') {
 		for (let i = 0; i < 2; i++) {
 			const code93PagesSource = new VectorSource({
 				url: manyPagesUrl(i),
